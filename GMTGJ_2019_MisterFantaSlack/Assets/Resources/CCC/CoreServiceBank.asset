@@ -9,26 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e220958e661e914196931420e79f04d, type: 3}
+  m_Script: {fileID: 11500000, guid: b5f487530e66a294491c98c64b73b089, type: 3}
   m_Name: CoreServiceBank
   m_EditorClassIdentifier: 
-  coreServices:
-  - {fileID: 9220206106956467259, guid: 0ebdb606346d3834781ddc9e75ba3598, type: 3}
-  - {fileID: 3237742310254124980, guid: 5be0eb80095e2e34ca6b36565f1431db, type: 3}
-  - {fileID: 1375431694202818, guid: edd67de39eed1f14699da898a2fbdcd6, type: 3}
-  - {fileID: 1900913777497302, guid: 41b35fbcdc0bf8246b2eee43972a28f5, type: 3}
-  - {fileID: 1061548378669230, guid: a81e9921fe903d74bbff7bf447ce2557, type: 3}
-  - {fileID: 1348883835922856, guid: 074f498b47c141142b30c966cc4972d2, type: 3}
-  - {fileID: 8274638906395486025, guid: 0bed21b563649074dbd28e219ada6448, type: 3}
-  - {fileID: 7101888383991443927, guid: 409a1ad94db2a694aa35cc7c79cb15f2, type: 3}
-  - {fileID: 1704603521536276, guid: 092c5604b8b93e8449094a5962ce0169, type: 3}
-  - {fileID: 1572038115993394, guid: 531b14d5c39485d40bb94466d4d47776, type: 3}
-  - {fileID: 1551427093590724, guid: 9edfe1894160de04cba12f9539894895, type: 3}
-  - {fileID: 3880174357331742853, guid: b8e98f1e132d37f40a0f5d6985688fa0, type: 3}
-  - {fileID: 5523325680941623051, guid: 81b5b005c97f4ce4a890f26b0f9fcdbc, type: 3}
-  - {fileID: 1549515677274060515, guid: c52d2b87d3ebafc438f64defb2429600, type: 3}
-  - {fileID: 1246224902083646748, guid: 44c16090c3ff4cc438166c2c72652d76, type: 3}
-  - {fileID: 7738300749551900838, guid: ad109ceaa55796a4280069e7870647f5, type: 3}
-  - {fileID: 7059770320441644245, guid: 748da2617f10f7c438dfc960be2b9e3d, type: 3}
-  - {fileID: 6971069334820420491, guid: e77ba1b577370be4b8802fe4021a57a4, type: 3}
-  - {fileID: 1993804682497233807, guid: d27c1f59d23d5c0479231dc25bfaf23e, type: 3}
+  coreServices: []

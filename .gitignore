@@ -35,6 +35,7 @@ sysinfo.txt
 *.apk
 *.unitypackage
 TestBuilds/*
+Builds/*
 !TestBuilds/ReadMe.txt
 
 *.log
