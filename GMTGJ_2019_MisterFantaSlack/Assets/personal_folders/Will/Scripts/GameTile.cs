@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class GameTile
 {
-    public Vector3Int Pos { get; set; }
+    public Vector2Int Pos { get; set; }
     public bool IsAccessible { get; set; }
     public bool IsDestructible { get; set; }
     public bool IsBlocking { get; set; }
 
-    public GameTile(Vector3Int position, 
+    public GameTile(Vector2Int position, 
         bool isAccessible = false,
         bool isDestructible = false,
         bool isBlocking = false)
