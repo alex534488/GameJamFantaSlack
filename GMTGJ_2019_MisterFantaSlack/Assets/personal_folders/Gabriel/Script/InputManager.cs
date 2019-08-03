@@ -124,10 +124,10 @@ public class InputManager : MonoBehaviour
 					Debug.Log("InputManager :: MOVE UP");
 				#endif
 				//	for each line
-				for (int i = (5/*GameGrid.Instance.width*/ - 1); i >= 0; i--)
+				for (int i = (GameGrid.Instance.width - 1); i >= 0; i--)
 				{
 					//	for each column
-					for (int j = 0; j < 5/*GameGrid.Instance.height*/; j++)
+					for (int j = 0; j < GameGrid.Instance.height; j++)
 					{
 						Vector2Int MyPosition = new Vector2Int(j, i);
 						BaseCharacter MySoldier = IsSoldierValid(MyPosition);
@@ -147,10 +147,10 @@ public class InputManager : MonoBehaviour
 				#endif
 
 				//	for each line
-				for (int i = 0; i < 5/*GameGrid.Instance.width*/; i++)
+				for (int i = 0; i < GameGrid.Instance.width; i++)
 				{
 					//	for each column
-					for (int j = 0; j < 5/*GameGrid.Instance.height*/; j++)
+					for (int j = 0; j < GameGrid.Instance.height; j++)
 					{
 						Vector2Int MyPosition = new Vector2Int(j, i);
 
@@ -169,10 +169,10 @@ public class InputManager : MonoBehaviour
 					Debug.Log("InputManager :: MOVE LEFT");
 				#endif
 				//	for each column
-				for (int i = 0; i < 5/*GameGrid.Instance.width*/; i++)
+				for (int i = 0; i < GameGrid.Instance.width; i++)
 				{
 					//	for each line
-					for (int j = 0; j < 5/*GameGrid.Instance.height*/; j++)
+					for (int j = 0; j < GameGrid.Instance.height; j++)
 					{
 						Vector2Int MyPosition = new Vector2Int(i, j);
 						BaseCharacter MySoldier = IsSoldierValid(MyPosition);
@@ -191,10 +191,10 @@ public class InputManager : MonoBehaviour
 					Debug.Log("InputManager :: MOVE RIGHT");
 				#endif
 				//	for each column
-				for (int i = (5/*GameGrid.Instance.width*/ - 1); i >= 0; i--)
+				for (int i = (GameGrid.Instance.width - 1); i >= 0; i--)
 				{
 					//	for each line
-					for (int j = 0; j < 5/*GameGrid.Instance.height*/; j++)
+					for (int j = 0; j < GameGrid.Instance.height; j++)
 					{
 						Vector2Int MyPosition = new Vector2Int(i, j);
 						BaseCharacter MySoldier = IsSoldierValid(MyPosition);
