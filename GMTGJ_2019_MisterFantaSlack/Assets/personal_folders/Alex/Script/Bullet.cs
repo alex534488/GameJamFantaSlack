@@ -11,6 +11,9 @@ public class Bullet : MonoBehaviour
 
     private Tween currentTween;
 
+    public Vector2 lowerLeftLimit;
+    public Vector2 upperRightLimit;
+
     public void SetDirection(Vector2 direction)
     {
         this.direction = direction;
@@ -18,8 +21,18 @@ public class Bullet : MonoBehaviour
 
     void Start()
     {
-        SetDirection(new Vector2(1,0));
         BeginMovement();
+    }
+
+    void Update()
+    {
+        // out of bounds
+        Vector3 pos = transform.position;
+        if ((pos.x >= upperRightLimit.x || pos.x <= lowerLeftLimit.x) && 
+            pos.y >= upperRightLimit.y || pos.y <= lowerLeftLimit.y)
+        {
+            DestructBullet();
+        }
     }
 
     private void BeginMovement()
@@ -40,15 +53,21 @@ public class Bullet : MonoBehaviour
         }
 
         // DO SOLDIER SHOT HERE
-
         if (hasHitSomething)
         {
-            if (currentTween != null)
-            {
-                currentTween.Kill();
-            }
-
-            Destroy(gameObject);
+            DestructBullet();
         }
+    }
+
+    private void DestructBullet()
+    {
+        if (currentTween != null)
+        {
+            currentTween.Kill();
+        }
+
+        EntitySpawner.Instance.BulletDestroyed();
+
+        Destroy(gameObject);
     }
 }

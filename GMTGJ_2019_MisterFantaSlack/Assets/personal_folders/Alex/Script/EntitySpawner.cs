@@ -48,6 +48,8 @@ public class EntitySpawner : MonoBehaviour
     public GameObject ciblePrefab;
     public GameObject trapPrefab;
 
+    public int bulletsAlive = 0;
+
     public GameObject SpawnEntity(Entity entity, Vector3 position, Quaternion rotation)
     {
         GameObject objectToSpawn;
@@ -102,6 +104,20 @@ public class EntitySpawner : MonoBehaviour
                 return objectToSpawn;
             default:
                 return null;
+        }
+    }
+
+    public void BulletSpawned()
+    {
+        bulletsAlive++;
+    }
+
+    public void BulletDestroyed()
+    {
+        bulletsAlive--;
+        if(bulletsAlive <= 0)
+        {
+            CibleManager.Instance.ShootingCompleted();
         }
     }
 }

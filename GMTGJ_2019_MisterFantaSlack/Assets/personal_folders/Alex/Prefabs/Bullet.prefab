@@ -96,6 +96,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 2.5
+  lowerLeftLimit: {x: -10, y: -10}
+  upperRightLimit: {x: 10, y: 10}
 --- !u!136 &622473391
 CapsuleCollider:
   m_ObjectHideFlags: 0
