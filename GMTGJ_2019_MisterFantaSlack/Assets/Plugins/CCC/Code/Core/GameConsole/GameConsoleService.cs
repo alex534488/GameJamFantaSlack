@@ -24,9 +24,9 @@ namespace Internals.GameConsoleInterals
                 string consoleTitle = Application.productName + " Console";
                 consoleTitle += " [" + System.Diagnostics.Process.GetCurrentProcess().Id + "]";
 
-                GameConsoleTextWin consoleUI = new GameConsoleTextWin(consoleTitle, consoleRestoreFocus);
+                //GameConsoleTextWin consoleUI = new GameConsoleTextWin(consoleTitle, consoleRestoreFocus);
 
-                GameConsole.Init(consoleUI);
+                //GameConsole.Init(consoleUI);
             }
             else
             {
