@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 1342397234537862581}
   - component: {fileID: 1342397234537862580}
   - component: {fileID: 1342397234537862583}
+  - component: {fileID: 6960549828104506831}
+  - component: {fileID: -2843071877586594065}
   m_Layer: 0
   m_Name: soldier
   m_TagString: Untagged
@@ -69,7 +71,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 18f1e1d57ebf74a499766fb30228e069, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -95,3 +97,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CurrentDirectionFacing: 0
   IsDeath: 0
+  bulletPrefab: {fileID: 820099043862772701, guid: 5d9588f3d1205504eb960ef1f92e255c,
+    type: 3}
+--- !u!54 &6960549828104506831
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1342397234537862582}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!136 &-2843071877586594065
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1342397234537862582}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.52166677
+  m_Height: 0.6900002
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}

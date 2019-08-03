@@ -14,6 +14,7 @@ public class TileIdentifier : ScriptableObject
         // Data
         public bool accessible;
         public bool blocking;
+        public bool slide;
         public Sprite newTileSprite;
         public EntitySpawner.Entity entityOnTop;
     }

@@ -60,7 +60,7 @@ public class GameGrid : MonoBehaviour
 
         TileIdentifier.TileData data = tileIdentifier.GetData(tile.sprite);
 
-        GameTile gameTile = new GameTile(gameTilePosition, data.accessible, data.blocking);
+        GameTile gameTile = new GameTile(gameTilePosition, data.accessible, data.blocking, data.slide);
 
         //HACK : GRID_CELL_OFFSET est la moitié de la taille d'une tile, c'est pour placer l'objet en son millieu
         Vector2 worldPosition = new Vector3((gameTilePosition.x - Instance.width / 2) + GRID_CELL_OFFSET, (gameTilePosition.y - Instance.height / 2) + GRID_CELL_OFFSET, 1);
