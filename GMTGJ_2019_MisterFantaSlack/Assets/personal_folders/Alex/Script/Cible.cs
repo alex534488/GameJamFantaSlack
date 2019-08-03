@@ -8,7 +8,10 @@ public class Cible : DestructibleObject
     {
         base.DestructObject();
 
-        CibleManager.Instance.TargetShotted();
+        if(CibleManager.Instance != null)
+        {
+            CibleManager.Instance.TargetShotted();
+        }
     }
 
     public void Respawn()

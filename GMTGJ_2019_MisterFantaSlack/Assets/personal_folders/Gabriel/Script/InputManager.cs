@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public enum EDirection { Up, Down, Left, Right };
 
@@ -9,6 +10,9 @@ public class InputManager : MonoBehaviour
 	public bool bInputBlock = false;
 
 	public int NbCharacterActionComplete = 0;
+
+	public UnityEvent ShootTrigger = new UnityEvent();
+	public DirectionEvent MoveTrigger = new DirectionEvent();
 
 	// SINGLETON
 
@@ -62,7 +66,7 @@ public class InputManager : MonoBehaviour
 	{
 		NbCharacterActionComplete++;
 
-		if(NbCharacterActionComplete >= 0)
+		if(NbCharacterActionComplete >= 3)
 		{
 			bInputBlock = false;
 			NbCharacterActionComplete = 0;
@@ -78,7 +82,7 @@ public class InputManager : MonoBehaviour
 	{
 		#if (UNITY_EDITOR)
 			Debug.Log("InputManager :: PAUSE");
-#endif
+		#endif
 
 		GameManager.Instance.ReturnToHome();
 	}
@@ -89,6 +93,8 @@ public class InputManager : MonoBehaviour
 		#if (UNITY_EDITOR)
 			Debug.Log("InputManager :: RESET THE LEVEL");
 		#endif
+
+		GameManager.Instance.Restart();
 	}
 
 	//	Call to everyone to FIRAAAAAAAAAH
@@ -97,6 +103,9 @@ public class InputManager : MonoBehaviour
 		#if (UNITY_EDITOR)
 			Debug.Log("InputManager :: EVERY ONE, SHOOOOOOOOT");
 		#endif
+
+		if (ShootTrigger != null)
+			ShootTrigger.Invoke();
 	}
 
 	//	Call each line from the direction specify to move in that direction
@@ -130,7 +139,11 @@ public class InputManager : MonoBehaviour
 				#if (UNITY_EDITOR)
 					Debug.Log("InputManager::StartMove() Something fuck up ???");
 				#endif
+				return;
 				break;
 		}
+
+		if (MoveTrigger != null)
+			MoveTrigger.Invoke(MyDirection);
 	}
 }

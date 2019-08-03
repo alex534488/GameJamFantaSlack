@@ -138,10 +138,10 @@ public class GameManager : MonoBehaviour
             canRestart = true;
 
             // DEBUG
-            this.DelayedCall(5, delegate ()
-            {
-                LevelCompleted();
-            });
+            //this.DelayedCall(5, delegate ()
+            //{
+            //    LevelCompleted();
+            //});
         });
     }
 
