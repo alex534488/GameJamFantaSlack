@@ -9,17 +9,22 @@ public class Bullet : MonoBehaviour
 
     public float speed = 2.5f;
 
-    private Tween currentTween;
+    public float delayUntilDestroyed = 5;
 
-    public Vector2 lowerLeftLimit;
-    public Vector2 upperRightLimit;
+    private Tween currentTween;
 
     public float destinationExtension = 10;
 
-    public void SetDirection(Vector2 direction)
+    private Vector3 bulletStartPosition;
+
+    public GameObject shooter;
+
+    public void SetDirectionAndStartPosition(Vector2 direction, Vector3 bulletStartPosition, GameObject shooter)
     {
         this.direction = direction;
-    }
+        this.bulletStartPosition = bulletStartPosition;
+        this.shooter = shooter;
+}
 
     void Start()
     {
@@ -28,39 +33,28 @@ public class Bullet : MonoBehaviour
         BeginMovement();
     }
 
-    void Update()
-    {
-        // out of bounds
-        Vector3 pos = transform.position;
-        if ((pos.x >= upperRightLimit.x || pos.x <= lowerLeftLimit.x) && 
-            pos.y >= upperRightLimit.y || pos.y <= lowerLeftLimit.y)
-        {
-            DestructBullet();
-        }
-    }
-
     private void BeginMovement()
     {
-        currentTween = transform.DOMove(direction * destinationExtension, speed);
+        currentTween = transform.DOMove(bulletStartPosition + (direction * destinationExtension), speed);
+
+        this.DelayedCall(delayUntilDestroyed,delegate { DestructBullet(); });
     }
 
     public void EntityCollision(GameObject otherObject)
     {
-        DestructibleObject destructibleObject = otherObject.GetComponent<DestructibleObject>();
+        if (otherObject == shooter)
+            return;
 
-        bool hasHitSomething = false;
+        DestructibleObject destructibleObject = otherObject.GetComponent<DestructibleObject>();
 
         if(destructibleObject != null)
         {
             destructibleObject.DestructObject();
-            hasHitSomething = true;
         }
 
         // DO SOLDIER SHOT HERE
-        if (hasHitSomething)
-        {
-            DestructBullet();
-        }
+
+        DestructBullet();
     }
 
     private void DestructBullet()
