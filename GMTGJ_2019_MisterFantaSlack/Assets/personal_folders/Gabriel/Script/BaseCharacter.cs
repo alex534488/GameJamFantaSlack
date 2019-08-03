@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class BaseCharacter : MonoBehaviour
 {
@@ -9,12 +10,14 @@ public class BaseCharacter : MonoBehaviour
 
     public GameObject bulletPrefab;
 
+	private Tween currentTween;
+	public float TimeToPassOneTile = 1.0f;
+
 	// Start is called before the first frame update
 	void Start()
 	{
 		UpdateDirectionFacingForRotation();
 		InputManager.Instance.ShootTrigger.AddListener(ShootFacingDirection);
-		InputManager.Instance.MoveTrigger.AddListener(GoInThatDirection);
 	}
 
 	// Update is called once per frame
@@ -72,11 +75,15 @@ public class BaseCharacter : MonoBehaviour
 	////////////////////////////////////////////////////////////////
 	//	MOVE FUNCTION
 
-	public void GoInThatDirection(EDirection Direction)
+	public void GoInThatDirection(Vector3 Destination, int NbTile)
 	{
 		#if (UNITY_EDITOR)
-		Debug.Log("Go in the Direction :" + Direction.ToString() + " With the Character : " + gameObject.name);
+		Debug.Log("Go in the Direction : With the Character : " + gameObject.name);
 		#endif
+		float Duration = TimeToPassOneTile * NbTile;
+		Vector3 test = new Vector3(-1.5f, -1.5f, 0.0f);
+		currentTween = transform.DOMove(test, Duration).SetUpdate(true);
+		
 	}
 
 
