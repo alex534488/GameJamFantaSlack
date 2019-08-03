@@ -11,8 +11,10 @@ public class GridScript : MonoBehaviour
     [SerializeField]
     private int nbTileInGrid;
 
+    private Tilemap tilemap;
+
     void Start() {
-        Tilemap tilemap = GetComponent<Tilemap>();
+        tilemap = GetComponent<Tilemap>();
 
         tilemap.CompressBounds();
 
@@ -24,11 +26,26 @@ public class GridScript : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             Vector3 position = Input.mousePosition;
-            Vector3 worldPointPos = Camera.main.ScreenToWorldPoint(position);
-            Debug.Log(GameGrid.TranslateToGridCoordinates(worldPointPos));
-            //grid.GetTileAtposition(Camera.main.ScreenToWorldPoint(Input.mousePosition).ToVector3Int());
+            Vector2 worldPointPos = Camera.main.ScreenToWorldPoint(position);
+            GameTile tile = GameGrid.Instance.GetTileAtposition(worldPointPos);
+            if (tile != null)
+            {
+                Vector2Int gridPos = GameGrid.Instance.GetTileAtposition(worldPointPos).Pos;
+                Vector3Int tilePosToWorld = GameGrid.ToWorldCoordinates(gridPos);
+
+                Debug.Log("worldPos: " + worldPointPos 
+                    + ", gridPos: " + gridPos 
+                    + ", tileToWorldpos: " + tilePosToWorld
+                    + ", hasTile: " + tilemap.HasTile(GameGrid.ToWorldCoordinates(gridPos)));
+            }
+            else
+            {
+                Debug.Log("No tile there.");
+            }
         }
     }
+
+    
 }
 
 public static class Vector3Extension
