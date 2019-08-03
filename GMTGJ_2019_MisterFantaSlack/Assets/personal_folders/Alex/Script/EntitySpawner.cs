@@ -117,17 +117,17 @@ public class EntitySpawner : MonoBehaviour
         }
 
 
+        if (objectToSpawn != null)
+        {
+            GameObject newObject = Instantiate(objectToSpawn, position, rotation, transform);
+            if (newObject != null)
+            {
+                listToAddTo.Add(newObject);
+                return newObject;
+            }
+        }
 
-        GameObject newObject = Instantiate(objectToSpawn, position, rotation, transform);
-        if (newObject != null)
-        {
-            listToAddTo.Add(newObject);
-            return newObject;
-        }
-        else
-        {
-            return null;
-        }
+        return null;
     }
 
     public void BulletSpawned()
