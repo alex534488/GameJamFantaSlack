@@ -18,11 +18,43 @@ public class EntitySpawner : MonoBehaviour
     void Start()
     {
         GameManager.Instance.gameStarted.AddListener(OnGameStart);
+        GameManager.Instance.levelOver.AddListener(OnLevelEnd);
     }
 
     public void OnGameStart()
     {
         CibleManager.Instance.SetTargetAmountInLevel(cibleObjects.Count);
+    }
+
+    public void OnLevelEnd()
+    {
+        for (int i = 0; i < destructibleObjects.Count; i++)
+        {
+            Destroy(destructibleObjects[i]);
+        }
+
+        destructibleObjects.Clear();
+
+        for (int i = 0; i < soldierObjects.Count; i++)
+        {
+            Destroy(soldierObjects[i]);
+        }
+
+        soldierObjects.Clear();
+
+        for (int i = 0; i < cibleObjects.Count; i++)
+        {
+            Destroy(cibleObjects[i]);
+        }
+
+        cibleObjects.Clear();
+
+        for (int i = 0; i < trapObjects.Count; i++)
+        {
+            Destroy(trapObjects[i]);
+        }
+
+        trapObjects.Clear();
     }
 
     public enum Entity

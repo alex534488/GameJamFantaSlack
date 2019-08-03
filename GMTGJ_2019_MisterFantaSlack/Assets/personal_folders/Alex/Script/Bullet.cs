@@ -21,6 +21,8 @@ public class Bullet : MonoBehaviour
 
     void Start()
     {
+        GameManager.Instance.levelOver.AddListener(delegate() { Destroy(gameObject); });
+
         BeginMovement();
     }
 
