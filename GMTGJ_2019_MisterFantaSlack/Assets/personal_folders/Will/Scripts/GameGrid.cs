@@ -6,6 +6,7 @@ using UnityEngine.Tilemaps;
 
 public class GameGrid : MonoBehaviour
 {
+    public const float GRID_CELL_OFFSET = 0.5f;
     public static GameGrid Instance = null;
 
     public TileIdentifier tileIdentifier;
@@ -45,33 +46,40 @@ public class GameGrid : MonoBehaviour
                 {
                     Tile tile = (tilemap.GetTile(pos.ToVector3Int()) as Tile);
                     Vector2Int gameTilePos = new Vector2Int(pos.x + width / 2, pos.y + height / 2);
-                    GameTile IdentifiedTile = Instance.IdentifyGameTile(tile, pos);
+                    GameTile IdentifiedTile = Instance.IdentifyGameTile(tile, gameTilePos, pos.ToVector3Int(), tilemap);
                     Instance.GameTiles.Add(IdentifiedTile);
                 }
             }
         }
     }
 
-    public GameTile IdentifyGameTile(Tile tile, Vector2Int position)
+    public GameTile IdentifyGameTile(Tile tile, Vector2Int gameTilePosition, Vector3Int tilePosition, Tilemap tilemap)
     {
         if (tile == null)
             return null;
 
         TileIdentifier.TileData data = tileIdentifier.GetData(tile.sprite);
 
-        GameTile gameTile = new GameTile(position, data.accessible, data.blocking);
+        GameTile gameTile = new GameTile(gameTilePosition, data.accessible, data.blocking);
 
-        // ADD WORLD POSITION
-        //gameTile.entityOnTop = EntitySpawner.Instance.SpawnEntity(data.entityOnTop, , tile.transform.rotation);
 
-        if(data.newTileSprite == null)
+        //HACK : GRID_CELL_OFFSET est la moitié de la taille d'une tile, c'est pour placer l'objet en son millieu
+        Vector2 worldPosition = new Vector3((gameTilePosition.x - Instance.width / 2) + GRID_CELL_OFFSET, (gameTilePosition.y - Instance.height / 2) + GRID_CELL_OFFSET, 1);
+      
+        gameTile.entityOnTop = EntitySpawner.Instance.SpawnEntity(data.entityOnTop, worldPosition, tile.transform.rotation);
+
+        Tile newTile = ScriptableObject.CreateInstance<Tile>();
+
+        if (data.newTileSprite == null)
         {
-            tile.sprite = baseSprite;
+            newTile.sprite = baseSprite;
         }
         else
         {
-            tile.sprite = data.newTileSprite;
+            newTile.sprite = data.newTileSprite;
         }
+
+        tilemap.SetTile(tilePosition, newTile);
 
         return gameTile;
     }
