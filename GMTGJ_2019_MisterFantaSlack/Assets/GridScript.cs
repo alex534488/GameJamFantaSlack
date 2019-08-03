@@ -29,7 +29,7 @@ public class GridScript : MonoBehaviour
                 Debug.Log("worldPos: " + worldPointPos 
                     + ", gridPos: " + gridPos 
                     + ", tileToWorldpos: " + tilePosToWorld
-                    + ", centerOfTile: " + GameGrid.ToWorlCoordinateCentered(gridPos)
+                    + ", centerOfTile: " + GameGrid.GetCenterCellPosition(gridPos)
                     + ", hasTile: " + tilemap.HasTile(tilePosToWorld)
                     //+ ", GridToWorldToGrid: " + GameGrid.ToGridCoordinates(new Vector2(tilePosToWorld.x, tilePosToWorld.y))
                     );
