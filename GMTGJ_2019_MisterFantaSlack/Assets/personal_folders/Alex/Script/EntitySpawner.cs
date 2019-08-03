@@ -44,14 +44,14 @@ public class EntitySpawner : MonoBehaviour
     public GameObject ciblePrefab;
     public GameObject trapPrefab;
 
-    public void SpawnEntity(Entity entity, Vector3 position, Quaternion rotation)
+    public GameObject SpawnEntity(Entity entity, Vector3 position, Quaternion rotation)
     {
         GameObject objectToSpawn;
 
         switch (entity)
         {
             case Entity.none:
-                return;
+                return null;
             case Entity.destructible:
                 objectToSpawn = destructiblePrefab;
                 if (objectToSpawn != null)
@@ -62,7 +62,7 @@ public class EntitySpawner : MonoBehaviour
                         destructibleObjects.Add(newObject);
                     }
                 }
-                return;
+                return objectToSpawn;
             case Entity.soldier:
                 objectToSpawn = soldierPrefab;
                 if (objectToSpawn != null)
@@ -73,7 +73,7 @@ public class EntitySpawner : MonoBehaviour
                         soldierObjects.Add(newObject);
                     }
                 }
-                return;
+                return objectToSpawn;
             case Entity.cible:
                 objectToSpawn = ciblePrefab;
                 if (objectToSpawn != null)
@@ -84,7 +84,7 @@ public class EntitySpawner : MonoBehaviour
                         cibleObjects.Add(newObject);
                     }
                 }
-                return;
+                return objectToSpawn;
             case Entity.trap:
                 objectToSpawn = trapPrefab;
                 if (objectToSpawn != null)
@@ -95,9 +95,9 @@ public class EntitySpawner : MonoBehaviour
                         trapObjects.Add(newObject);
                     }
                 }
-                return;
+                return objectToSpawn;
             default:
-                return;
+                return null;
         }
     }
 }
