@@ -27,25 +27,31 @@ public class EntitySpawner : MonoBehaviour
 
     public enum Entity
     {
+        none,
         destructible,
         soldier,
-        cible
+        cible,
+        trap
     }
 
     public List<GameObject> destructibleObjects = new List<GameObject>();
     public List<GameObject> soldierObjects = new List<GameObject>();
     public List<GameObject> cibleObjects = new List<GameObject>();
+    public List<GameObject> trapObjects = new List<GameObject>();
 
     public GameObject destructiblePrefab;
     public GameObject soldierPrefab;
     public GameObject ciblePrefab;
+    public GameObject trapPrefab;
 
-    public void SpawnEntity(Entity entity, Vector3 position, Quaternion rotation)
+    public GameObject SpawnEntity(Entity entity, Vector3 position, Quaternion rotation)
     {
         GameObject objectToSpawn;
 
         switch (entity)
         {
+            case Entity.none:
+                return null;
             case Entity.destructible:
                 objectToSpawn = destructiblePrefab;
                 if (objectToSpawn != null)
@@ -56,7 +62,7 @@ public class EntitySpawner : MonoBehaviour
                         destructibleObjects.Add(newObject);
                     }
                 }
-                break;
+                return objectToSpawn;
             case Entity.soldier:
                 objectToSpawn = soldierPrefab;
                 if (objectToSpawn != null)
@@ -67,7 +73,7 @@ public class EntitySpawner : MonoBehaviour
                         soldierObjects.Add(newObject);
                     }
                 }
-                break;
+                return objectToSpawn;
             case Entity.cible:
                 objectToSpawn = ciblePrefab;
                 if (objectToSpawn != null)
@@ -78,9 +84,20 @@ public class EntitySpawner : MonoBehaviour
                         cibleObjects.Add(newObject);
                     }
                 }
-                break;
+                return objectToSpawn;
+            case Entity.trap:
+                objectToSpawn = trapPrefab;
+                if (objectToSpawn != null)
+                {
+                    GameObject newObject = Instantiate(objectToSpawn, position, rotation);
+                    if (newObject != null)
+                    {
+                        trapObjects.Add(newObject);
+                    }
+                }
+                return objectToSpawn;
             default:
-                break;
+                return null;
         }
     }
 }

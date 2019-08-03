@@ -8,6 +8,10 @@ public class GameGrid : MonoBehaviour
 {
     public static GameGrid Instance = null;
 
+    public TileIdentifier tileIdentifier;
+
+    public Sprite baseSprite;
+
     private int width, height;
 
     void Awake()
@@ -41,17 +45,35 @@ public class GameGrid : MonoBehaviour
                 {
                     pos.x += width/2;
                     pos.y += height/2;
-                    GameTile IdentifiedTile = Instance.IdentifyGameTile((tilemap.GetTile(pos.ToVector3Int()) as Tile));
+                    GameTile IdentifiedTile = Instance.IdentifyGameTile((tilemap.GetTile(pos.ToVector3Int()) as Tile),pos);
                     Instance.GameTiles.Add(IdentifiedTile);
                 }
             }
         }
     }
 
-    public GameTile IdentifyGameTile(Tile tile)
+    public GameTile IdentifyGameTile(Tile tile, Vector2Int position)
     {
-        //TODO: Get info from tile and add it to a GameTile.
-        return new GameTile(Vector2Int.zero);
+        if (tile == null)
+            return null;
+
+        TileIdentifier.TileData data = tileIdentifier.GetData(tile.sprite);
+
+        GameTile gameTile = new GameTile(position, data.accessible, data.blocking);
+
+        // ADD WORLD POSITION
+        //gameTile.entityOnTop = EntitySpawner.Instance.SpawnEntity(data.entityOnTop, , tile.transform.rotation);
+
+        if(data.newTileSprite == null)
+        {
+            tile.sprite = baseSprite;
+        }
+        else
+        {
+            tile.sprite = data.newTileSprite;
+        }
+
+        return gameTile;
     }
 
     public GameTile GetTileAtposition(Vector2Int position)

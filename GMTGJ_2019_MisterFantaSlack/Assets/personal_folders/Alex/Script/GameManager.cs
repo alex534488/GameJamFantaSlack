@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using UnityEngine.Tilemaps;
 
 public class GameManager : MonoBehaviour
 {
@@ -92,6 +93,33 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void SetupGrid()
+    {
+        // Search for the grid !
+        for (int i = 0; i < SceneManager.sceneCount; i++)
+        {
+            Scene currentScene = SceneManager.GetSceneAt(i);
+
+            GameObject[] rootGameObjects = currentScene.GetRootGameObjects();
+            for (int j = 0; j < rootGameObjects.Length; j++)
+            {
+                Grid grid = rootGameObjects[j].GetComponent<Grid>();
+                if (grid != null)
+                {
+                    Tilemap currentTileMap = grid.GetComponentInChildren<Tilemap>();
+                    if (currentTileMap != null)
+                    {
+                        // Found it ! Build the Game Grid (backend)
+                        GameGrid.Instance.BuildGrid(currentTileMap);
+                        return;
+                    }
+                }
+            }
+        }
+
+        Debug.Log("Error, no grid in level");
+    }
+
     // SCENE MANAGEMENT ASYNC COMPLETE CALLBACKS
 
     private void LevelLoaded(AsyncOperation obj)
@@ -100,6 +128,7 @@ public class GameManager : MonoBehaviour
             beforeGameStart.Invoke();
 
         // GAME GRID need to adapt runtime HERE
+        SetupGrid();
 
         ui.FadeIn(0.5f, delegate ()
         {
