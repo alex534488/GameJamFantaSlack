@@ -7,6 +7,8 @@ public class BaseCharacter : MonoBehaviour
 	public EDirection CurrentDirectionFacing = EDirection.Up;
 	public bool IsDeath = false;
 
+    public GameObject bulletPrefab;
+
 	// Start is called before the first frame update
 	void Start()
 	{
@@ -40,8 +42,27 @@ public class BaseCharacter : MonoBehaviour
 	{
 		#if (UNITY_EDITOR)
 		Debug.Log("On Shoot with Character : " + gameObject.name);
-		#endif
-	}
+#endif
+
+        Bullet bullet = Instantiate(bulletPrefab,transform).GetComponent<Bullet>();
+        switch (CurrentDirectionFacing)
+        {
+            case EDirection.Up:
+                bullet.SetDirection(new Vector2(0, 1));
+                break;
+            case EDirection.Down:
+                bullet.SetDirection(new Vector2(0, -1));
+                break;
+            case EDirection.Left:
+                bullet.SetDirection(new Vector2(-1, 0));
+                break;
+            case EDirection.Right:
+                bullet.SetDirection(new Vector2(1,0));
+                break;
+            default:
+                break;
+        }
+    }
 
 
 
