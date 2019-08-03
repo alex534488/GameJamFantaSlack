@@ -28,9 +28,4 @@ public class UIManager : MonoBehaviour
                 onComplete();
         });
     }
-
-    public void PauseToggle()
-    {
-        pauseCanvas.SetActive(!pauseCanvas.activeSelf);
-    }
 }

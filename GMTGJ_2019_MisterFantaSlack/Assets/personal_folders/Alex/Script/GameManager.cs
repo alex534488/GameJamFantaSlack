@@ -61,6 +61,12 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void ReturnToHome()
+    {
+        // Return to Home Screen
+        SceneManager.LoadScene(sceneLinks.MainMenu, LoadSceneMode.Single);
+    }
+
     private void LevelCompleted()
     {
         canRestart = false;
