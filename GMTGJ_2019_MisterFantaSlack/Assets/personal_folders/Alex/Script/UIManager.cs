@@ -9,14 +9,16 @@ public class UIManager : MonoBehaviour
 {
     public Image blackFullscreen;
 
+    public GameObject pauseCanvas;
+
     public void FadeIn(float duration = 1, UnityAction onComplete = null)
     {
-        Fade(1,duration,onComplete);
+        Fade(0,duration,onComplete);
     }
 
     public void FadeOut(float duration = 1, UnityAction onComplete = null)
     {
-        Fade(0, duration, onComplete);
+        Fade(1, duration, onComplete);
     }
 
     public void Fade(float end, float duration = 1, UnityAction onComplete = null)

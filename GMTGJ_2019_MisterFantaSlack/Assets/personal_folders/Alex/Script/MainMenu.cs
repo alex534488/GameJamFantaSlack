@@ -32,17 +32,12 @@ public class MainMenu : MonoBehaviour
         });
     }
 
-    public void OpenLevelSelection()
+    public void ResetSaves()
     {
         if (!interactable)
             return;
 
-        // Open level selection screen
-    }
-
-    public void SelectLevel(int number)
-    {
-
+        PlayerPrefs.SetInt(SaveKeys.MAX_LEVEL_REACHED, 0);
     }
 
     public void Quit()
