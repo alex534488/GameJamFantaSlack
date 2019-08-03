@@ -67,7 +67,7 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(sceneLinks.MainMenu, LoadSceneMode.Single);
     }
 
-    private void LevelCompleted()
+    public void LevelCompleted()
     {
         canRestart = false;
 
@@ -82,6 +82,7 @@ public class GameManager : MonoBehaviour
         if (currentLevel >= levelList.levelSceneName.Count)
         {
             // GAME OVER (GAME END)
+            PlayerPrefs.SetInt(SaveKeys.MAX_LEVEL_REACHED, 0); // Reset Saves
             SceneManager.LoadScene(sceneLinks.MainMenu, LoadSceneMode.Single);
         }
         else
@@ -107,6 +108,7 @@ public class GameManager : MonoBehaviour
 
             canRestart = true;
 
+            // DEBUG
             this.DelayedCall(5, delegate ()
             {
                 LevelCompleted();
