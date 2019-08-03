@@ -71,7 +71,6 @@ public class GameGrid : MonoBehaviour
         Vector2Int realPos = ToGridCoordinates(position);
         foreach (GameTile tile in GameTiles)
         {
-            //Debug.Log("tile.Pos: " + tile.Pos + ", realPos: " + realPos);
             if (tile.Pos == realPos)
             {
                 return tile;
