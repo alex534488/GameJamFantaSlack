@@ -12,4 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e9debedc63487d48801aa478ff3956b, type: 3}
   m_Name: TileIdentifier
   m_EditorClassIdentifier: 
-  tilesData: []
+  tilesData:
+  - sprite: {fileID: 0}
+    accessible: 0
+    blocking: 0
+    newTileSprite: {fileID: 0}
+    entityOnTop: 0
