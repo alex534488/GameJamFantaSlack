@@ -36,7 +36,8 @@ public class GridScript : MonoBehaviour
                 Debug.Log("worldPos: " + worldPointPos 
                     + ", gridPos: " + gridPos 
                     + ", tileToWorldpos: " + tilePosToWorld
-                    + ", hasTile: " + tilemap.HasTile(GameGrid.ToWorldCoordinates(gridPos)));
+                    + ", hasTile: " + tilemap.HasTile(tilePosToWorld)
+                    + ", GridToWorldToGrid: " + GameGrid.ToGridCoordinates(new Vector2(tilePosToWorld.x, tilePosToWorld.y)));
             }
             else
             {
