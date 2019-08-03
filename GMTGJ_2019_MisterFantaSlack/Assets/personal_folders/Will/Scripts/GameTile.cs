@@ -18,4 +18,11 @@ public class GameTile
         IsAccessible = isAccessible;
         IsBlocking = isBlocking;
     }
+
+    public GameTile GetTileRelativeToMe(int xOffset, int yOffset)
+    {
+        Vector2Int offsetTilePos = new Vector2Int(Pos.x + xOffset, Pos.y + yOffset);
+        
+        return GameGrid.Instance.GetTileAtposition(offsetTilePos);
+    }
 }

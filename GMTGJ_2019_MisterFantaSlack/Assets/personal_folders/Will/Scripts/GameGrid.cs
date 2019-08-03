@@ -43,9 +43,9 @@ public class GameGrid : MonoBehaviour
                 
                 if (tilemap.HasTile(pos.ToVector3Int()))
                 {
-                    pos.x += width/2;
-                    pos.y += height/2;
-                    GameTile IdentifiedTile = Instance.IdentifyGameTile((tilemap.GetTile(pos.ToVector3Int()) as Tile),pos);
+                    Tile tile = (tilemap.GetTile(pos.ToVector3Int()) as Tile);
+                    Vector2Int gameTilePos = new Vector2Int(pos.x + width / 2, pos.y + height / 2);
+                    GameTile IdentifiedTile = Instance.IdentifyGameTile(tile, pos);
                     Instance.GameTiles.Add(IdentifiedTile);
                 }
             }
@@ -93,7 +93,6 @@ public class GameGrid : MonoBehaviour
         Vector2Int realPos = ToGridCoordinates(position);
         foreach (GameTile tile in GameTiles)
         {
-            //Debug.Log("tile.Pos: " + tile.Pos + ", realPos: " + realPos);
             if (tile.Pos == realPos)
             {
                 return tile;
