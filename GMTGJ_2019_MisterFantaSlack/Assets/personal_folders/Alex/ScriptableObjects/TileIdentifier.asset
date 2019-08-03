@@ -12,4 +12,49 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e9debedc63487d48801aa478ff3956b, type: 3}
   m_Name: TileIdentifier
   m_EditorClassIdentifier: 
-  tilesData: []
+  tilesData:
+  - sprite: {fileID: 21300000, guid: 88f0213877446ea4c8212e981594b563, type: 3}
+    accessible: 1
+    blocking: 0
+    newTileSprite: {fileID: 21300000, guid: 88f0213877446ea4c8212e981594b563, type: 3}
+    entityOnTop: 0
+  - sprite: {fileID: 21300000, guid: 93d43a84231001843abefbed902bbbe7, type: 3}
+    accessible: 0
+    blocking: 0
+    newTileSprite: {fileID: 21300000, guid: 93d43a84231001843abefbed902bbbe7, type: 3}
+    entityOnTop: 0
+  - sprite: {fileID: 21300000, guid: 29913d7526e1c2345b647364285fab90, type: 3}
+    accessible: 0
+    blocking: 1
+    newTileSprite: {fileID: 21300000, guid: 686b0643af6b155498cf95df63204692, type: 3}
+    entityOnTop: 0
+  - sprite: {fileID: 21300000, guid: c5c7888211c3da7488f031e7da63372d, type: 3}
+    accessible: 0
+    blocking: 1
+    newTileSprite: {fileID: 0}
+    entityOnTop: 1
+  - sprite: {fileID: 21300000, guid: 373fd458276e68542a96a68e0e2f5817, type: 3}
+    accessible: 1
+    blocking: 1
+    newTileSprite: {fileID: 0}
+    entityOnTop: 3
+  - sprite: {fileID: 21300000, guid: 18f1e1d57ebf74a499766fb30228e069, type: 3}
+    accessible: 0
+    blocking: 0
+    newTileSprite: {fileID: 0}
+    entityOnTop: 2
+  - sprite: {fileID: 21300000, guid: 095716f2fb3a510408cc5170e3a2f647, type: 3}
+    accessible: 1
+    blocking: 0
+    newTileSprite: {fileID: 0}
+    entityOnTop: 0
+  - sprite: {fileID: 21300000, guid: 0e6057a9b1ec0f041924c39d64025208, type: 3}
+    accessible: 0
+    blocking: 0
+    newTileSprite: {fileID: 0}
+    entityOnTop: 4
+  - sprite: {fileID: 21300000, guid: 208dd252d8a73b6458ec10bd05a6cbd2, type: 3}
+    accessible: 1
+    blocking: 0
+    newTileSprite: {fileID: 21300000, guid: 208dd252d8a73b6458ec10bd05a6cbd2, type: 3}
+    entityOnTop: 0

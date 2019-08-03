@@ -2,23 +2,35 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum EDirection { Up, Down, Left, Right };
+
 public class InputManager : MonoBehaviour
 {
-	enum EDirection { Up, Down, Left, Right };
+	public bool bInputBlock = false;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+	public int NbCharacterActionComplete = 0;
 
-    // Update is called once per frame
-    void Update()
+	// SINGLETON
+
+	public static InputManager Instance = null;
+
+	void Awake()
+	{
+		if (Instance == null)
+			Instance = this;
+	}
+
+	// Update is called once per frae
+	void Update()
     {
 		//	cooldown for the action ???
 		if (true)
 		{
-			if(Input.GetKeyDown(KeyCode.R))
+			if (Input.GetKeyDown(KeyCode.P))
+			{
+				StartPause();
+			}
+			else if (Input.GetKeyDown(KeyCode.R))
 			{
 				StartReset();
 			}
@@ -45,8 +57,34 @@ public class InputManager : MonoBehaviour
 		}
 	}
 
+	//	cooldown for when the action is finish
+	public void CharacterFinish()
+	{
+		NbCharacterActionComplete++;
+
+		if(NbCharacterActionComplete >= 0)
+		{
+			bInputBlock = false;
+			NbCharacterActionComplete = 0;
+		}
+	}
+
+
+	//		INPUT FUNCTION
+
+
+	//	Call to open the menu to go in the level selection or other shit like that
+	public void StartPause()
+	{
+		#if (UNITY_EDITOR)
+			Debug.Log("InputManager :: PAUSE");
+#endif
+
+		GameManager.Instance.ReturnToHome();
+	}
+
 	//	Call to reset the curret level if the player fell stuck in the current state
-	void StartReset()
+	public void StartReset()
 	{
 		#if (UNITY_EDITOR)
 			Debug.Log("InputManager :: RESET THE LEVEL");
@@ -54,7 +92,7 @@ public class InputManager : MonoBehaviour
 	}
 
 	//	Call to everyone to FIRAAAAAAAAAH
-	void StartFire()
+	public void StartFire()
 	{
 		#if (UNITY_EDITOR)
 			Debug.Log("InputManager :: EVERY ONE, SHOOOOOOOOT");
@@ -64,7 +102,7 @@ public class InputManager : MonoBehaviour
 	//	Call each line from the direction specify to move in that direction
 	//	if up, move the top row, the second row under, the third row under, etc
 	//	it must be in that order to don't fuck up
-	void StartMove(EDirection MyDirection)
+	public void StartMove(EDirection MyDirection)
 	{
 		switch(MyDirection)
 		{

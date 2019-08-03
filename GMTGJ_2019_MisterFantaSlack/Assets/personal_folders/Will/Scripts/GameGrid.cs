@@ -8,6 +8,10 @@ public class GameGrid : MonoBehaviour
 {
     public static GameGrid Instance = null;
 
+    public TileIdentifier tileIdentifier;
+
+    public Sprite baseSprite;
+
     private int width, height;
 
     void Awake()
@@ -20,12 +24,16 @@ public class GameGrid : MonoBehaviour
 
     public void BuildGrid(Tilemap tilemap)
     {
+        tilemap.CompressBounds();
         BoundsInt cellBounds = tilemap.cellBounds;
 
         Instance.width = cellBounds.xMax - cellBounds.xMin;
         Instance.height = cellBounds.yMax - cellBounds.yMin;
 
         Instance.GameTiles = new List<GameTile>();
+        Debug.Log("Origin = (" + cellBounds.xMin + ", " + cellBounds.yMin + ")");
+        Debug.Log("Middle = (" + (cellBounds.xMin + Instance.width / 2) + ", " + (cellBounds.yMin + Instance.height / 2)  + ")");
+        Debug.Log("Width: " + Instance.width + ", Height: " + Instance.height);
 
         for (int x = cellBounds.xMin; x < cellBounds.xMax; ++x)
         {
@@ -35,15 +43,37 @@ public class GameGrid : MonoBehaviour
                 
                 if (tilemap.HasTile(pos.ToVector3Int()))
                 {
-                    
-                    pos.x += width/2;
-                    pos.y += height/2;
-                    Debug.Log(pos.ToVector3Int());
-                    Instance.GameTiles.Add(new GameTile(pos));
+                    Tile tile = (tilemap.GetTile(pos.ToVector3Int()) as Tile);
+                    Vector2Int gameTilePos = new Vector2Int(pos.x + width / 2, pos.y + height / 2);
+                    GameTile IdentifiedTile = Instance.IdentifyGameTile(tile, pos);
+                    Instance.GameTiles.Add(IdentifiedTile);
                 }
             }
         }
-        Debug.Log(Instance.GameTiles.Count);
+    }
+
+    public GameTile IdentifyGameTile(Tile tile, Vector2Int position)
+    {
+        if (tile == null)
+            return null;
+
+        TileIdentifier.TileData data = tileIdentifier.GetData(tile.sprite);
+
+        GameTile gameTile = new GameTile(position, data.accessible, data.blocking);
+
+        // ADD WORLD POSITION
+        //gameTile.entityOnTop = EntitySpawner.Instance.SpawnEntity(data.entityOnTop, , tile.transform.rotation);
+
+        if(data.newTileSprite == null)
+        {
+            tile.sprite = baseSprite;
+        }
+        else
+        {
+            tile.sprite = data.newTileSprite;
+        }
+
+        return gameTile;
     }
 
     public GameTile GetTileAtposition(Vector2Int position)
@@ -63,7 +93,6 @@ public class GameGrid : MonoBehaviour
         Vector2Int realPos = ToGridCoordinates(position);
         foreach (GameTile tile in GameTiles)
         {
-            //Debug.Log("tile.Pos: " + tile.Pos + ", realPos: " + realPos);
             if (tile.Pos == realPos)
             {
                 return tile;
@@ -72,6 +101,7 @@ public class GameGrid : MonoBehaviour
         return null;
     }
 
+    //use this if you want to have a grid coordinate from, let's say, a tilemap coordinate
     public static Vector2Int ToGridCoordinates(Vector2 coord)
     {
         coord.x += Instance.width / 2;
@@ -80,6 +110,7 @@ public class GameGrid : MonoBehaviour
         return Vector2Int.FloorToInt(coord);
     }
 
+    //use this if you want to have a tilemap coordinate with a grid one.
     public static Vector3Int ToWorldCoordinates(Vector2Int coord)
     {
         Vector2 worldCoord = new Vector2(coord.x - Instance.width / 2, coord.y - Instance.height / 2);

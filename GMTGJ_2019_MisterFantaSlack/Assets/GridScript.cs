@@ -8,17 +8,14 @@ public class GridScript : MonoBehaviour
 {
     private List<Tile> tiles;
 
-    [SerializeField]
-    private int nbTileInGrid;
-
     private Tilemap tilemap;
 
     void Start() {
         tilemap = GetComponent<Tilemap>();
 
-        tilemap.CompressBounds();
-
         GameGrid.Instance.BuildGrid(tilemap);
+
+        //Debug.Log(GameGrid.Instance.GameTiles.Count);
     }
 
     void Update()
@@ -37,7 +34,8 @@ public class GridScript : MonoBehaviour
                     + ", gridPos: " + gridPos 
                     + ", tileToWorldpos: " + tilePosToWorld
                     + ", hasTile: " + tilemap.HasTile(tilePosToWorld)
-                    + ", GridToWorldToGrid: " + GameGrid.ToGridCoordinates(new Vector2(tilePosToWorld.x, tilePosToWorld.y)));
+                    //+ ", GridToWorldToGrid: " + GameGrid.ToGridCoordinates(new Vector2(tilePosToWorld.x, tilePosToWorld.y))
+                    );
             }
             else
             {
