@@ -1,10 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class EntitySpawner : MonoBehaviour
 {
-
     // SINGLETON
 
     public static EntitySpawner Instance = null;
@@ -14,6 +14,8 @@ public class EntitySpawner : MonoBehaviour
         if (Instance == null)
             Instance = this;
     }
+
+    public UnityEvent AllBulletsDestroyed = new UnityEvent();
 
     public float delayToWaitAfterShot = 1;
 
@@ -30,33 +32,22 @@ public class EntitySpawner : MonoBehaviour
 
     public void OnLevelEnd()
     {
-        for (int i = 0; i < destructibleObjects.Count; i++)
+        DestroyAllInList(destructibleObjects);
+        DestroyAllInList(soldierObjects);
+        DestroyAllInList(cibleObjects);
+        DestroyAllInList(trapObjects);
+        DestroyAllInList(noGoodCibleObjects);
+        DestroyAllInList(blockerObjects);
+    }
+
+    private void DestroyAllInList(List<GameObject> objs)
+    {
+        for (int i = 0; i < objs.Count; i++)
         {
-            Destroy(destructibleObjects[i]);
+            Destroy(objs[i]);
         }
 
-        destructibleObjects.Clear();
-
-        for (int i = 0; i < soldierObjects.Count; i++)
-        {
-            Destroy(soldierObjects[i]);
-        }
-
-        soldierObjects.Clear();
-
-        for (int i = 0; i < cibleObjects.Count; i++)
-        {
-            Destroy(cibleObjects[i]);
-        }
-
-        cibleObjects.Clear();
-
-        for (int i = 0; i < trapObjects.Count; i++)
-        {
-            Destroy(trapObjects[i]);
-        }
-
-        trapObjects.Clear();
+        objs.Clear();
     }
 
     public enum Entity
@@ -65,7 +56,9 @@ public class EntitySpawner : MonoBehaviour
         destructible,
         soldier,
         cible,
-        trap
+        trap,
+        noGoodCible,
+        blocker
     }
 
     [HideInInspector]
@@ -76,13 +69,19 @@ public class EntitySpawner : MonoBehaviour
     public List<GameObject> cibleObjects = new List<GameObject>();
     [HideInInspector]
     public List<GameObject> trapObjects = new List<GameObject>();
+    [HideInInspector]
+    public List<GameObject> noGoodCibleObjects = new List<GameObject>();
+    [HideInInspector]
+    public List<GameObject> blockerObjects = new List<GameObject>();
 
     public GameObject destructiblePrefab;
     public GameObject soldierPrefab;
     public GameObject ciblePrefab;
     public GameObject trapPrefab;
+    public GameObject noGoodCiblePrefab;
+    public GameObject blockerPrefab;
 
-    public int bulletsAlive = 0;
+    private int bulletsAlive = 0;
 
     public GameObject SpawnEntity(Entity entity, Vector3 position, Quaternion rotation)
     {
@@ -111,13 +110,26 @@ public class EntitySpawner : MonoBehaviour
                 listToAddTo = trapObjects;
                 break;
 
+            case Entity.noGoodCible:
+                objectToSpawn = noGoodCiblePrefab;
+                listToAddTo = noGoodCibleObjects;
+                break;
+
+            case Entity.blocker:
+                objectToSpawn = blockerPrefab;
+                listToAddTo = blockerObjects;
+                break;
+
             case Entity.none:
+                objectToSpawn = null;
+                listToAddTo = null;
+                break;
+
             default:
                 objectToSpawn = null;
                 listToAddTo = null;
                 break;
         }
-
 
         if (objectToSpawn != null)
         {
@@ -142,6 +154,11 @@ public class EntitySpawner : MonoBehaviour
         bulletsAlive--;
         if (bulletsAlive <= 0)
         {
+            if(AllBulletsDestroyed != null)
+            {
+                AllBulletsDestroyed.Invoke();
+            }
+
             this.DelayedCall(delayToWaitAfterShot, delegate () {
                 CibleManager.Instance.ShootingCompleted();
             });
