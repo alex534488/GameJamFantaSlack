@@ -2,34 +2,40 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using CCC;
 
 public class GridScript : MonoBehaviour
 {
-    Tilemap tileMap;
+    private List<Tile> tiles;
 
-    private List<Vector3> availablePlaces;
     [SerializeField]
-    private int nbTileinGrid;
+    private int nbTileInGrid;
 
     void Start() {
-        Tilemap tileMap = GetComponent<Tilemap>();
-        availablePlaces = new List<Vector3>();
+        Tilemap tilemap = GetComponent<Tilemap>();
 
-        foreach(Vector3Int pos in tileMap.cellBounds.allPositionsWithin)
-        {
-            Vector3Int localPlace = pos;
+        tilemap.CompressBounds();
 
-            if (tileMap.HasTile(pos))
-            {
-                nbTileinGrid++;
-            }
-        }
-
+        GameGrid.Instance.BuildGrid(tilemap);
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetMouseButtonDown(0))
+        {
+            Vector3 position = Input.mousePosition;
+            Vector3 worldPointPos = Camera.main.ScreenToWorldPoint(position);
+            Debug.Log(GameGrid.TranslateToGridCoordinates(worldPointPos));
+            //grid.GetTileAtposition(Camera.main.ScreenToWorldPoint(Input.mousePosition).ToVector3Int());
+        }
+    }
+}
+
+public static class Vector3Extension
+{
+    public static Vector3Int ToVector3Int(this Vector3 vector)
+    {
+        int x = vector.x.RoundedToInt();
+        return Vector3Int.zero;
     }
 }
