@@ -9,6 +9,7 @@ public class BaseCharacter : MonoBehaviour
 	public bool IsDeath = false;
 
     public GameObject bulletPrefab;
+    public GameObject bulletStartPosition;
 
 	private Tween currentTween;
 	public float TimeToPassOneTile = 1.0f;
@@ -45,25 +46,25 @@ public class BaseCharacter : MonoBehaviour
 	{
 		#if (UNITY_EDITOR)
 		Debug.Log("On Shoot with Character : " + gameObject.name);
-#endif
+    #endif
 
-        Bullet bullet = Instantiate(bulletPrefab, EntitySpawner.Instance.transform).GetComponent<Bullet>();
+        Bullet bullet = Instantiate(bulletPrefab, bulletStartPosition.transform.position, Quaternion.identity, EntitySpawner.Instance.transform).GetComponent<Bullet>();
 
         EntitySpawner.Instance.BulletSpawned();
 
         switch (CurrentDirectionFacing)
         {
             case EDirection.Up:
-                bullet.SetDirection(new Vector2(0, 1));
+                bullet.SetDirectionAndStartPosition(new Vector2(0, 1), bulletStartPosition.transform.position, gameObject);
                 break;
             case EDirection.Down:
-                bullet.SetDirection(new Vector2(0, -1));
+                bullet.SetDirectionAndStartPosition(new Vector2(0, -1), bulletStartPosition.transform.position, gameObject);
                 break;
             case EDirection.Left:
-                bullet.SetDirection(new Vector2(-1, 0));
+                bullet.SetDirectionAndStartPosition(new Vector2(-1, 0), bulletStartPosition.transform.position, gameObject);
                 break;
             case EDirection.Right:
-                bullet.SetDirection(new Vector2(1,0));
+                bullet.SetDirectionAndStartPosition(new Vector2(1,0), bulletStartPosition.transform.position, gameObject);
                 break;
             default:
                 break;
@@ -77,12 +78,8 @@ public class BaseCharacter : MonoBehaviour
 
 	public void GoInThatDirection(Vector3 Destination, int NbTile)
 	{
-		#if (UNITY_EDITOR)
-		Debug.Log("Go in the Direction : With the Character : " + gameObject.name);
-		#endif
 		float Duration = TimeToPassOneTile * NbTile;
-		Vector3 test = new Vector3(-1.5f, -1.5f, 0.0f);
-		currentTween = transform.DOMove(test, Duration).SetUpdate(true);
+		currentTween = transform.DOMove(Destination, Duration).SetUpdate(true);
 		
 	}
 

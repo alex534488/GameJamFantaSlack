@@ -765,6 +765,8 @@ MonoBehaviour:
   soldierObjects: []
   cibleObjects: []
   trapObjects: []
+  noGoodCibleObjects: []
+  blockerObjects: []
   destructiblePrefab: {fileID: 7357249298980629248, guid: 420d424fa0c907d4b8460d8df999f6e2,
     type: 3}
   soldierPrefab: {fileID: 1342397234537862582, guid: 89bc0f6bbc734fa44be523ccbc8d03cf,
@@ -772,6 +774,10 @@ MonoBehaviour:
   ciblePrefab: {fileID: 4655474536026939454, guid: f1ba11bbe426964489ba12b4606b45c3,
     type: 3}
   trapPrefab: {fileID: 5789312356623237192, guid: 3cd611d677438f94d8e340e0a4745784,
+    type: 3}
+  noGoodCiblePrefab: {fileID: 4655474536026939454, guid: d651af24db2b74345a92863ef11d3c0e,
+    type: 3}
+  blockerPrefab: {fileID: 5789312356623237192, guid: 4e7a7f85d1eb7fa488e52aaa04dce1bd,
     type: 3}
   bulletsAlive: 0
 --- !u!114 &1602607086

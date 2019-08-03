@@ -29,8 +29,8 @@ MonoBehaviour:
     accessible: 0
     blocking: 1
     slide: 0
-    newTileSprite: {fileID: 21300000, guid: 686b0643af6b155498cf95df63204692, type: 3}
-    entityOnTop: 0
+    newTileSprite: {fileID: 21300000, guid: 208dd252d8a73b6458ec10bd05a6cbd2, type: 3}
+    entityOnTop: 6
   - sprite: {fileID: 21300000, guid: c5c7888211c3da7488f031e7da63372d, type: 3}
     accessible: 0
     blocking: 1
@@ -67,3 +67,9 @@ MonoBehaviour:
     slide: 0
     newTileSprite: {fileID: 21300000, guid: 208dd252d8a73b6458ec10bd05a6cbd2, type: 3}
     entityOnTop: 0
+  - sprite: {fileID: 21300000, guid: 81a24c429824cc7449ce02dc0bdc7220, type: 3}
+    accessible: 0
+    blocking: 1
+    slide: 0
+    newTileSprite: {fileID: 21300000, guid: 208dd252d8a73b6458ec10bd05a6cbd2, type: 3}
+    entityOnTop: 5

@@ -96,8 +96,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 2.5
-  lowerLeftLimit: {x: -10, y: -10}
-  upperRightLimit: {x: 10, y: 10}
+  lowerLeftLimit: {x: -5, y: -5}
+  upperRightLimit: {x: 5, y: 5}
+  destinationExtension: 10
+  bulletStartPosition: {x: 0, y: 0, z: 0}
+  shooter: {fileID: 0}
 --- !u!136 &622473391
 CapsuleCollider:
   m_ObjectHideFlags: 0
