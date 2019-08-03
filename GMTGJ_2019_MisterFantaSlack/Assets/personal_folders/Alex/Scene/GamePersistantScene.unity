@@ -308,7 +308,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 798950657}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: -3.49, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -743,6 +743,11 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  levelOver:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!114 &1602607085
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -755,6 +760,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3d5780345d64f34caba9b95a2124715, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  delayToWaitAfterShot: 1
   destructibleObjects: []
   soldierObjects: []
   cibleObjects: []
@@ -767,6 +773,7 @@ MonoBehaviour:
     type: 3}
   trapPrefab: {fileID: 5789312356623237192, guid: 3cd611d677438f94d8e340e0a4745784,
     type: 3}
+  bulletsAlive: 0
 --- !u!114 &1602607086
 MonoBehaviour:
   m_ObjectHideFlags: 0

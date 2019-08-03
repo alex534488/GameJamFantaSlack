@@ -47,7 +47,7 @@ public class BaseCharacter : MonoBehaviour
 		Debug.Log("On Shoot with Character : " + gameObject.name);
 #endif
 
-        Bullet bullet = Instantiate(bulletPrefab,transform).GetComponent<Bullet>();
+        Bullet bullet = Instantiate(bulletPrefab, EntitySpawner.Instance.transform).GetComponent<Bullet>();
 
         EntitySpawner.Instance.BulletSpawned();
 
