@@ -60,7 +60,7 @@ public class EntitySpawner : MonoBehaviour
                 objectToSpawn = destructiblePrefab;
                 if (objectToSpawn != null)
                 {
-                    GameObject newObject = Instantiate(objectToSpawn, position, rotation);
+                    GameObject newObject = Instantiate(objectToSpawn, position, rotation, transform);
                     if(newObject != null)
                     {
                         destructibleObjects.Add(newObject);
@@ -71,7 +71,7 @@ public class EntitySpawner : MonoBehaviour
                 objectToSpawn = soldierPrefab;
                 if (objectToSpawn != null)
                 {
-                    GameObject newObject = Instantiate(objectToSpawn, position, rotation);
+                    GameObject newObject = Instantiate(objectToSpawn, position, rotation, transform);
                     if (newObject != null)
                     {
                         soldierObjects.Add(newObject);
@@ -82,7 +82,7 @@ public class EntitySpawner : MonoBehaviour
                 objectToSpawn = ciblePrefab;
                 if (objectToSpawn != null)
                 {
-                    GameObject newObject = Instantiate(objectToSpawn, position, rotation);
+                    GameObject newObject = Instantiate(objectToSpawn, position, rotation, transform);
                     if (newObject != null)
                     {
                         cibleObjects.Add(newObject);
@@ -93,7 +93,7 @@ public class EntitySpawner : MonoBehaviour
                 objectToSpawn = trapPrefab;
                 if (objectToSpawn != null)
                 {
-                    GameObject newObject = Instantiate(objectToSpawn, position, rotation);
+                    GameObject newObject = Instantiate(objectToSpawn, position, rotation, transform);
                     if (newObject != null)
                     {
                         trapObjects.Add(newObject);
