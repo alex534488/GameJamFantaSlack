@@ -28,7 +28,7 @@ public class InputManager : MonoBehaviour
 		{
 			if (Input.GetKeyDown(KeyCode.P))
 			{
-				StartReset();
+				StartPause();
 			}
 			else if (Input.GetKeyDown(KeyCode.R))
 			{
@@ -78,7 +78,9 @@ public class InputManager : MonoBehaviour
 	{
 		#if (UNITY_EDITOR)
 			Debug.Log("InputManager :: PAUSE");
-		#endif
+#endif
+
+		GameManager.Instance.ReturnToHome();
 	}
 
 	//	Call to reset the curret level if the player fell stuck in the current state
