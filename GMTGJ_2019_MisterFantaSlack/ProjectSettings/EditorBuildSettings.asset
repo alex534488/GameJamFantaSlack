@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/EmptyScene.unity
-    guid: 3003cf4ca6b539c4182c708ed7ee7c1e
+    path: Assets/personal_folders/Alex/Scene/MainMenu.unity
+    guid: 789ca07044b0f20419e19705229d9a41
+  - enabled: 1
+    path: Assets/personal_folders/Alex/Scene/GamePersistantScene.unity
+    guid: 4306aa0d83b019745878313f5f4173c5
   m_configObjects: {}
