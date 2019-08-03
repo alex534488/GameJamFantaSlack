@@ -992,10 +992,14 @@ MonoBehaviour:
   soldierObjects: []
   cibleObjects: []
   trapObjects: []
-  destructiblePrefab: {fileID: 0}
-  soldierPrefab: {fileID: 0}
-  ciblePrefab: {fileID: 0}
-  trapPrefab: {fileID: 0}
+  destructiblePrefab: {fileID: 7357249298980629248, guid: 420d424fa0c907d4b8460d8df999f6e2,
+    type: 3}
+  soldierPrefab: {fileID: 4195431943759307703, guid: 6ef69a633fef36e49a241576797290e7,
+    type: 3}
+  ciblePrefab: {fileID: 4655474536026939454, guid: f1ba11bbe426964489ba12b4606b45c3,
+    type: 3}
+  trapPrefab: {fileID: 5789312356623237192, guid: 3cd611d677438f94d8e340e0a4745784,
+    type: 3}
 --- !u!114 &1602607086
 MonoBehaviour:
   m_ObjectHideFlags: 0

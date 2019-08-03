@@ -34,9 +34,13 @@ public class EntitySpawner : MonoBehaviour
         trap
     }
 
+    [HideInInspector]
     public List<GameObject> destructibleObjects = new List<GameObject>();
+    [HideInInspector]
     public List<GameObject> soldierObjects = new List<GameObject>();
+    [HideInInspector]
     public List<GameObject> cibleObjects = new List<GameObject>();
+    [HideInInspector]
     public List<GameObject> trapObjects = new List<GameObject>();
 
     public GameObject destructiblePrefab;
