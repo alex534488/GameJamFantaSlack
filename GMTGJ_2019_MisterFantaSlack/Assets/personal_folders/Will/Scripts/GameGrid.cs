@@ -39,13 +39,19 @@ public class GameGrid : MonoBehaviour
                 
                 if (tilemap.HasTile(pos.ToVector3Int()))
                 {
-                    
                     pos.x += width/2;
                     pos.y += height/2;
-                    Instance.GameTiles.Add(new GameTile(pos));
+                    GameTile IdentifiedTile = Instance.IdentifyGameTile((tilemap.GetTile(pos.ToVector3Int()) as Tile));
+                    Instance.GameTiles.Add(IdentifiedTile);
                 }
             }
         }
+    }
+
+    public GameTile IdentifyGameTile(Tile tile)
+    {
+        //TODO: Get info from tile and add it to a GameTile.
+        return new GameTile(Vector2Int.zero);
     }
 
     public GameTile GetTileAtposition(Vector2Int position)
