@@ -95,17 +95,24 @@ public class GameManager : MonoBehaviour
 
     private void SetupGrid()
     {
-        GameObject[] rootGameObjects = UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects();
-        for (int i = 0; i < rootGameObjects.Length; i++)
+        // Search for the grid !
+        for (int i = 0; i < SceneManager.sceneCount; i++)
         {
-            Grid grid = rootGameObjects[i].GetComponent<Grid>();
-            if(grid != null)
+            Scene currentScene = SceneManager.GetSceneAt(i);
+
+            GameObject[] rootGameObjects = currentScene.GetRootGameObjects();
+            for (int j = 0; j < rootGameObjects.Length; j++)
             {
-                Tilemap currentTileMap = grid.GetComponentInChildren<Tilemap>();
-                if(currentTileMap != null)
+                Grid grid = rootGameObjects[j].GetComponent<Grid>();
+                if (grid != null)
                 {
-                    GameGrid.Instance.BuildGrid(currentTileMap);
-                    return;
+                    Tilemap currentTileMap = grid.GetComponentInChildren<Tilemap>();
+                    if (currentTileMap != null)
+                    {
+                        // Found it ! Build the Game Grid (backend)
+                        GameGrid.Instance.BuildGrid(currentTileMap);
+                        return;
+                    }
                 }
             }
         }
@@ -121,6 +128,7 @@ public class GameManager : MonoBehaviour
             beforeGameStart.Invoke();
 
         // GAME GRID need to adapt runtime HERE
+        SetupGrid();
 
         ui.FadeIn(0.5f, delegate ()
         {

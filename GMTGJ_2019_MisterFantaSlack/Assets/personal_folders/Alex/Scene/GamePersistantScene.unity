@@ -766,6 +766,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3520cf86f3c7d124c834e73982c85926, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tileIdentifier: {fileID: 11400000, guid: 2ce5c9de553497846b108a0528cd7644, type: 2}
+  baseSprite: {fileID: 21300000, guid: 208dd252d8a73b6458ec10bd05a6cbd2, type: 3}
 --- !u!4 &1046458845
 Transform:
   m_ObjectHideFlags: 0
@@ -989,9 +991,11 @@ MonoBehaviour:
   destructibleObjects: []
   soldierObjects: []
   cibleObjects: []
+  trapObjects: []
   destructiblePrefab: {fileID: 0}
   soldierPrefab: {fileID: 0}
   ciblePrefab: {fileID: 0}
+  trapPrefab: {fileID: 0}
 --- !u!114 &1602607086
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -54,6 +54,9 @@ public class GameGrid : MonoBehaviour
 
     public GameTile IdentifyGameTile(Tile tile, Vector2Int position)
     {
+        if (tile == null)
+            return null;
+
         TileIdentifier.TileData data = tileIdentifier.GetData(tile.sprite);
 
         GameTile gameTile = new GameTile(position, data.accessible, data.blocking);
