@@ -87,57 +87,48 @@ public class EntitySpawner : MonoBehaviour
     public GameObject SpawnEntity(Entity entity, Vector3 position, Quaternion rotation)
     {
         GameObject objectToSpawn;
+        List<GameObject> listToAddTo = null;
 
         switch (entity)
         {
-            case Entity.none:
-                return null;
             case Entity.destructible:
                 objectToSpawn = destructiblePrefab;
-                if (objectToSpawn != null)
-                {
-                    GameObject newObject = Instantiate(objectToSpawn, position, rotation, transform);
-                    if(newObject != null)
-                    {
-                        destructibleObjects.Add(newObject);
-                    }
-                }
-                return objectToSpawn;
+                listToAddTo = destructibleObjects;
+                break;
+
             case Entity.soldier:
                 objectToSpawn = soldierPrefab;
-                if (objectToSpawn != null)
-                {
-                    GameObject newObject = Instantiate(objectToSpawn, position, rotation, transform);
-                    if (newObject != null)
-                    {
-                        soldierObjects.Add(newObject);
-                    }
-                }
-                return objectToSpawn;
+                listToAddTo = soldierObjects;
+                break;
+
             case Entity.cible:
                 objectToSpawn = ciblePrefab;
-                if (objectToSpawn != null)
-                {
-                    GameObject newObject = Instantiate(objectToSpawn, position, rotation, transform);
-                    if (newObject != null)
-                    {
-                        cibleObjects.Add(newObject);
-                    }
-                }
-                return objectToSpawn;
+                listToAddTo = cibleObjects;
+                break;
+
             case Entity.trap:
                 objectToSpawn = trapPrefab;
-                if (objectToSpawn != null)
-                {
-                    GameObject newObject = Instantiate(objectToSpawn, position, rotation, transform);
-                    if (newObject != null)
-                    {
-                        trapObjects.Add(newObject);
-                    }
-                }
-                return objectToSpawn;
+                listToAddTo = trapObjects;
+                break;
+
+            case Entity.none:
             default:
-                return null;
+                objectToSpawn = null;
+                listToAddTo = null;
+                break;
+        }
+
+
+
+        GameObject newObject = Instantiate(objectToSpawn, position, rotation, transform);
+        if (newObject != null)
+        {
+            listToAddTo.Add(newObject);
+            return newObject;
+        }
+        else
+        {
+            return null;
         }
     }
 
@@ -149,7 +140,7 @@ public class EntitySpawner : MonoBehaviour
     public void BulletDestroyed()
     {
         bulletsAlive--;
-        if(bulletsAlive <= 0)
+        if (bulletsAlive <= 0)
         {
             this.DelayedCall(delayToWaitAfterShot, delegate () {
                 CibleManager.Instance.ShootingCompleted();

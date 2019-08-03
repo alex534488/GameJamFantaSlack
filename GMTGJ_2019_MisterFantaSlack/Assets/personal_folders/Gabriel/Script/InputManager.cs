@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using DG.Tweening;
 
 public enum EDirection { Up, Down, Left, Right };
 
@@ -13,6 +14,9 @@ public class InputManager : MonoBehaviour
 
 	public UnityEvent ShootTrigger = new UnityEvent();
 	public DirectionEvent MoveTrigger = new DirectionEvent();
+
+
+	
 
 	// SINGLETON
 
@@ -119,31 +123,102 @@ public class InputManager : MonoBehaviour
 				#if (UNITY_EDITOR)
 					Debug.Log("InputManager :: MOVE UP");
 				#endif
+
 				break;
+
+
 			case EDirection.Down:
 				#if (UNITY_EDITOR)
 					Debug.Log("InputManager :: MOVE DOWN");
 				#endif
+
+				//	for each line
+				for (int i = 0; i < 15; i++)
+				{
+					//	for each column
+					for (int j = 0; j < 15; j++)
+					{
+						Vector2Int MyPosition = new Vector2Int(j, i);
+
+						BaseCharacter MySoldier = IsSoldierValid(MyPosition);
+						if(MySoldier != null)
+						{
+							Debug.Log("MOVE DOWN SOLDIER FOUND");
+							GameTile TileVoisin = GameGrid.Instance.GetTileAtposition(MyPosition).GetTileRelativeToMe(EDirection.Down);
+							if(TileVoisin != null)
+							{
+								Debug.Log("MOVE DOWN TILE VOISIN FOUND");
+								if (TileVoisin.IsAccessible == true)
+								{
+									if (TileVoisin.IsSliding == false)
+									{
+										Vector3 MyDestination = MySoldier.gameObject.transform.position;//TileVoisin.Pos.ToVector3Int();
+										MyDestination.y -= 1.0f;
+										Debug.Log("MOVE DOWN to " + MyDestination.ToString());
+										MySoldier.GoInThatDirection(MyDestination, 1);
+
+									}
+								}
+							}
+						}
+					}
+				}
+
 				break;
+
+
 			case EDirection.Left:
 				#if (UNITY_EDITOR)
 					Debug.Log("InputManager :: MOVE LEFT");
 				#endif
 				break;
+
+
 			case EDirection.Right:
 				#if (UNITY_EDITOR)
 					Debug.Log("InputManager :: MOVE RIGHT");
 				#endif
 				break;
+
+
 			default:
 				#if (UNITY_EDITOR)
 					Debug.Log("InputManager::StartMove() Something fuck up ???");
 				#endif
 				return;
-				break;
 		}
 
-		if (MoveTrigger != null)
-			MoveTrigger.Invoke(MyDirection);
+		//		Useless
+		//if (MoveTrigger != null)
+			//MoveTrigger.Invoke(MyDirection);
 	}
+
+	BaseCharacter IsSoldierValid(Vector2Int LocationOfActor)
+	{
+		BaseCharacter MySoldier = null;
+		GameTile MyTile = GameGrid.Instance.GetTileAtposition(LocationOfActor);
+
+		
+
+		if (MyTile != null)
+		{
+			GameObject ObjectOnTile = MyTile.entityOnTop;
+			if (ObjectOnTile != null)
+			{
+				MySoldier = ObjectOnTile.GetComponent<BaseCharacter>();
+				if (MySoldier != null)
+				{
+					return MySoldier;
+				}
+			} 
+		}
+
+		return null;
+	}
+
+
+	/*void CheckIfMovePossible(Vector2Int LocationOfSoldier)
+	{
+
+	}*/
 }

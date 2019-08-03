@@ -123,4 +123,10 @@ public class GameGrid : MonoBehaviour
         Vector2 worldCoord = new Vector2(coord.x - Instance.width / 2, coord.y - Instance.height / 2);
         return Vector3Int.FloorToInt(worldCoord);
     }
+
+    //To place object centered on a tile
+    public static Vector3 GetCenterCellPosition(Vector2Int coord)
+    {
+        return new Vector2((coord.x - Instance.width / 2) + GRID_CELL_OFFSET, (coord.y - Instance.height / 2) + GRID_CELL_OFFSET);
+    }
 }
