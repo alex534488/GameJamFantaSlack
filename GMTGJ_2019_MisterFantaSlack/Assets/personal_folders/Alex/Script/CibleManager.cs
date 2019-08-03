@@ -34,6 +34,7 @@ public class CibleManager : MonoBehaviour
     {
         if(targetLeft > 0)
         {
+            targetLeft = amountOfTarget;
             foreach (GameObject gameObjects in EntitySpawner.Instance.cibleObjects)
             {
                 Cible cible = gameObjects.GetComponent<Cible>();

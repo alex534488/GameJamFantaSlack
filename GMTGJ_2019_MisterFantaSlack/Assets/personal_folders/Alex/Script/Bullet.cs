@@ -14,6 +14,8 @@ public class Bullet : MonoBehaviour
     public Vector2 lowerLeftLimit;
     public Vector2 upperRightLimit;
 
+    public float destinationExtension = 10;
+
     public void SetDirection(Vector2 direction)
     {
         this.direction = direction;
@@ -39,7 +41,7 @@ public class Bullet : MonoBehaviour
 
     private void BeginMovement()
     {
-        currentTween = transform.DOMove(direction * 10, speed);
+        currentTween = transform.DOMove(direction * destinationExtension, speed);
     }
 
     public void EntityCollision(GameObject otherObject)

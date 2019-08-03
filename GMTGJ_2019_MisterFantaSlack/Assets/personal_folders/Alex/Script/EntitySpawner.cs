@@ -15,6 +15,8 @@ public class EntitySpawner : MonoBehaviour
             Instance = this;
     }
 
+    public float delayToWaitAfterShot = 1;
+
     void Start()
     {
         GameManager.Instance.gameStarted.AddListener(OnGameStart);
@@ -149,7 +151,10 @@ public class EntitySpawner : MonoBehaviour
         bulletsAlive--;
         if(bulletsAlive <= 0)
         {
-            CibleManager.Instance.ShootingCompleted();
+            this.DelayedCall(delayToWaitAfterShot, delegate () {
+                CibleManager.Instance.ShootingCompleted();
+            });
+            
         }
     }
 }
