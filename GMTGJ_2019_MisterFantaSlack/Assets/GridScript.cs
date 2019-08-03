@@ -12,10 +12,6 @@ public class GridScript : MonoBehaviour
 
     void Start() {
         tilemap = GetComponent<Tilemap>();
-
-        GameGrid.Instance.BuildGrid(tilemap);
-
-        //Debug.Log(GameGrid.Instance.GameTiles.Count);
     }
 
     void Update()
