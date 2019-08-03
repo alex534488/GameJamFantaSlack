@@ -20,12 +20,16 @@ public class GameGrid : MonoBehaviour
 
     public void BuildGrid(Tilemap tilemap)
     {
+        tilemap.CompressBounds();
         BoundsInt cellBounds = tilemap.cellBounds;
 
         Instance.width = cellBounds.xMax - cellBounds.xMin;
         Instance.height = cellBounds.yMax - cellBounds.yMin;
 
         Instance.GameTiles = new List<GameTile>();
+        Debug.Log("Origin = (" + cellBounds.xMin + ", " + cellBounds.yMin + ")");
+        Debug.Log("Middle = (" + (cellBounds.xMin + Instance.width / 2) + ", " + (cellBounds.yMin + Instance.height / 2)  + ")");
+        Debug.Log("Width: " + Instance.width + ", Height: " + Instance.height);
 
         for (int x = cellBounds.xMin; x < cellBounds.xMax; ++x)
         {
@@ -38,12 +42,10 @@ public class GameGrid : MonoBehaviour
                     
                     pos.x += width/2;
                     pos.y += height/2;
-                    Debug.Log(pos.ToVector3Int());
                     Instance.GameTiles.Add(new GameTile(pos));
                 }
             }
         }
-        Debug.Log(Instance.GameTiles.Count);
     }
 
     public GameTile GetTileAtposition(Vector2Int position)
@@ -72,6 +74,7 @@ public class GameGrid : MonoBehaviour
         return null;
     }
 
+    //use this if you want to have a grid coordinate from, let's say, a tilemap coordinate
     public static Vector2Int ToGridCoordinates(Vector2 coord)
     {
         coord.x += Instance.width / 2;
@@ -80,6 +83,7 @@ public class GameGrid : MonoBehaviour
         return Vector2Int.FloorToInt(coord);
     }
 
+    //use this if you want to have a tilemap coordinate with a grid one.
     public static Vector3Int ToWorldCoordinates(Vector2Int coord)
     {
         Vector2 worldCoord = new Vector2(coord.x - Instance.width / 2, coord.y - Instance.height / 2);
