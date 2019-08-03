@@ -78,12 +78,8 @@ public class BaseCharacter : MonoBehaviour
 
 	public void GoInThatDirection(Vector3 Destination, int NbTile)
 	{
-		#if (UNITY_EDITOR)
-		Debug.Log("Go in the Direction : With the Character : " + gameObject.name);
-		#endif
 		float Duration = TimeToPassOneTile * NbTile;
-		Vector3 test = new Vector3(-1.5f, -1.5f, 0.0f);
-		currentTween = transform.DOMove(test, Duration).SetUpdate(true);
+		currentTween = transform.DOMove(Destination, Duration).SetUpdate(true);
 		
 	}
 

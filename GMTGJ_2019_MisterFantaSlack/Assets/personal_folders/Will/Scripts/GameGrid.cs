@@ -125,8 +125,8 @@ public class GameGrid : MonoBehaviour
     }
 
     //To place object centered on a tile
-    public static Vector3 GetCenterCellPosition(Vector2Int coord)
+    public static Vector3 GetCenterCellPosition(GameTile tile)
     {
-        return new Vector2((coord.x - Instance.width / 2) + GRID_CELL_OFFSET, (coord.y - Instance.height / 2) + GRID_CELL_OFFSET);
+        return new Vector2((tile.Pos.x - Instance.width / 2) + GRID_CELL_OFFSET, (tile.Pos.y - Instance.height / 2) + GRID_CELL_OFFSET);
     }
 }
