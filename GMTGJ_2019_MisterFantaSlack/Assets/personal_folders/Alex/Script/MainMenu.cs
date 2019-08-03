@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
     public CanvasGroup canvas;
     public float fadeInAnimationDuration = 2;
+
+    public Text startGameText;
 
     public SceneLinks sceneLinks;
 
@@ -38,6 +41,12 @@ public class MainMenu : MonoBehaviour
             return;
 
         PlayerPrefs.SetInt(SaveKeys.MAX_LEVEL_REACHED, 0);
+    }
+
+    public void SetLevelToStart(int levelNumber)
+    {
+        PlayerPrefs.SetInt(SaveKeys.MAX_LEVEL_REACHED, levelNumber);
+        startGameText.text = "Start";
     }
 
     public void Quit()

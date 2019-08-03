@@ -883,6 +883,7 @@ GameObject:
   - component: {fileID: 1602607083}
   - component: {fileID: 1602607084}
   - component: {fileID: 1602607085}
+  - component: {fileID: 1602607086}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -942,9 +943,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3d5780345d64f34caba9b95a2124715, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  destructibleObjects: []
+  soldierObjects: []
+  cibleObjects: []
   destructiblePrefab: {fileID: 0}
   soldierPrefab: {fileID: 0}
   ciblePrefab: {fileID: 0}
+--- !u!114 &1602607086
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1602607082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddab3fa0292f133458951fd59b09e615, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2085222415
 GameObject:
   m_ObjectHideFlags: 0
