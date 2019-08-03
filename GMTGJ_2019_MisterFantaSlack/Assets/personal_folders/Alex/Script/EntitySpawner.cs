@@ -18,11 +18,43 @@ public class EntitySpawner : MonoBehaviour
     void Start()
     {
         GameManager.Instance.gameStarted.AddListener(OnGameStart);
+        GameManager.Instance.levelOver.AddListener(OnLevelEnd);
     }
 
     public void OnGameStart()
     {
         CibleManager.Instance.SetTargetAmountInLevel(cibleObjects.Count);
+    }
+
+    public void OnLevelEnd()
+    {
+        for (int i = 0; i < destructibleObjects.Count; i++)
+        {
+            Destroy(destructibleObjects[i]);
+        }
+
+        destructibleObjects.Clear();
+
+        for (int i = 0; i < soldierObjects.Count; i++)
+        {
+            Destroy(soldierObjects[i]);
+        }
+
+        soldierObjects.Clear();
+
+        for (int i = 0; i < cibleObjects.Count; i++)
+        {
+            Destroy(cibleObjects[i]);
+        }
+
+        cibleObjects.Clear();
+
+        for (int i = 0; i < trapObjects.Count; i++)
+        {
+            Destroy(trapObjects[i]);
+        }
+
+        trapObjects.Clear();
     }
 
     public enum Entity
@@ -47,6 +79,8 @@ public class EntitySpawner : MonoBehaviour
     public GameObject soldierPrefab;
     public GameObject ciblePrefab;
     public GameObject trapPrefab;
+
+    public int bulletsAlive = 0;
 
     public GameObject SpawnEntity(Entity entity, Vector3 position, Quaternion rotation)
     {
@@ -102,6 +136,20 @@ public class EntitySpawner : MonoBehaviour
                 return objectToSpawn;
             default:
                 return null;
+        }
+    }
+
+    public void BulletSpawned()
+    {
+        bulletsAlive++;
+    }
+
+    public void BulletDestroyed()
+    {
+        bulletsAlive--;
+        if(bulletsAlive <= 0)
+        {
+            CibleManager.Instance.ShootingCompleted();
         }
     }
 }

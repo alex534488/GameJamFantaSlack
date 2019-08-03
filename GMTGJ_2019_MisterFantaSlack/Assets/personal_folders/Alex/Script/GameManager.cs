@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
 
     public UnityEvent beforeGameStart = new UnityEvent();
     public UnityEvent gameStarted = new UnityEvent();
+    public UnityEvent levelOver = new UnityEvent();
 
     private int currentLevel;
 
@@ -55,6 +56,9 @@ public class GameManager : MonoBehaviour
         {
             canRestart = false;
 
+            if (levelOver != null)
+                levelOver.Invoke();
+
             ui.FadeOut(0.5f, delegate ()
             {
                 SceneManager.UnloadSceneAsync(levelList.levelSceneName[currentLevel]).completed += RestartCompleted;
@@ -71,6 +75,9 @@ public class GameManager : MonoBehaviour
     public void LevelCompleted()
     {
         canRestart = false;
+
+        if(levelOver != null)
+            levelOver.Invoke();
 
         ui.FadeOut(0.5f, delegate ()
         {

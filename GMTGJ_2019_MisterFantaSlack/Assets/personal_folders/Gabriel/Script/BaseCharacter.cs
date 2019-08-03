@@ -45,6 +45,9 @@ public class BaseCharacter : MonoBehaviour
 #endif
 
         Bullet bullet = Instantiate(bulletPrefab,transform).GetComponent<Bullet>();
+
+        EntitySpawner.Instance.BulletSpawned();
+
         switch (CurrentDirectionFacing)
         {
             case EDirection.Up:
