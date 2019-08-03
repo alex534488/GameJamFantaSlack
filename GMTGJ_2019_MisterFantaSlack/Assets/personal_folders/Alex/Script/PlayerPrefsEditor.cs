@@ -2,6 +2,7 @@
 using UnityEditor;
 using System.Collections;
 
+#if UNITY_EDITOR
 public class PlayerPrefsEditor : EditorWindow
 {
 
@@ -128,3 +129,5 @@ public class PlayerPrefsEditor : EditorWindow
     }
 
 }
+
+#endif

@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-
     // SINGLETON
 
     public static GameManager Instance = null;
@@ -20,6 +19,7 @@ public class GameManager : MonoBehaviour
     // MANAGERS
 
     public UIManager ui;
+    public EntitySpawner entitySpawner;
 
     // FLOW
 
@@ -31,8 +31,12 @@ public class GameManager : MonoBehaviour
 
     private int currentLevel;
 
+    private bool canRestart = false;
+
     void Start()
     {
+        canRestart = false;
+
         currentLevel = PlayerPrefs.GetInt(SaveKeys.MAX_LEVEL_REACHED, -1);
 
         if(currentLevel <= -1)
@@ -41,25 +45,51 @@ public class GameManager : MonoBehaviour
             PlayerPrefs.SetInt(SaveKeys.MAX_LEVEL_REACHED, currentLevel);
         }
 
-        // GAME OVER (GAME END)
-        if(currentLevel >= levelList.levelSceneName.Count)
-        {
-            SceneManager.LoadScene(sceneLinks.MainMenu, LoadSceneMode.Single);
-        }
-        else
-        {
-            SceneManager.LoadSceneAsync(levelList.levelSceneName[currentLevel], LoadSceneMode.Additive).completed += LevelLoaded;
-        }
+        LoadNextLevel();
     }
 
     public void Restart()
     {
+        if (canRestart)
+        {
+            canRestart = false;
+
+            ui.FadeOut(0.5f, delegate ()
+            {
+                SceneManager.UnloadSceneAsync(levelList.levelSceneName[currentLevel]).completed += RestartCompleted;
+            });
+        }
+    }
+
+    public void ReturnToHome()
+    {
+        // Return to Home Screen
+        SceneManager.LoadScene(sceneLinks.MainMenu, LoadSceneMode.Single);
+    }
+
+    private void LevelCompleted()
+    {
+        canRestart = false;
+
         ui.FadeOut(0.5f, delegate ()
         {
-            SceneManager.UnloadSceneAsync(levelList.levelSceneName[currentLevel]).completed += RestartCompleted;
+            SceneManager.UnloadSceneAsync(levelList.levelSceneName[currentLevel]).completed += OnNextLevelReady;
         });
     }
 
+    private void LoadNextLevel()
+    {
+        if (currentLevel >= levelList.levelSceneName.Count)
+        {
+            // GAME OVER (GAME END)
+            SceneManager.LoadScene(sceneLinks.MainMenu, LoadSceneMode.Single);
+        }
+        else
+        {
+            // NEXT LEVEL
+            SceneManager.LoadSceneAsync(levelList.levelSceneName[currentLevel], LoadSceneMode.Additive).completed += LevelLoaded;
+        }
+    }
 
     // SCENE MANAGEMENT ASYNC COMPLETE CALLBACKS
 
@@ -68,11 +98,28 @@ public class GameManager : MonoBehaviour
         if (beforeGameStart != null)
             beforeGameStart.Invoke();
 
+        // GAME GRID need to adapt runtime HERE
+
         ui.FadeIn(0.5f, delegate ()
         {
             if (gameStarted != null)
                 gameStarted.Invoke();
+
+            canRestart = true;
+
+            this.DelayedCall(5, delegate ()
+            {
+                LevelCompleted();
+            });
         });
+    }
+
+    private void OnNextLevelReady(AsyncOperation obj)
+    {
+        currentLevel++;
+        PlayerPrefs.SetInt(SaveKeys.MAX_LEVEL_REACHED, currentLevel);
+
+        LoadNextLevel();
     }
 
     private void RestartCompleted(AsyncOperation obj)

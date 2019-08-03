@@ -31,12 +31,14 @@ public class GameGrid : MonoBehaviour
         {
             for (int y = cellBounds.yMin; y < cellBounds.yMax; ++y)
             {
-                Vector3Int pos = new Vector3Int(x, y, 0);
-                if (tilemap.HasTile(pos))
+                Vector2Int pos = new Vector2Int(x, y);
+                
+                if (tilemap.HasTile(pos.ToVector3Int()))
                 {
+                    
                     pos.x += width/2;
                     pos.y += height/2;
-                    Debug.Log(pos);
+                    Debug.Log(pos.ToVector3Int());
                     Instance.GameTiles.Add(new GameTile(pos));
                 }
             }
@@ -44,7 +46,7 @@ public class GameGrid : MonoBehaviour
         Debug.Log(Instance.GameTiles.Count);
     }
 
-    public GameTile GetTileAtposition(Vector3Int position)
+    public GameTile GetTileAtposition(Vector2Int position)
     {
         foreach(GameTile tile in GameTiles)
         {
@@ -56,11 +58,31 @@ public class GameGrid : MonoBehaviour
         return null;
     }
 
-    public static Vector3Int TranslateToGridCoordinates(Vector3 coord)
+    public GameTile GetTileAtposition(Vector2 position)
+    {
+        Vector2Int realPos = ToGridCoordinates(position);
+        foreach (GameTile tile in GameTiles)
+        {
+            //Debug.Log("tile.Pos: " + tile.Pos + ", realPos: " + realPos);
+            if (tile.Pos == realPos)
+            {
+                return tile;
+            }
+        }
+        return null;
+    }
+
+    public static Vector2Int ToGridCoordinates(Vector2 coord)
     {
         coord.x += Instance.width / 2;
         coord.y += Instance.height / 2;
 
-        return Vector3Int.FloorToInt(coord);
+        return Vector2Int.FloorToInt(coord);
+    }
+
+    public static Vector3Int ToWorldCoordinates(Vector2Int coord)
+    {
+        Vector2 worldCoord = new Vector2(coord.x - Instance.width / 2, coord.y - Instance.height / 2);
+        return Vector3Int.FloorToInt(worldCoord);
     }
 }
