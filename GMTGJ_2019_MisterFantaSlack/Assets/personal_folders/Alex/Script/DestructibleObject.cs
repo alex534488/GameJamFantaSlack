@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class DestructibleObject : MonoBehaviour
 {
-    public virtual void DestructObject()
+	public GameObject DestructSoundPrefab;
+
+	public virtual void DestructObject()
     {
-        GameGrid.Instance.RemoveMyselfFromTile(gameObject);
+		GameObject newObject = Instantiate(DestructSoundPrefab, transform.position, transform.rotation);
+		GameGrid.Instance.RemoveMyselfFromTile(gameObject);
         gameObject.SetActive(false);
     }
 }

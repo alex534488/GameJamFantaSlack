@@ -13,8 +13,9 @@ public class BaseCharacter : MonoBehaviour
 
     public float TimeToPassOneTile = 1.0f;
 
-    public AudioPlayable GunShotPlayable;
-    public AudioPlayable DeathPlayable;
+	//public AudioPlayable GunShotPlayable;
+	public AudioClip GunShotClip;
+	public AudioPlayable DeathPlayable;
     public AudioPlayable WalkingPlayable;
     public AudioSource source;
     public new SoldierAnimator animator;
@@ -50,7 +51,12 @@ public class BaseCharacter : MonoBehaviour
 #if (UNITY_EDITOR)
         Debug.Log("On Shoot with Character : " + gameObject.name);
 #endif
-        GunShotPlayable.PlayOn(source);
+
+		float Delay = UnityEngine.Random.Range(0.0f, 0.15f);
+		source.clip = GunShotClip;
+		source.PlayDelayed(Delay);
+
+		//GunShotPlayable.PlayOn(source);
 
         Bullet bullet = Instantiate(bulletPrefab, bulletStartPosition.transform.position, Quaternion.identity, EntitySpawner.Instance.transform).GetComponent<Bullet>();
 
