@@ -129,8 +129,6 @@ public class GameManager : MonoBehaviour
 
                 if (levelOver != null)
                     levelOver.Invoke();
-
-                this.DelayedCall(1, delegate () { this.DelayedCall(1, delegate () { GameManager.Instance.ui.kimBubble.Say(KimMessageType.NewLevel, false, 1); }); });
             });
         });
     }
@@ -232,6 +230,8 @@ public class GameManager : MonoBehaviour
     {
         currentLevel++;
         PlayerPrefs.SetInt(SaveKeys.MAX_LEVEL_REACHED, currentLevel);
+
+        GameManager.Instance.ui.kimBubble.Say(KimMessageType.NewLevel, false, 1);
 
         LoadNextLevel();
     }
