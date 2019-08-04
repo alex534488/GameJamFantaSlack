@@ -8,18 +8,21 @@ public class GameTile
     public bool IsAccessible { get; set; }
     public bool IsBlocking { get; set; }
     public bool IsSliding { get; set; }
+    public bool IsRotating { get; set; }
 
     public GameObject entityOnTop;
 
     public GameTile(Vector2Int position, 
         bool isAccessible = false,
         bool isBlocking = false,
-        bool IsSliding = false)
+        bool IsSliding = false,
+        bool IsRotating = false)
     {
         Pos = position;
         this.IsAccessible = isAccessible;
         this.IsBlocking = isBlocking;
         this.IsSliding = IsSliding;
+        this.IsRotating = IsRotating;
     }
 
     public GameTile GetTileRelativeToMe(EDirection direction)

@@ -13,7 +13,7 @@ public class GameGrid : MonoBehaviour
 
     public Sprite baseSprite;
 
-    private int width, height;
+    public int width, height;
 
     void Awake()
     {
@@ -60,7 +60,7 @@ public class GameGrid : MonoBehaviour
 
         TileIdentifier.TileData data = tileIdentifier.GetData(tile.sprite);
 
-        GameTile gameTile = new GameTile(gameTilePosition, data.accessible, data.blocking, data.slide);
+        GameTile gameTile = new GameTile(gameTilePosition, data.accessible, data.blocking, data.slide, data.rotates);
 
         //HACK : GRID_CELL_OFFSET est la moitié de la taille d'une tile, c'est pour placer l'objet en son millieu
         Vector2 worldPosition = new Vector3((gameTilePosition.x - Instance.width / 2) + GRID_CELL_OFFSET, (gameTilePosition.y - Instance.height / 2) + GRID_CELL_OFFSET, 1);
@@ -106,6 +106,18 @@ public class GameGrid : MonoBehaviour
             }
         }
         return null;
+    }
+
+    public void RemoveMyselfFromTile(GameObject myObj)
+    {
+        GameTile currentTile = GetTileAtposition(myObj.transform.position);
+        currentTile.entityOnTop = null;
+    }
+
+    public void AddMyselfOnTile(GameObject myObj)
+    {
+        GameTile currentTile = GetTileAtposition(myObj.transform.position);
+        currentTile.entityOnTop = myObj;
     }
 
     //use this if you want to have a grid coordinate from, let's say, a tilemap coordinate

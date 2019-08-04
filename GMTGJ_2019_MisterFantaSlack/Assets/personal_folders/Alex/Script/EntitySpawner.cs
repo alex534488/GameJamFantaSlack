@@ -28,6 +28,7 @@ public class EntitySpawner : MonoBehaviour
     public void OnGameStart()
     {
         CibleManager.Instance.SetTargetAmountInLevel(cibleObjects.Count);
+        InputManager.Instance.SetAmountOfCharacters(soldierObjects.Count);
     }
 
     public void OnLevelEnd()
@@ -164,5 +165,11 @@ public class EntitySpawner : MonoBehaviour
             });
             
         }
+    }
+
+    public void OnSoldierDeath(GameObject soldier)
+    {
+        soldierObjects.Remove(soldier);
+        InputManager.Instance.SetAmountOfCharacters(soldierObjects.Count);
     }
 }

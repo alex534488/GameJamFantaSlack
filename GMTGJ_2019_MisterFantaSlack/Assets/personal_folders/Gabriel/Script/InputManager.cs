@@ -3,24 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using DG.Tweening;
+using System;
 
 public enum EDirection { Up, Down, Left, Right };
 
 public class InputManager : MonoBehaviour
 {
-	public bool bInputBlock = false;
+    // SINGLETON
 
-	public int NbCharacterActionComplete = 0;
-
-	public UnityEvent ShootTrigger = new UnityEvent();
-	public DirectionEvent MoveTrigger = new DirectionEvent();
-
-
-	
-
-	// SINGLETON
-
-	public static InputManager Instance = null;
+    public static InputManager Instance = null;
 
 	void Awake()
 	{
@@ -28,58 +19,90 @@ public class InputManager : MonoBehaviour
 			Instance = this;
 	}
 
-	// Update is called once per frae
-	void Update()
+    // EVENTS
+
+    public UnityEvent ShootTrigger = new UnityEvent();
+
+    // DATA
+
+    private bool inputBlocked = true;
+
+    private int amountOfCharacters;
+    private int characterLeftToMove;
+
+    // Init
+    public void SetAmountOfCharacters(int amount)
     {
-		//	cooldown for the action ???
-		if (true)
-		{
-			if (Input.GetKeyDown(KeyCode.P))
-			{
-				StartPause();
-			}
-			else if (Input.GetKeyDown(KeyCode.R))
-			{
-				StartReset();
-			}
-			else if (Input.GetKeyDown(KeyCode.Space))
-			{
-				StartFire();
-			}
-			else if (Input.GetKeyDown(KeyCode.UpArrow))
-			{
-				StartMove(EDirection.Up);
-			}
-			else if (Input.GetKeyDown(KeyCode.DownArrow))
-			{
-				StartMove(EDirection.Down);
-			}
-			else if (Input.GetKeyDown(KeyCode.LeftArrow))
-			{
-				StartMove(EDirection.Left);
-			}
-			else if (Input.GetKeyDown(KeyCode.RightArrow))
-			{
-				StartMove(EDirection.Right);
-			} 
-		}
-	}
+        amountOfCharacters = amount;
+        characterLeftToMove = amountOfCharacters;
+        InputReactivated();
+    }
 
-	//	cooldown for when the action is finish
-	public void CharacterFinish()
-	{
-		NbCharacterActionComplete++;
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            StartPause();
+        }
+        else if (Input.GetKeyDown(KeyCode.R))
+        {
+            StartReset();
+        }
+        else if (Input.GetKeyDown(KeyCode.Space))
+        {
+            StartFire();
+        }
+        else if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
+        {
+            StartMove(EDirection.Up);
+        }
+        else if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
+        {
+            StartMove(EDirection.Down);
+        }
+        else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
+        {
+            StartMove(EDirection.Left);
+        }
+        else if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
+        {
+            StartMove(EDirection.Right);
+        }
+    }
 
-		if(NbCharacterActionComplete >= 3)
-		{
-			bInputBlock = false;
-			NbCharacterActionComplete = 0;
-		}
-	}
+    public void PlayerCompletedItsMovement()
+    {
+        characterLeftToMove--;
 
+        if(characterLeftToMove <= 0)
+        {
+            characterLeftToMove = amountOfCharacters;
+            InputReactivated();
+        }
+    }
+
+    public void InputDeactivated()
+    {
+        inputBlocked = true;
+    }
+
+    public void InputReactivated()
+    {
+        inputBlocked = false;
+
+        // Resolve deaths
+        foreach (GameObject soldier in EntitySpawner.Instance.soldierObjects)
+        {
+            BaseCharacter character = soldier.GetComponent<BaseCharacter>();
+
+            if(character != null)
+            {
+                character.OnDeath();
+            }
+        }
+    }
 
 	//		INPUT FUNCTION
-
 
 	//	Call to open the menu to go in the level selection or other shit like that
 	public void StartPause()
@@ -104,30 +127,46 @@ public class InputManager : MonoBehaviour
 	//	Call to everyone to FIRAAAAAAAAAH
 	public void StartFire()
 	{
-		#if (UNITY_EDITOR)
-			Debug.Log("InputManager :: EVERY ONE, SHOOOOOOOOT");
+        if (inputBlocked)
+            return;
+
+        InputDeactivated();
+
+        #if (UNITY_EDITOR)
+        Debug.Log("InputManager :: EVERY ONE, SHOOOOOOOOT");
 		#endif
 
 		if (ShootTrigger != null)
 			ShootTrigger.Invoke();
+
+        // Wait until shooting is done to enable inputs
+        EntitySpawner.Instance.AllBulletsDestroyed.AddListener(delegate () { InputReactivated(); });
 	}
 
 	//	Call each line from the direction specify to move in that direction
 	//	if up, move the top row, the second row under, the third row under, etc
 	//	it must be in that order to don't fuck up
-	public void StartMove(EDirection MyDirection)
+	public void StartMove(EDirection MyDirection, bool skipVerif = false)
 	{
-		switch(MyDirection)
+        if (!skipVerif)
+        {
+            if (inputBlocked)
+                return;
+
+            InputDeactivated();
+        }
+
+        switch (MyDirection)
 		{
 			case EDirection.Up:
 				#if (UNITY_EDITOR)
 					Debug.Log("InputManager :: MOVE UP");
 				#endif
 				//	for each line
-				for (int i = (5/*GameGrid.Instance.width*/ - 1); i >= 0; i--)
+				for (int i = (GameGrid.Instance.width - 1); i >= 0; i--)
 				{
 					//	for each column
-					for (int j = 0; j < 5/*GameGrid.Instance.height*/; j++)
+					for (int j = 0; j < GameGrid.Instance.height; j++)
 					{
 						Vector2Int MyPosition = new Vector2Int(j, i);
 						BaseCharacter MySoldier = IsSoldierValid(MyPosition);
@@ -147,10 +186,10 @@ public class InputManager : MonoBehaviour
 				#endif
 
 				//	for each line
-				for (int i = 0; i < 5/*GameGrid.Instance.width*/; i++)
+				for (int i = 0; i < GameGrid.Instance.width; i++)
 				{
 					//	for each column
-					for (int j = 0; j < 5/*GameGrid.Instance.height*/; j++)
+					for (int j = 0; j < GameGrid.Instance.height; j++)
 					{
 						Vector2Int MyPosition = new Vector2Int(j, i);
 
@@ -169,10 +208,10 @@ public class InputManager : MonoBehaviour
 					Debug.Log("InputManager :: MOVE LEFT");
 				#endif
 				//	for each column
-				for (int i = 0; i < 5/*GameGrid.Instance.width*/; i++)
+				for (int i = 0; i < GameGrid.Instance.width; i++)
 				{
 					//	for each line
-					for (int j = 0; j < 5/*GameGrid.Instance.height*/; j++)
+					for (int j = 0; j < GameGrid.Instance.height; j++)
 					{
 						Vector2Int MyPosition = new Vector2Int(i, j);
 						BaseCharacter MySoldier = IsSoldierValid(MyPosition);
@@ -191,10 +230,10 @@ public class InputManager : MonoBehaviour
 					Debug.Log("InputManager :: MOVE RIGHT");
 				#endif
 				//	for each column
-				for (int i = (5/*GameGrid.Instance.width*/ - 1); i >= 0; i--)
+				for (int i = (GameGrid.Instance.width - 1); i >= 0; i--)
 				{
 					//	for each line
-					for (int j = 0; j < 5/*GameGrid.Instance.height*/; j++)
+					for (int j = 0; j < GameGrid.Instance.height; j++)
 					{
 						Vector2Int MyPosition = new Vector2Int(i, j);
 						BaseCharacter MySoldier = IsSoldierValid(MyPosition);
@@ -214,13 +253,9 @@ public class InputManager : MonoBehaviour
 				#endif
 				return;
 		}
-
-		//		Useless
-		//if (MoveTrigger != null)
-			//MoveTrigger.Invoke(MyDirection);
 	}
 
-	BaseCharacter IsSoldierValid(Vector2Int LocationOfActor)
+	private BaseCharacter IsSoldierValid(Vector2Int LocationOfActor)
 	{
 		BaseCharacter MySoldier = null;
 		GameTile MyTile = GameGrid.Instance.GetTileAtposition(LocationOfActor);
@@ -241,8 +276,8 @@ public class InputManager : MonoBehaviour
 		return null;
 	}
 
-	//	la seconde etape du deplacement
-	void MoveSoldierToYourDirection(Vector2Int MyPosition, BaseCharacter MySoldier, EDirection MyDirection)
+	//	Apply Displacement
+	private void MoveSoldierToYourDirection(Vector2Int MyPosition, BaseCharacter MySoldier, EDirection MyDirection)
 	{
 		Debug.Log("MOVE SOLDIER FOUND");
 		GameTile MyTile = GameGrid.Instance.GetTileAtposition(MyPosition);
@@ -250,23 +285,58 @@ public class InputManager : MonoBehaviour
 		if (TileVoisin != null)
 		{
 			Debug.Log("MOVE TILE VOISIN FOUND");
-			if (TileVoisin.IsAccessible == true)
-			{
-				if (TileVoisin.IsSliding == false)
-				{
-					Vector3 MyDestination = GameGrid.GetCenterCellPosition(TileVoisin);
-					TileVoisin.entityOnTop = MySoldier.gameObject;
-					TileVoisin.IsAccessible = false;
-					MyTile.entityOnTop = null;
-					MyTile.IsAccessible = true;
+            if (TileVoisin.IsAccessible)
+            {
+                List<Action> actionQueueToExecute = new List<Action>();
 
-					MySoldier.GoInThatDirection(MyDestination, 1);
-				}
-				else
-				{
-					//sliding
-				}
-			}
-		}
+                if (TileVoisin.entityOnTop != null)
+                {
+                    BaseCharacter nearCharacter = TileVoisin.entityOnTop.GetComponent<BaseCharacter>();
+                    if (nearCharacter != null)
+                    {
+                        InputManager.Instance.PlayerCompletedItsMovement();
+                        return;
+                    }
+
+                    Trap trap = TileVoisin.entityOnTop.GetComponent<Trap>();
+                    if (trap != null)
+                    {
+                        actionQueueToExecute.Add(delegate () 
+                        {
+                            MySoldier.OnHit();
+                            trap.DestructObject();
+                        });
+                    }
+                }
+
+                if (TileVoisin.IsSliding)
+                {
+                    actionQueueToExecute.Add(delegate () { StartMove(MyDirection,true); });
+                }
+
+                if (TileVoisin.IsRotating)
+                {
+                    actionQueueToExecute.Add(delegate () { MySoldier.RotateCharacter(); });
+                    
+                }
+                
+                GameGrid.Instance.RemoveMyselfFromTile(MySoldier.gameObject);
+
+                actionQueueToExecute.Add(delegate () { GameGrid.Instance.AddMyselfOnTile(MySoldier.gameObject); });
+
+                actionQueueToExecute.Add(delegate () { InputManager.Instance.PlayerCompletedItsMovement(); });
+
+                Vector3 MyDestination = GameGrid.GetCenterCellPosition(TileVoisin);
+                MySoldier.GoInThatDirection(MyDestination, 1, actionQueueToExecute);
+            }
+            else
+            {
+                InputManager.Instance.PlayerCompletedItsMovement();
+            }
+        }
+        else
+        {
+            InputManager.Instance.PlayerCompletedItsMovement();
+        }
 	}
 }
