@@ -13,6 +13,9 @@ public class GameGrid : MonoBehaviour
 
     public int width, height;
 
+    public Vector2 minBounds;
+    public Vector2 maxBounds;
+
     void Awake()
     {
         if (Instance == null)
@@ -29,10 +32,15 @@ public class GameGrid : MonoBehaviour
         Instance.width = cellBounds.xMax - cellBounds.xMin;
         Instance.height = cellBounds.yMax - cellBounds.yMin;
 
+        minBounds = new Vector2(cellBounds.xMin, cellBounds.yMin);
+        maxBounds = new Vector2(cellBounds.xMax, cellBounds.yMax);
+
         Instance.GameTiles = new List<GameTile>();
-        Debug.Log("Origin = (" + cellBounds.xMin + ", " + cellBounds.yMin + ")");
+        Debug.Log("min = " + minBounds);
+        Debug.Log("max = " + maxBounds);
         Debug.Log("Middle = (" + (cellBounds.xMin + Instance.width / 2) + ", " + (cellBounds.yMin + Instance.height / 2)  + ")");
-        Debug.Log("Width: " + Instance.width + ", Height: " + Instance.height);
+
+        Bounds bounds = new Bounds(new Vector2(cellBounds.xMin, cellBounds.yMin), new Vector2(Instance.width, Instance.height));
 
         for (int x = cellBounds.xMin; x < cellBounds.xMax; ++x)
         {
@@ -65,14 +73,14 @@ public class GameGrid : MonoBehaviour
       
         gameTile.entityOnTop = EntitySpawner.Instance.SpawnEntity(data.entityOnTop, worldPosition, tile.transform.rotation);
 
-        Tile newTile = ScriptableObject.CreateInstance<Tile>();
-
         if (data.newTileSprite != null)
         {
-            newTile.sprite = data.newTileSprite;
-        }
+            Tile newTile = ScriptableObject.CreateInstance<Tile>();
 
-        tilemap.SetTile(tilePosition, newTile);
+            newTile.sprite = data.newTileSprite;
+
+            tilemap.SetTile(tilePosition, newTile);
+        }
 
         return gameTile;
     }
