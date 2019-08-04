@@ -35,11 +35,19 @@ public class CibleManager : MonoBehaviour
 
     public void ShootingCompleted(Action onComplete)
     {
+        if (GameManager.Instance.levelCompleted)
+        {
+            if (onComplete != null)
+                onComplete();
+
+            return;
+        }
+
         if(targetLeft > 0)
         {
             targetLeft = amountOfTarget;
 
-            GameManager.Instance.ui.kimBubble.Say("Failure!",true, focusAnimDuration);
+            GameManager.Instance.ui.kimBubble.Say(KimMessageType.Failure,true, focusAnimDuration);
 
             foreach (GameObject gameObjects in EntitySpawner.Instance.cibleObjects)
             {

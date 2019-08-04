@@ -138,12 +138,22 @@ public class BaseCharacter : MonoBehaviour
 
     ////////////////////////////////////////////////////////////////
     //	DEATH FUNCTION	
+    AsyncOperationJoin deathJoin;
+    Action onDeathAction;
 
     // Character has been hit, should be death so we set his state as dead
     public void OnHit()
     {
         isDying = true;
         DeathPlayable.PlayOn(source);
+        deathJoin = new AsyncOperationJoin(this.DestroyGO);
+        onDeathAction = deathJoin.RegisterOperation();
+        
+        // animation
+        animator.PlayDeathAnimation(deathJoin.RegisterOperation());
+
+
+        deathJoin.MarkEnd();
     }
 
     //	Apply Death
@@ -165,9 +175,7 @@ public class BaseCharacter : MonoBehaviour
 
             GetComponent<Collider>().enabled = false;
 
-            // animation
-            animator.PlayDeathAnimation(() => gameObject.Destroy());
-            Debug.Log("death anim!");
+            onDeathAction?.Invoke();
         }
     }
 

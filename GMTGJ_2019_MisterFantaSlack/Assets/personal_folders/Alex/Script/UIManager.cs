@@ -11,6 +11,8 @@ public class UIManager : MonoBehaviour
 
     public KimBubble kimBubble;
 
+    public CanvasGroup finalThanks;
+
     public void FadeIn(float duration = 1, UnityAction onComplete = null)
     {
         Fade(0,duration,onComplete);
@@ -31,7 +33,21 @@ public class UIManager : MonoBehaviour
 
     public void ShowEndCredits(UnityAction onComplete = null)
     {
-        if(onComplete != null)
-            onComplete();
+        if(finalThanks != null)
+        {
+            finalThanks.DOFade(1, 1).OnComplete(delegate () {
+                this.DelayedCall(5, delegate () {
+                    finalThanks.DOFade(0, 1).OnComplete(delegate () {
+                        if (onComplete != null)
+                            onComplete();
+                    });
+                });
+            });
+        }
+        else
+        {
+            if (onComplete != null)
+                onComplete();
+        }
     }
 }

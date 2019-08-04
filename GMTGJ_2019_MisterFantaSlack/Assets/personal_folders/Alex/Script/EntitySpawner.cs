@@ -155,16 +155,18 @@ public class EntitySpawner : MonoBehaviour
         bulletsAlive--;
         if (bulletsAlive <= 0)
         {
-            this.DelayedCall(delayToWaitAfterShot, delegate () {
+            if (!GameManager.Instance.levelCompleted)
+            {
+                this.DelayedCall(delayToWaitAfterShot, delegate () {
 
-                CibleManager.Instance.ShootingCompleted(delegate() {
-                    if (AllBulletsDestroyed != null)
-                    {
-                        AllBulletsDestroyed.Invoke();
-                    }
+                    CibleManager.Instance.ShootingCompleted(delegate () {
+                        if (AllBulletsDestroyed != null)
+                        {
+                            AllBulletsDestroyed.Invoke();
+                        }
+                    });
                 });
-            });
-            
+            }
         }
     }
 
