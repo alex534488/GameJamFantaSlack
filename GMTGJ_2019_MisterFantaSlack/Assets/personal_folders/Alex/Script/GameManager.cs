@@ -132,7 +132,7 @@ public class GameManager : MonoBehaviour
             for (int j = 0; j < rootGameObjects.Length; j++)
             {
                 Grid grid = rootGameObjects[j].GetComponent<Grid>();
-                if (grid != null)
+                if (grid != null && rootGameObjects[j].name == "Grid")
                 {
                     Tilemap currentTileMap = grid.GetComponentInChildren<Tilemap>();
                     if (currentTileMap != null)
