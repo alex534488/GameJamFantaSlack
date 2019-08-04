@@ -12,8 +12,15 @@ public class KimBubble : MonoBehaviour
     public Image image;
     public TextMeshProUGUI text;
 
+    public bool sayingSomething = false;
+
     public void Say(string message, bool isAngry, float duration)
     {
+        if (sayingSomething)
+            return;
+
+        sayingSomething = true;
+
         if (isAngry)
         {
             image.sprite = angryBubble;
@@ -30,6 +37,9 @@ public class KimBubble : MonoBehaviour
 
         image.gameObject.SetActive(true);
 
-        this.DelayedCall(duration, delegate () { image.gameObject.SetActive(false); });
+        this.DelayedCall(duration, delegate () {
+            image.gameObject.SetActive(false);
+            sayingSomething = false;
+        });
     }
 }

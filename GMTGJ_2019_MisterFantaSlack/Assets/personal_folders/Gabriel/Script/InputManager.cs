@@ -140,6 +140,8 @@ public class InputManager : MonoBehaviour
         if (inputBlocked)
             return;
 
+        GameManager.Instance.ui.kimBubble.Say("Fire!", true, 0.5f);
+
         InputDeactivated();
 
         #if (UNITY_EDITOR)
@@ -160,6 +162,8 @@ public class InputManager : MonoBehaviour
     {
         if (inputBlocked)
             return;
+
+        GameManager.Instance.ui.kimBubble.Say("Move!", true, 0.5f);
 
         InputDeactivated();
 

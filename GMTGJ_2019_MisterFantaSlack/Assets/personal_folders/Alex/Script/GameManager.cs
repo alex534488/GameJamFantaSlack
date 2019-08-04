@@ -70,12 +70,14 @@ public class GameManager : MonoBehaviour
 
             levelCompleted = true;
 
-            if (levelOver != null)
-                levelOver.Invoke();
-
             ui.FadeOut(0.5f, delegate ()
             {
                 SceneManager.UnloadSceneAsync(levelList.levelSceneName[currentLevel]).completed += RestartCompleted;
+
+                if (levelOver != null)
+                    levelOver.Invoke();
+
+                this.DelayedCall(1, delegate () { GameManager.Instance.ui.kimBubble.Say("Again.", false, 1); });
             });
         }
     }
@@ -96,13 +98,20 @@ public class GameManager : MonoBehaviour
         canRestart = false;
 
         levelCompleted = true;
+        
+        GameManager.Instance.ui.kimBubble.Say("Good Job.", false, 1);
 
-        if (levelOver != null)
-            levelOver.Invoke();
-
-        ui.FadeOut(0.5f, delegate ()
+        this.DelayedCall(1, delegate ()
         {
-            SceneManager.UnloadSceneAsync(levelList.levelSceneName[currentLevel]).completed += OnNextLevelReady;
+            ui.FadeOut(0.5f, delegate ()
+            {
+                SceneManager.UnloadSceneAsync(levelList.levelSceneName[currentLevel]).completed += OnNextLevelReady;
+
+                if (levelOver != null)
+                    levelOver.Invoke();
+
+                this.DelayedCall(1, delegate () { this.DelayedCall(1, delegate () { GameManager.Instance.ui.kimBubble.Say("Good Luck.", false, 1); }); });
+            });
         });
     }
 

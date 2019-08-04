@@ -570,7 +570,7 @@ PrefabInstance:
     - target: {fileID: 6471662483664367848, guid: e1c9d37802d5aa44a978d570a33455dd,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 190.4
+      value: 190.39844
       objectReference: {fileID: 0}
     - target: {fileID: 6471662483664367848, guid: e1c9d37802d5aa44a978d570a33455dd,
         type: 3}
@@ -710,7 +710,7 @@ PrefabInstance:
     - target: {fileID: 8969012586264901401, guid: e1c9d37802d5aa44a978d570a33455dd,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 247.56
+      value: 247.5586
       objectReference: {fileID: 0}
     - target: {fileID: 8969012586264901401, guid: e1c9d37802d5aa44a978d570a33455dd,
         type: 3}
@@ -1088,7 +1088,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blackFullscreen: {fileID: 845177532}
-  pauseCanvas: {fileID: 0}
   kimBubble: {fileID: 1188145099}
 --- !u!1 &1046458843
 GameObject:
@@ -1231,7 +1230,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1188145096
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1249,8 +1248,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -396, y: -89}
-  m_SizeDelta: {x: 473.8, y: 452.1}
+  m_AnchoredPosition: {x: -481.1, y: -104.4}
+  m_SizeDelta: {x: 433.6, y: 433.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1188145097
 MonoBehaviour:
@@ -1306,6 +1305,7 @@ MonoBehaviour:
   angryBubble: {fileID: 21300000, guid: 5d1b335a40809724abac898c999046cc, type: 3}
   image: {fileID: 1188145097}
   text: {fileID: 218798573}
+  sayingSomething: 0
 --- !u!1 &1319973337
 GameObject:
   m_ObjectHideFlags: 0
