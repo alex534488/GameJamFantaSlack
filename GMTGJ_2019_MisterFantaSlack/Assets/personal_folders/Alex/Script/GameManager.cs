@@ -125,7 +125,7 @@ public class GameManager : MonoBehaviour
 
         levelCompleted = true;
         
-        GameManager.Instance.ui.kimBubble.Say(KimMessageType.LevelCompleted, false, 1);
+        GameManager.Instance.ui.kimBubble.Say(KimMessageType.LevelCompleted, false, 2f);
 
         this.DelayedCall(1, delegate ()
         {
@@ -290,11 +290,11 @@ public class GameManager : MonoBehaviour
 
     private void KimSeesNewLevel()
     {
-        this.DelayedCall(0.5f,()=>{ GameManager.Instance.ui.kimBubble.Say(KimMessageType.NewLevel, false, 1); });
+        this.DelayedCall(0.5f,()=>{ GameManager.Instance.ui.kimBubble.Say(KimMessageType.NewLevel, false, 2f); });
     }
 
     private void KimSeesLevelAgain()
     {
-        this.DelayedCall(0.5f,()=>{ GameManager.Instance.ui.kimBubble.Say(KimMessageType.Restart, false, 1); });
+        this.DelayedCall(0.5f,()=>{ GameManager.Instance.ui.kimBubble.Say(KimMessageType.Restart, false, 2f); });
     }
 }
