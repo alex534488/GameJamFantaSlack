@@ -38,6 +38,8 @@ public class CibleManager : MonoBehaviour
         {
             targetLeft = amountOfTarget;
 
+            GameManager.Instance.ui.kimBubble.Say("Failure!",true, focusAnimDuration);
+
             foreach (GameObject gameObjects in EntitySpawner.Instance.cibleObjects)
             {
                 Cible cible = gameObjects.GetComponent<Cible>();

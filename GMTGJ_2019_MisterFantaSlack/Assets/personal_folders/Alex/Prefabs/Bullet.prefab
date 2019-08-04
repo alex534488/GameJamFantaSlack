@@ -97,7 +97,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 6
   delayUntilDestroyed: 2.5
-  destinationExtension: 10
+  destinationExtension: 50
 --- !u!136 &622473391
 CapsuleCollider:
   m_ObjectHideFlags: 0

@@ -9,7 +9,7 @@ public class UIManager : MonoBehaviour
 {
     public Image blackFullscreen;
 
-    public GameObject pauseCanvas;
+    public KimBubble kimBubble;
 
     public void FadeIn(float duration = 1, UnityAction onComplete = null)
     {
