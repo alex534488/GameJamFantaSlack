@@ -13,6 +13,8 @@ public class SoldierAnimator : MonoBehaviour
         right
     }
 
+    Action onDeathComplete;
+
     public void PlayWalkAnimation(Direction direction)
     {
         switch (direction)
@@ -34,14 +36,18 @@ public class SoldierAnimator : MonoBehaviour
                 break;
         }
     }
-
     public void PlayFireAnimation()
     {
-
+        GetComponent<Animator>().SetTrigger("shoot");
+    }
+    public void PlayDeathAnimation(Action onDeathComplete)
+    {
+        this.onDeathComplete = onDeathComplete;
+        GetComponent<Animator>().SetTrigger("die");
     }
 
-    public void PlayDeathAnimation()
+    public void OnDeathAnimComplete()
     {
-
+        onDeathComplete?.Invoke();
     }
 }

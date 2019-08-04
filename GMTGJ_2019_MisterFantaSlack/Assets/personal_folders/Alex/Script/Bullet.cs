@@ -56,11 +56,15 @@ public class Bullet : MonoBehaviour
         if (otherObject == shooter)
             return;
 
+        bool hasHit = false;
+
         DestructibleObject destructibleObject = otherObject.GetComponent<DestructibleObject>();
 
         if(destructibleObject != null)
         {
             destructibleObject.DestructObject();
+
+            hasHit = true;
         }
 
         BaseCharacter character = otherObject.GetComponent<BaseCharacter>();
@@ -68,9 +72,14 @@ public class Bullet : MonoBehaviour
         if(character != null)
         {
             character.OnHit();
+
+            hasHit = true;
         }
 
-        DestructBullet();
+        if (hasHit)
+        {
+            DestructBullet();
+        }
     }
 
     private void DestructBullet()

@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Trap : DestructibleObject
+public class Trap : MonoBehaviour
 {
-    public override void DestructObject()
+    public void DestructObject()
     {
-        base.DestructObject();
+        GameGrid.Instance.RemoveMyselfFromTile(gameObject);
+        Destroy(gameObject);
     }
 }
