@@ -24,18 +24,18 @@ public class Bullet : MonoBehaviour
         this.direction = direction;
         this.bulletStartPosition = bulletStartPosition;
         this.shooter = shooter;
-}
+    }
 
     void Start()
     {
-        GameManager.Instance.levelOver.AddListener(delegate() { Destroy(gameObject); });
+        GameManager.Instance.levelOver.AddListener(delegate () { Destroy(gameObject); });
 
         BeginMovement();
     }
 
     private void BeginMovement()
     {
-        currentTween = transform.DOMove(bulletStartPosition + (direction * destinationExtension), speed);
+        currentTween = transform.DOMove(bulletStartPosition + (direction * destinationExtension), destinationExtension / speed);
     }
 
     void Update()
@@ -60,7 +60,7 @@ public class Bullet : MonoBehaviour
 
         DestructibleObject destructibleObject = otherObject.GetComponent<DestructibleObject>();
 
-        if(destructibleObject != null)
+        if (destructibleObject != null)
         {
             destructibleObject.DestructObject();
 
@@ -69,7 +69,7 @@ public class Bullet : MonoBehaviour
 
         BaseCharacter character = otherObject.GetComponent<BaseCharacter>();
 
-        if(character != null)
+        if (character != null)
         {
             character.OnHit();
 
