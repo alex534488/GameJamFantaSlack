@@ -24,6 +24,8 @@ public class Bullet : MonoBehaviour
         this.direction = direction;
         this.bulletStartPosition = bulletStartPosition;
         this.shooter = shooter;
+
+        transform.rotation = Quaternion.Euler(new Vector3(0, 0, direction.ToAngle()));
     }
 
     void Start()

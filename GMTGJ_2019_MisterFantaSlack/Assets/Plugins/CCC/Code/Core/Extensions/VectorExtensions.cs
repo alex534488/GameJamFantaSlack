@@ -2,6 +2,13 @@ using UnityEngine;
 
 public static class VectorExtensions
 {
+    public static float ToAngle(this Vector2 v)
+    {
+        if (v.x < 0)
+            return Mathf.Atan(v.y / v.x) * Mathf.Rad2Deg + 180;
+        return Mathf.Atan(v.y / v.x) * Mathf.Rad2Deg;
+    }
+
     public static Vector2 SwapXAndY(this Vector2 v)
     {
         float wasX = v.x;
