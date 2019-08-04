@@ -61,11 +61,11 @@ MonoBehaviour:
     slide: 0
     newTileSprite: {fileID: 0}
     entityOnTop: 4
-  - sprite: {fileID: 21300000, guid: 208dd252d8a73b6458ec10bd05a6cbd2, type: 3}
+  - sprite: {fileID: 21300000, guid: 5a2911d005d39864f96645dafcdf03e1, type: 3}
     accessible: 1
     blocking: 0
     slide: 0
-    newTileSprite: {fileID: 21300000, guid: 208dd252d8a73b6458ec10bd05a6cbd2, type: 3}
+    newTileSprite: {fileID: 21300000, guid: 5a2911d005d39864f96645dafcdf03e1, type: 3}
     entityOnTop: 0
   - sprite: {fileID: 21300000, guid: 81a24c429824cc7449ce02dc0bdc7220, type: 3}
     accessible: 0
