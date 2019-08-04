@@ -11,16 +11,8 @@ public class KimAnimation : MonoBehaviour
             Instance = this;
     }
 
-    void Start()
-    {
-        this.DelayedCall(3, () =>
-        {
-            Instance.AnimationAngryKim();
-        });  
-    }
-
     public void AnimationAngryKim()
     {
-        GetComponent<Animator>().Play("Angery");
+        GetComponent<Animator>().Play("Angry");
     }
 }
