@@ -22,6 +22,10 @@ public class GameManager : MonoBehaviour
     public UIManager ui;
     public EntitySpawner entitySpawner;
 
+    // EXTERNAL FIELD
+
+    public Camera mainCamera;
+
     // FLOW
 
     public SceneLinks sceneLinks;
@@ -31,13 +35,15 @@ public class GameManager : MonoBehaviour
     public UnityEvent gameStarted = new UnityEvent();
     public UnityEvent levelOver = new UnityEvent();
 
+    public bool levelCompleted = false;
+
+    // LOCAL DATA
+
     private int currentLevel;
 
     private bool canRestart = false;
 
     private bool returningHome = false;
-
-    public bool levelCompleted = false;
 
     void Start()
     {
@@ -142,6 +148,32 @@ public class GameManager : MonoBehaviour
         Debug.Log("Error, no grid in level");
     }
 
+    private void SetupCamera()
+    {
+        // Search for the grid !
+        for (int i = 0; i < SceneManager.sceneCount; i++)
+        {
+            Scene currentScene = SceneManager.GetSceneAt(i);
+
+            GameObject[] rootGameObjects = currentScene.GetRootGameObjects();
+            for (int j = 0; j < rootGameObjects.Length; j++)
+            {
+                if (rootGameObjects[j].tag == "ScopeCamera")
+                {
+                    Camera scopeCamera = rootGameObjects[j].GetComponent<Camera>();
+                    if(scopeCamera != null)
+                    {
+                        mainCamera.orthographicSize = scopeCamera.orthographicSize;
+                        mainCamera.transform.position = scopeCamera.transform.position;
+                        scopeCamera.gameObject.SetActive(false);
+                    }
+                }
+            }
+        }
+
+        Debug.Log("Error, no camera in level");
+    }
+
     // SCENE MANAGEMENT ASYNC COMPLETE CALLBACKS
 
     private void LevelLoaded(AsyncOperation obj)
@@ -150,6 +182,8 @@ public class GameManager : MonoBehaviour
             beforeGameStart.Invoke();
 
         SetupGrid();
+
+        SetupCamera();
 
         ui.FadeIn(0.5f, delegate ()
         {
