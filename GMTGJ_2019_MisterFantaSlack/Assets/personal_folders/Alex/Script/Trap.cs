@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class Trap : MonoBehaviour
 {
-    public void DestructObject()
+	public GameObject TrapSoundPrefab;
+
+	public void DestructObject()
     {
-        GameGrid.Instance.RemoveMyselfFromTile(gameObject);
+		GameObject newObject = Instantiate(TrapSoundPrefab, transform.position, transform.rotation);
+		GameGrid.Instance.RemoveMyselfFromTile(gameObject);
         Destroy(gameObject);
     }
 }
