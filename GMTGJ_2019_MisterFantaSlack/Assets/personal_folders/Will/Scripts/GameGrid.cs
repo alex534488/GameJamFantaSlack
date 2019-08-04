@@ -69,6 +69,7 @@ public class GameGrid : MonoBehaviour
         Debug.Log("min = " + minBounds);
         Debug.Log("max = " + maxBounds);
         Debug.Log("Middle = (" + (cellBounds.xMin + Instance.width / 2) + ", " + (cellBounds.yMin + Instance.height / 2) + ")");
+        Debug.Log("Width: " + Instance.width + " Height: " + Instance.height);
 
         Debug.Assert(Instance.width.IsEvenNumber() && Instance.height.IsEvenNumber(), "La grid doit avoir des dimension pair!!!");
         Debug.Assert(minBounds + maxBounds == Vector2.zero, "La tilemap du niveau doit être centrée au grid!!!");
