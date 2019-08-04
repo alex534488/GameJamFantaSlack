@@ -76,6 +76,13 @@ public class Bullet : MonoBehaviour
             hasHit = true;
         }
 
+        BulletBlocker bulletBlocker = otherObject.GetComponent<BulletBlocker>();
+
+        if (bulletBlocker != null)
+        {
+            hasHit = true;
+        }
+
         if (hasHit)
         {
             DestructBullet();

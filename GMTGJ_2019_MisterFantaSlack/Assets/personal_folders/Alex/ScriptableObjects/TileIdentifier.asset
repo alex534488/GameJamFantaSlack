@@ -95,7 +95,7 @@ MonoBehaviour:
     entityOnTop: 1
   - sprite:
     - {fileID: 21300000, guid: 373fd458276e68542a96a68e0e2f5817, type: 3}
-    accessible: 1
+    accessible: 0
     blocking: 1
     slide: 0
     rotates: 0
@@ -189,3 +189,11 @@ MonoBehaviour:
     rotates: 0
     newTileSprite: {fileID: 0}
     entityOnTop: 5
+  - sprite:
+    - {fileID: 21300000, guid: 24226d20fe6dd2a4fbe32f46fad903d9, type: 3}
+    accessible: 1
+    blocking: 0
+    slide: 1
+    rotates: 1
+    newTileSprite: {fileID: 21300000, guid: 88f0213877446ea4c8212e981594b563, type: 3}
+    entityOnTop: 0

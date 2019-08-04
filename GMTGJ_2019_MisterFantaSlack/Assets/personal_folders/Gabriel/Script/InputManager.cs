@@ -156,15 +156,14 @@ public class InputManager : MonoBehaviour
 	//	Call each line from the direction specify to move in that direction
 	//	if up, move the top row, the second row under, the third row under, etc
 	//	it must be in that order to don't fuck up
-	public void StartMove(EDirection MyDirection, bool skipVerif = false)
+	public void StartMove(EDirection MyDirection)
 	{
-        if (!skipVerif)
-        {
-            if (inputBlocked)
-                return;
+        if (inputBlocked)
+            return;
 
-            InputDeactivated();
-        }
+        InputDeactivated();
+
+        int amountOfSoldierFound = 0;
 
         switch (MyDirection)
 		{
@@ -183,7 +182,8 @@ public class InputManager : MonoBehaviour
 
 						if (MySoldier != null)
 						{
-							MoveSoldierToYourDirection(MyPosition, MySoldier, MyDirection);
+                            amountOfSoldierFound++;
+                            MoveSoldierToYourDirection(MyPosition, MySoldier, MyDirection);
 						}
 					}
 				}
@@ -206,7 +206,8 @@ public class InputManager : MonoBehaviour
 						BaseCharacter MySoldier = IsSoldierValid(MyPosition);
 						if(MySoldier != null)
 						{
-							MoveSoldierToYourDirection(MyPosition, MySoldier, MyDirection);
+                            amountOfSoldierFound++;
+                            MoveSoldierToYourDirection(MyPosition, MySoldier, MyDirection);
 						}
 					}
 				}
@@ -228,7 +229,8 @@ public class InputManager : MonoBehaviour
 
 						if (MySoldier != null)
 						{
-							MoveSoldierToYourDirection(MyPosition, MySoldier, MyDirection);
+                            amountOfSoldierFound++;
+                            MoveSoldierToYourDirection(MyPosition, MySoldier, MyDirection);
 						}
 					}
 				}
@@ -250,7 +252,8 @@ public class InputManager : MonoBehaviour
 
 						if (MySoldier != null)
 						{
-							MoveSoldierToYourDirection(MyPosition, MySoldier, MyDirection);
+                            amountOfSoldierFound++;
+                            MoveSoldierToYourDirection(MyPosition, MySoldier, MyDirection);
 						}
 					}
 				}
@@ -263,6 +266,11 @@ public class InputManager : MonoBehaviour
 				#endif
 				return;
 		}
+
+        if(amountOfSoldierFound < EntitySpawner.Instance.soldierObjects.Count)
+        {
+            Debug.LogError("Error, not all soldiers found in the map");
+        }
 	}
 
 	private BaseCharacter IsSoldierValid(Vector2Int LocationOfActor)
@@ -299,7 +307,9 @@ public class InputManager : MonoBehaviour
             {
                 List<Action> actionQueueToExecute = new List<Action>();
 
-                actionQueueToExecute.Add(delegate () { GameGrid.Instance.AddMyselfOnTile(MySoldier.gameObject); });
+                actionQueueToExecute.Add(delegate () {
+                    GameGrid.Instance.AddMyselfOnTile(MySoldier.gameObject);
+                });
 
                 if (TileVoisin.entityOnTop != null)
                 {
@@ -329,7 +339,8 @@ public class InputManager : MonoBehaviour
                 if (TileVoisin.IsSliding)
                 {
                     actionQueueToExecute.Add(delegate () {
-                        StartMove(MyDirection,true);
+                        Vector3 soldierPos = MySoldier.transform.position;
+                        MoveSoldierToYourDirection(TileVoisin.Pos, MySoldier,MyDirection);
                     });
                 }
                 else
