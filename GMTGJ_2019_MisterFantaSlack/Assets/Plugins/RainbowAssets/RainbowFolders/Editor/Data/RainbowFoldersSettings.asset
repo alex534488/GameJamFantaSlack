@@ -343,7 +343,7 @@ MonoBehaviour:
     LargeIcon: {fileID: 2800000, guid: 9fca1a811da70484494d9e10d46e0636, type: 3}
     IsIconRecursive: 0
     IsIconCustom: 0
-    Background: {fileID: 0}
+    Background: {fileID: 2800000, guid: ff40d61e544214d49991c4602c16ec44, type: 3}
     IsBackgroundRecursive: 0
     IsBackgroundCustom: 0
   - Type: 1
@@ -352,7 +352,7 @@ MonoBehaviour:
     LargeIcon: {fileID: 2800000, guid: f9d86cd8e960f584a9aa5a8ee61c4115, type: 3}
     IsIconRecursive: 0
     IsIconCustom: 0
-    Background: {fileID: 0}
+    Background: {fileID: 2800000, guid: 2c67267a9ec0ffd408962c49ac7ae426, type: 3}
     IsBackgroundRecursive: 0
     IsBackgroundCustom: 0
   - Type: 1
@@ -361,7 +361,7 @@ MonoBehaviour:
     LargeIcon: {fileID: 2800000, guid: fac7470563f79024ebc244b39080448d, type: 3}
     IsIconRecursive: 0
     IsIconCustom: 0
-    Background: {fileID: 0}
+    Background: {fileID: 2800000, guid: 6dc9ea4311ebb184494f51560ed772fc, type: 3}
     IsBackgroundRecursive: 0
     IsBackgroundCustom: 0
   - Type: 1
@@ -370,6 +370,6 @@ MonoBehaviour:
     LargeIcon: {fileID: 2800000, guid: 65e13c9890ffa26478506eda78683d5c, type: 3}
     IsIconRecursive: 0
     IsIconCustom: 0
-    Background: {fileID: 0}
+    Background: {fileID: 2800000, guid: 8881012100f780549bf19fa3f332be69, type: 3}
     IsBackgroundRecursive: 0
     IsBackgroundCustom: 0

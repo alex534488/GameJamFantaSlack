@@ -41,4 +41,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/personal_folders/Alex/Scene/Levels/WoodParadise.unity
     guid: 04953c8d451320841b157ad23e2ab162
+  - enabled: 1
+    path: Assets/personal_folders/Alex/Scene/Levels/Tutoriel4.unity
+    guid: b4fd23ee1043ae34ab35a1fa74ef86b0
   m_configObjects: {}
