@@ -125,3 +125,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa3a86bce6b40694e8ef877f06c0a0ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TrapSoundPrefab: {fileID: 4922606550036818594, guid: a0df3330431b47f4a8247a4e56cd6a17,
+    type: 3}
