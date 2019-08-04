@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class DestructibleWall : DestructibleObject
 {
-    public override void DestructObject()
+	public override void DestructObject()
     {
         base.DestructObject();
-
-        GameGrid.Instance.GetTileAtposition(transform.position).IsAccessible = true;
+		GameGrid.Instance.GetTileAtposition(transform.position).IsAccessible = true;
     }
 }
