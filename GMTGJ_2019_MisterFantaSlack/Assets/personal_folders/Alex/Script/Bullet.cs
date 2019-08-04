@@ -40,17 +40,15 @@ public class Bullet : MonoBehaviour
 
     void Update()
     {
-        //Vector3 currentBulletPos = transform.position;
+        Vector3 currentBulletPos = transform.position;
 
-
-
-        //if(currentBulletPos.x > aasdas || 
-        //    currentBulletPos.x > asdasd || 
-        //    currentBulletPos.y > asdas || 
-        //    currentBulletPos.y < asdasd)
-        //{
-        //    DestructBullet();
-        //}
+        if (currentBulletPos.x > GameGrid.Instance.maxBounds.x ||
+            currentBulletPos.x < GameGrid.Instance.minBounds.x ||
+            currentBulletPos.y > GameGrid.Instance.maxBounds.y ||
+            currentBulletPos.y < GameGrid.Instance.minBounds.y)
+        {
+            DestructBullet();
+        }
     }
 
     public void EntityCollision(GameObject otherObject)

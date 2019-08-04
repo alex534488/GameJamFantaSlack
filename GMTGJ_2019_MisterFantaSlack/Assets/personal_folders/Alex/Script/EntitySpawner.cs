@@ -156,6 +156,7 @@ public class EntitySpawner : MonoBehaviour
         if (bulletsAlive <= 0)
         {
             this.DelayedCall(delayToWaitAfterShot, delegate () {
+
                 CibleManager.Instance.ShootingCompleted();
 
                 if (AllBulletsDestroyed != null)

@@ -99,7 +99,7 @@ MonoBehaviour:
     blocking: 1
     slide: 0
     rotates: 0
-    newTileSprite: {fileID: 0}
+    newTileSprite: {fileID: 21300000, guid: 5a2911d005d39864f96645dafcdf03e1, type: 3}
     entityOnTop: 3
   - sprite:
     - {fileID: 21300000, guid: 18f1e1d57ebf74a499766fb30228e069, type: 3}
