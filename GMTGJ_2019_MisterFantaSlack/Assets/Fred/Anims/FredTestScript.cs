@@ -12,6 +12,16 @@ public class FredTestScript : MonoBehaviour
         SoldierAnimator.Direction dir = SoldierAnimator.Direction.left;
         float duration = 0.5f;
 
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            GetComponent<SoldierAnimator>().PlayDeathAnimation(() => Debug.Log("Death complete"));
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            GetComponent<SoldierAnimator>().PlayFireAnimation();
+        }
+
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             move = Vector3.right;
