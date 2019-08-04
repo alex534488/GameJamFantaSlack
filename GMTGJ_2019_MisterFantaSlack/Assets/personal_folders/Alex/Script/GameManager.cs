@@ -137,7 +137,12 @@ public class GameManager : MonoBehaviour
                     levelOver.Invoke();
             });
         });
+
+        // SFX
+        winSFX?.PlayOn(GetComponent<AudioSource>());
     }
+    public AudioAsset winSFX;
+
 
     public void SkipLevel()
     {
