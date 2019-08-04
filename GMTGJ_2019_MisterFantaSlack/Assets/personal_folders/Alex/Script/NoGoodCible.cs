@@ -8,6 +8,6 @@ public class NoGoodCible : DestructibleObject
     {
         base.DestructObject();
 
-        GameManager.Instance.Restart();
+        GameManager.Instance.RestartBombe();
     }
 }

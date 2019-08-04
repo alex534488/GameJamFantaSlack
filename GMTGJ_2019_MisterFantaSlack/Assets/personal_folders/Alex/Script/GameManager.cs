@@ -45,11 +45,14 @@ public class GameManager : MonoBehaviour
 
     private bool returningHome = false;
 
+    private bool wasBombRestart = false;
+
     void Start()
     {
         canRestart = false;
         returningHome = false;
         levelCompleted = false;
+        wasBombRestart = false;
 
         currentLevel = PlayerPrefs.GetInt(SaveKeys.MAX_LEVEL_REACHED, -1);
 
@@ -71,6 +74,26 @@ public class GameManager : MonoBehaviour
             levelCompleted = true;
 
             ui.FadeOut(0.5f, delegate ()
+            {
+                SceneManager.UnloadSceneAsync(levelList.levelSceneName[currentLevel]).completed += RestartCompleted;
+
+                if (levelOver != null)
+                    levelOver.Invoke();
+            });
+        }
+    }
+
+    public void RestartBombe()
+    {
+        if (canRestart)
+        {
+            wasBombRestart = true;
+
+            canRestart = false;
+
+            levelCompleted = true;
+
+            ui.FadeOutWhite(0.5f, delegate ()
             {
                 SceneManager.UnloadSceneAsync(levelList.levelSceneName[currentLevel]).completed += RestartCompleted;
 
@@ -213,13 +236,28 @@ public class GameManager : MonoBehaviour
 
         SetupCamera();
 
-        ui.FadeIn(0.5f, delegate ()
+        if (wasBombRestart)
         {
-            if (gameStarted != null)
-                gameStarted.Invoke();
+            ui.FadeInWhite(0.5f, delegate ()
+            {
+                if (gameStarted != null)
+                    gameStarted.Invoke();
 
-            canRestart = true;
-        });
+                canRestart = true;
+            });
+        }
+        else
+        {
+            ui.FadeIn(0.5f, delegate ()
+            {
+                if (gameStarted != null)
+                    gameStarted.Invoke();
+
+                canRestart = true;
+            });
+        }
+
+        wasBombRestart = false;
     }
 
     private void OnNextLevelReady(AsyncOperation obj)

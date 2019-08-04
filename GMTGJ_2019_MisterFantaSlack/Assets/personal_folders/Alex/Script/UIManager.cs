@@ -8,6 +8,7 @@ using UnityEngine.Events;
 public class UIManager : MonoBehaviour
 {
     public Image blackFullscreen;
+    public Image whiteFullscreen;
 
     public KimBubble kimBubble;
 
@@ -23,9 +24,27 @@ public class UIManager : MonoBehaviour
         Fade(1, duration, onComplete);
     }
 
+    public void FadeInWhite(float duration = 1, UnityAction onComplete = null)
+    {
+        FadeWhite(0, duration, onComplete);
+    }
+
+    public void FadeOutWhite(float duration = 1, UnityAction onComplete = null)
+    {
+        FadeWhite(1, duration, onComplete);
+    }
+
     public void Fade(float end, float duration = 1, UnityAction onComplete = null)
     {
         blackFullscreen.DOFade(end, duration).OnComplete(() => {
+            if (onComplete != null)
+                onComplete();
+        });
+    }
+
+    public void FadeWhite(float end, float duration = 1, UnityAction onComplete = null)
+    {
+        whiteFullscreen.DOFade(end, duration).OnComplete(() => {
             if (onComplete != null)
                 onComplete();
         });
