@@ -122,7 +122,6 @@ public class GameManager : MonoBehaviour
             ui.FadeOut(0.5f, delegate ()
             {
                 SceneManager.UnloadSceneAsync(levelList.levelSceneName[currentLevel]).completed += OnNextLevelReady;
-                SceneManager.UnloadSceneAsync(levelList.levelSceneName[currentLevel]).completed += KimSeesNewLevel;
 
                 if (levelOver != null)
                     levelOver.Invoke();
@@ -228,23 +227,25 @@ public class GameManager : MonoBehaviour
         currentLevel++;
         PlayerPrefs.SetInt(SaveKeys.MAX_LEVEL_REACHED, currentLevel);
 
+        KimSeesNewLevel();
+
         LoadNextLevel();
     }
 
     private void RestartCompleted(AsyncOperation obj)
     {
         SceneManager.LoadSceneAsync(levelList.levelSceneName[currentLevel], LoadSceneMode.Additive).completed += LevelLoaded;
-        SceneManager.LoadSceneAsync(levelList.levelSceneName[currentLevel], LoadSceneMode.Additive).completed += KimSeesLevelAgain;
-        
+
+        KimSeesLevelAgain();
     }
 
-    private void KimSeesNewLevel(AsyncOperation obj)
+    private void KimSeesNewLevel()
     {
-        GameManager.Instance.ui.kimBubble.Say(KimMessageType.NewLevel, false, 1);
+        this.DelayedCall(0.5f,()=>{ GameManager.Instance.ui.kimBubble.Say(KimMessageType.NewLevel, false, 1); });
     }
 
-    private void KimSeesLevelAgain(AsyncOperation obj)
+    private void KimSeesLevelAgain()
     {
-        GameManager.Instance.ui.kimBubble.Say(KimMessageType.Restart, false, 1);
+        this.DelayedCall(0.5f,()=>{ GameManager.Instance.ui.kimBubble.Say(KimMessageType.Restart, false, 1); });
     }
 }

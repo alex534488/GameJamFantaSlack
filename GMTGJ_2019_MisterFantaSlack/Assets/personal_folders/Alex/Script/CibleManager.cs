@@ -45,32 +45,41 @@ public class CibleManager : MonoBehaviour
 
         if(targetLeft > 0)
         {
-            targetLeft = amountOfTarget;
-
-            GameManager.Instance.ui.kimBubble.Say(KimMessageType.Failure,true, focusAnimDuration);
-
-            foreach (GameObject gameObjects in EntitySpawner.Instance.cibleObjects)
+            // but we hit at least one
+            if(targetLeft < amountOfTarget)
             {
-                Cible cible = gameObjects.GetComponent<Cible>();
-                if (cible != null && cible.gameObject.activeSelf)
-                {
-                    cible.FocusAnim(focusAnimDuration);
-                }
-            }
+                targetLeft = amountOfTarget;
 
-            this.DelayedCall(focusAnimDuration, delegate () {
+                GameManager.Instance.ui.kimBubble.Say(KimMessageType.Failure, true, focusAnimDuration);
+
                 foreach (GameObject gameObjects in EntitySpawner.Instance.cibleObjects)
                 {
                     Cible cible = gameObjects.GetComponent<Cible>();
-                    if (cible != null)
+                    if (cible != null && cible.gameObject.activeSelf)
                     {
-                        cible.Respawn();
+                        cible.FocusAnim(focusAnimDuration);
                     }
                 }
 
+                this.DelayedCall(focusAnimDuration, delegate () {
+                    foreach (GameObject gameObjects in EntitySpawner.Instance.cibleObjects)
+                    {
+                        Cible cible = gameObjects.GetComponent<Cible>();
+                        if (cible != null)
+                        {
+                            cible.Respawn();
+                        }
+                    }
+
+                    if (onComplete != null)
+                        onComplete();
+                });
+            }
+            else
+            {
                 if (onComplete != null)
                     onComplete();
-            });
+            }
         }
         else
         {
