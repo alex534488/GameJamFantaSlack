@@ -312,8 +312,6 @@ public class InputManager : MonoBehaviour
                     }
                 }
 
-                GameGrid.Instance.RemoveMyselfFromTile(MySoldier.gameObject);
-
                 if (TileVoisin.IsRotating)
                 {
                     actionQueueToExecute.Add(delegate () { MySoldier.RotateCharacter(); });
@@ -329,6 +327,8 @@ public class InputManager : MonoBehaviour
                 {
                     actionQueueToExecute.Add(delegate () { InputManager.Instance.PlayerCompletedItsMovement(); });
                 }
+
+                GameGrid.Instance.RemoveMyselfFromTile(MySoldier.gameObject);
 
                 Vector3 MyDestination = GameGrid.GetCenterCellPosition(TileVoisin);
                 MySoldier.GoInThatDirection(MyDestination, 1, actionQueueToExecute);
