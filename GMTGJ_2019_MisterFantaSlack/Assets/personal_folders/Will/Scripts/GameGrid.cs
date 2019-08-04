@@ -15,6 +15,9 @@ public class GameGrid : MonoBehaviour
 
     public int width, height;
 
+    public Vector2Int minBounds;
+    public Vector2Int maxBounds;
+
     void Awake()
     {
         if (Instance == null)
@@ -31,10 +34,15 @@ public class GameGrid : MonoBehaviour
         Instance.width = cellBounds.xMax - cellBounds.xMin;
         Instance.height = cellBounds.yMax - cellBounds.yMin;
 
+        minBounds = new Vector2Int(cellBounds.xMin, cellBounds.yMin);
+        maxBounds = new Vector2Int(cellBounds.xMax, cellBounds.yMax);
+
         Instance.GameTiles = new List<GameTile>();
-        Debug.Log("Origin = (" + cellBounds.xMin + ", " + cellBounds.yMin + ")");
+        Debug.Log("min = " + minBounds);
+        Debug.Log("max = " + maxBounds);
         Debug.Log("Middle = (" + (cellBounds.xMin + Instance.width / 2) + ", " + (cellBounds.yMin + Instance.height / 2)  + ")");
-        Debug.Log("Width: " + Instance.width + ", Height: " + Instance.height);
+
+        Bounds bounds = new Bounds(new Vector2(cellBounds.xMin, cellBounds.yMin), new Vector2(Instance.width, Instance.height));
 
         for (int x = cellBounds.xMin; x < cellBounds.xMax; ++x)
         {

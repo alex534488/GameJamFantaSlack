@@ -33,9 +33,6 @@ public class GridScript : MonoBehaviour
                     + ", hasTile: " + tilemap.HasTile(tilePosToWorld)
                     //+ ", GridToWorldToGrid: " + GameGrid.ToGridCoordinates(new Vector2(tilePosToWorld.x, tilePosToWorld.y))
                     );
-
-                EDirection direction = EDirection.Left;
-                Debug.Log(direction +" neighboor: " + tile.GetTileRelativeToMe(EDirection.Left).Pos);
             }
             else
             {
