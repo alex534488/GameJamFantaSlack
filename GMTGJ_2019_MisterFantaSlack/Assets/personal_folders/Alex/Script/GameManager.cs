@@ -45,11 +45,14 @@ public class GameManager : MonoBehaviour
 
     private bool returningHome = false;
 
+    private bool wasBombRestart = false;
+
     void Start()
     {
         canRestart = false;
         returningHome = false;
         levelCompleted = false;
+        wasBombRestart = false;
 
         currentLevel = PlayerPrefs.GetInt(SaveKeys.MAX_LEVEL_REACHED, -1);
 
@@ -76,8 +79,26 @@ public class GameManager : MonoBehaviour
 
                 if (levelOver != null)
                     levelOver.Invoke();
+            });
+        }
+    }
 
-                this.DelayedCall(1, delegate () { GameManager.Instance.ui.kimBubble.Say("Again.", false, 1); });
+    public void RestartBombe()
+    {
+        if (canRestart)
+        {
+            wasBombRestart = true;
+
+            canRestart = false;
+
+            levelCompleted = true;
+
+            ui.FadeOutWhite(0.5f, delegate ()
+            {
+                SceneManager.UnloadSceneAsync(levelList.levelSceneName[currentLevel]).completed += RestartCompleted;
+
+                if (levelOver != null)
+                    levelOver.Invoke();
             });
         }
     }
@@ -99,7 +120,7 @@ public class GameManager : MonoBehaviour
 
         levelCompleted = true;
         
-        GameManager.Instance.ui.kimBubble.Say("Nice!", false, 1);
+        GameManager.Instance.ui.kimBubble.Say(KimMessageType.LevelCompleted, false, 1);
 
         this.DelayedCall(1, delegate ()
         {
@@ -109,8 +130,24 @@ public class GameManager : MonoBehaviour
 
                 if (levelOver != null)
                     levelOver.Invoke();
+            });
+        });
+    }
 
-                this.DelayedCall(1, delegate () { this.DelayedCall(1, delegate () { GameManager.Instance.ui.kimBubble.Say("Looks Easy", false, 1); }); });
+    public void SkipLevel()
+    {
+        canRestart = false;
+
+        levelCompleted = true;
+
+        this.DelayedCall(1, delegate ()
+        {
+            ui.FadeOut(0.5f, delegate ()
+            {
+                SceneManager.UnloadSceneAsync(levelList.levelSceneName[currentLevel]).completed += OnNextLevelReady;
+
+                if (levelOver != null)
+                    levelOver.Invoke();
             });
         });
     }
@@ -122,8 +159,8 @@ public class GameManager : MonoBehaviour
             // GAME OVER (GAME END)
             PlayerPrefs.SetInt(SaveKeys.MAX_LEVEL_REACHED, 0); // Reset Saves
 
-            ui.ShowEndCredits(delegate() {
-                SceneManager.LoadScene(sceneLinks.MainMenu, LoadSceneMode.Single);
+            ui.ShowEndCredits(delegate () {
+                SceneManager.LoadSceneAsync(sceneLinks.MainMenu, LoadSceneMode.Single);
             });
         }
         else
@@ -199,13 +236,28 @@ public class GameManager : MonoBehaviour
 
         SetupCamera();
 
-        ui.FadeIn(0.5f, delegate ()
+        if (wasBombRestart)
         {
-            if (gameStarted != null)
-                gameStarted.Invoke();
+            ui.FadeInWhite(0.5f, delegate ()
+            {
+                if (gameStarted != null)
+                    gameStarted.Invoke();
 
-            canRestart = true;
-        });
+                canRestart = true;
+            });
+        }
+        else
+        {
+            ui.FadeIn(0.5f, delegate ()
+            {
+                if (gameStarted != null)
+                    gameStarted.Invoke();
+
+                canRestart = true;
+            });
+        }
+
+        wasBombRestart = false;
     }
 
     private void OnNextLevelReady(AsyncOperation obj)
@@ -213,11 +265,25 @@ public class GameManager : MonoBehaviour
         currentLevel++;
         PlayerPrefs.SetInt(SaveKeys.MAX_LEVEL_REACHED, currentLevel);
 
+        KimSeesNewLevel();
+
         LoadNextLevel();
     }
 
     private void RestartCompleted(AsyncOperation obj)
     {
         SceneManager.LoadSceneAsync(levelList.levelSceneName[currentLevel], LoadSceneMode.Additive).completed += LevelLoaded;
+
+        KimSeesLevelAgain();
+    }
+
+    private void KimSeesNewLevel()
+    {
+        this.DelayedCall(0.5f,()=>{ GameManager.Instance.ui.kimBubble.Say(KimMessageType.NewLevel, false, 1); });
+    }
+
+    private void KimSeesLevelAgain()
+    {
+        this.DelayedCall(0.5f,()=>{ GameManager.Instance.ui.kimBubble.Say(KimMessageType.Restart, false, 1); });
     }
 }

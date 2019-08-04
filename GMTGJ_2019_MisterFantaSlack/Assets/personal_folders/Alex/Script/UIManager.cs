@@ -8,8 +8,11 @@ using UnityEngine.Events;
 public class UIManager : MonoBehaviour
 {
     public Image blackFullscreen;
+    public Image whiteFullscreen;
 
     public KimBubble kimBubble;
+
+    public CanvasGroup finalThanks;
 
     public void FadeIn(float duration = 1, UnityAction onComplete = null)
     {
@@ -21,6 +24,16 @@ public class UIManager : MonoBehaviour
         Fade(1, duration, onComplete);
     }
 
+    public void FadeInWhite(float duration = 1, UnityAction onComplete = null)
+    {
+        FadeWhite(0, duration, onComplete);
+    }
+
+    public void FadeOutWhite(float duration = 1, UnityAction onComplete = null)
+    {
+        FadeWhite(1, duration, onComplete);
+    }
+
     public void Fade(float end, float duration = 1, UnityAction onComplete = null)
     {
         blackFullscreen.DOFade(end, duration).OnComplete(() => {
@@ -29,9 +42,29 @@ public class UIManager : MonoBehaviour
         });
     }
 
+    public void FadeWhite(float end, float duration = 1, UnityAction onComplete = null)
+    {
+        whiteFullscreen.DOFade(end, duration).OnComplete(() => {
+            if (onComplete != null)
+                onComplete();
+        });
+    }
+
     public void ShowEndCredits(UnityAction onComplete = null)
     {
-        if(onComplete != null)
-            onComplete();
+        if(finalThanks != null)
+        {
+            finalThanks.DOFade(1, 1).OnComplete(delegate () {
+                this.DelayedCall(5, delegate () {
+                    if (onComplete != null)
+                        onComplete();
+                });
+            });
+        }
+        else
+        {
+            if (onComplete != null)
+                onComplete();
+        }
     }
 }

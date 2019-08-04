@@ -17,6 +17,12 @@ public class Buttons_onClick : MonoBehaviour
         InputManager.Instance.StartPause();
     }
 
+    public void Skip()
+    {
+        Debug.Log("Skip to next level.");
+        GameManager.Instance.LevelCompleted();
+    }
+
     public void OrderFire()
     {
         InputManager.Instance.StartFire();
