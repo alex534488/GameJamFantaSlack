@@ -13,6 +13,11 @@ public class BaseCharacter : MonoBehaviour
 
     public float TimeToPassOneTile = 1.0f;
 
+	public AudioPlayable GunShotPlayable;
+	public AudioPlayable DeathPlayable;
+	public AudioPlayable WalkingPlayable;
+	public AudioSource source;
+
     // LOCAL DATA
 
     private Tween currentTween;
@@ -29,6 +34,9 @@ public class BaseCharacter : MonoBehaviour
         isDying = false;
         isDead = false;
 
+		if(source == null)
+			source = GetComponent<AudioSource>();
+
         UpdateDirectionFacingForRotation();
 		InputManager.Instance.ShootTrigger.AddListener(ShootFacingDirection);
 	}
@@ -40,7 +48,8 @@ public class BaseCharacter : MonoBehaviour
 	{
 		#if (UNITY_EDITOR)
 		Debug.Log("On Shoot with Character : " + gameObject.name);
-    #endif
+#endif
+		GunShotPlayable.PlayOn(source);
 
         Bullet bullet = Instantiate(bulletPrefab, bulletStartPosition.transform.position, Quaternion.identity, EntitySpawner.Instance.transform).GetComponent<Bullet>();
 
@@ -73,6 +82,7 @@ public class BaseCharacter : MonoBehaviour
 	public void GoInThatDirection(Vector3 Destination, int NbTile, List<Action> onTileReached = null)
 	{
 		float Duration = TimeToPassOneTile * NbTile;
+		WalkingPlayable.PlayOn(source);
         if(onTileReached == null)
         {
             currentTween = transform.DOMove(Destination, Duration).SetUpdate(true).OnComplete(delegate () { InputManager.Instance.PlayerCompletedItsMovement(); });
@@ -96,7 +106,8 @@ public class BaseCharacter : MonoBehaviour
 	public void OnHit()
 	{
         isDying = true;
-    }
+		DeathPlayable.PlayOn(source);
+	}
 
 	//	Apply Death
 	public void OnDeath()
