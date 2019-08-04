@@ -9,7 +9,7 @@ public class TileIdentifier : ScriptableObject
     public class TileData
     {
         // Identifier
-        public Sprite sprite;
+        public List<Sprite> sprite = new List<Sprite>();
 
         // Data
         public bool accessible;
@@ -26,9 +26,12 @@ public class TileIdentifier : ScriptableObject
     {
         foreach (TileData tileData in tilesData)
         {
-            if (tileData.sprite == currentSprite)
+            foreach (Sprite sprite in tileData.sprite)
             {
-                return tileData;
+                if (sprite == currentSprite)
+                {
+                    return tileData;
+                }
             }
         }
 

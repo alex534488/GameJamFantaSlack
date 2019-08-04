@@ -11,8 +11,6 @@ public class GameGrid : MonoBehaviour
 
     public TileIdentifier tileIdentifier;
 
-    public Sprite baseSprite;
-
     public int width, height;
 
     public Vector2 minBounds;
@@ -75,18 +73,14 @@ public class GameGrid : MonoBehaviour
       
         gameTile.entityOnTop = EntitySpawner.Instance.SpawnEntity(data.entityOnTop, worldPosition, tile.transform.rotation);
 
-        Tile newTile = ScriptableObject.CreateInstance<Tile>();
+        if (data.newTileSprite != null)
+        {
+            Tile newTile = ScriptableObject.CreateInstance<Tile>();
 
-        if (data.newTileSprite == null)
-        {
-            newTile.sprite = baseSprite;
-        }
-        else
-        {
             newTile.sprite = data.newTileSprite;
-        }
 
-        tilemap.SetTile(tilePosition, newTile);
+            tilemap.SetTile(tilePosition, newTile);
+        }
 
         return gameTile;
     }
