@@ -8,9 +8,11 @@ public class SoldierAnimator : MonoBehaviour
     public enum Direction
     {
         up,
+        right,
         down,
         left,
-        right
+
+        MAX
     }
 
     Action onDeathComplete;

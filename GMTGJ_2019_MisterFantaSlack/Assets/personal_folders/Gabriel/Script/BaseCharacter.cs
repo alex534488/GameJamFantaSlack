@@ -13,10 +13,11 @@ public class BaseCharacter : MonoBehaviour
 
     public float TimeToPassOneTile = 1.0f;
 
-	public AudioPlayable GunShotPlayable;
-	public AudioPlayable DeathPlayable;
-	public AudioPlayable WalkingPlayable;
-	public AudioSource source;
+    public AudioPlayable GunShotPlayable;
+    public AudioPlayable DeathPlayable;
+    public AudioPlayable WalkingPlayable;
+    public AudioSource source;
+    public new SoldierAnimator animator;
 
     // LOCAL DATA
 
@@ -24,32 +25,32 @@ public class BaseCharacter : MonoBehaviour
 
     private EDirection CurrentDirectionFacing = EDirection.Up;
 
-	private bool isDying = false;
+    private bool isDying = false;
     private bool isDead = false;
 
 
-	// Start is called before the first frame update
-	void Start()
-	{
+    // Start is called before the first frame update
+    void Start()
+    {
         isDying = false;
         isDead = false;
 
-		if(source == null)
-			source = GetComponent<AudioSource>();
+        if (source == null)
+            source = GetComponent<AudioSource>();
 
         UpdateDirectionFacingForRotation();
-		InputManager.Instance.ShootTrigger.AddListener(ShootFacingDirection);
-	}
+        InputManager.Instance.ShootTrigger.AddListener(ShootFacingDirection);
+    }
 
-	////////////////////////////////////////////////////////////////
-	//	SHOOT FUNCTION
+    ////////////////////////////////////////////////////////////////
+    //	SHOOT FUNCTION
 
-	public void ShootFacingDirection()
-	{
-		#if (UNITY_EDITOR)
-		Debug.Log("On Shoot with Character : " + gameObject.name);
+    public void ShootFacingDirection()
+    {
+#if (UNITY_EDITOR)
+        Debug.Log("On Shoot with Character : " + gameObject.name);
 #endif
-		GunShotPlayable.PlayOn(source);
+        GunShotPlayable.PlayOn(source);
 
         Bullet bullet = Instantiate(bulletPrefab, bulletStartPosition.transform.position, Quaternion.identity, EntitySpawner.Instance.transform).GetComponent<Bullet>();
 
@@ -67,51 +68,78 @@ public class BaseCharacter : MonoBehaviour
                 bullet.SetDirectionAndStartPosition(new Vector2(-1, 0), bulletStartPosition.transform.position, gameObject);
                 break;
             case EDirection.Right:
-                bullet.SetDirectionAndStartPosition(new Vector2(1,0), bulletStartPosition.transform.position, gameObject);
+                bullet.SetDirectionAndStartPosition(new Vector2(1, 0), bulletStartPosition.transform.position, gameObject);
                 break;
             default:
                 break;
         }
+
+        // animation
+        animator.PlayFireAnimation();
     }
 
 
 
-	////////////////////////////////////////////////////////////////
-	//	MOVE FUNCTION
+    ////////////////////////////////////////////////////////////////
+    //	MOVE FUNCTION
 
-	public void GoInThatDirection(Vector3 Destination, int NbTile, List<Action> onTileReached = null)
-	{
-		float Duration = TimeToPassOneTile * NbTile;
-		WalkingPlayable.PlayOn(source);
-        if(onTileReached == null)
+    public void GoInThatDirection(Vector3 Destination, int NbTile, List<Action> onTileReached = null)
+    {
+        float Duration = TimeToPassOneTile * NbTile;
+        WalkingPlayable.PlayOn(source);
+        if (onTileReached == null)
         {
             currentTween = transform.DOMove(Destination, Duration).SetUpdate(true).OnComplete(delegate () { InputManager.Instance.PlayerCompletedItsMovement(); });
         }
         else
         {
-            currentTween = transform.DOMove(Destination, Duration).SetUpdate(true).OnComplete(delegate () {
+            currentTween = transform.DOMove(Destination, Duration).SetUpdate(true).OnComplete(delegate ()
+            {
                 foreach (Action action in onTileReached)
                 {
-                    if(action != null)
+                    if (action != null)
                         action();
                 }
             });
         }
-	}
 
-	////////////////////////////////////////////////////////////////
-	//	DEATH FUNCTION	
+        // animation  (calcule intense pour réorienté les pas dépendament de la rotation du joueur)
+        Vector3 delta = Destination - transform.position;
+        SoldierAnimator.Direction dir = SoldierAnimator.Direction.MAX;
 
-	// Character has been hit, should be death so we set his state as dead
-	public void OnHit()
-	{
+        if (delta.x > 0.5f)
+            dir = SoldierAnimator.Direction.right;
+        else if (delta.y > 0.5f)
+            dir = SoldierAnimator.Direction.up;
+        else if (delta.y < -0.5f)
+            dir = SoldierAnimator.Direction.down;
+        else
+            dir = SoldierAnimator.Direction.left;
+
+        float extraRot = transform.rotation.eulerAngles.z.RoundedTo(90) - 90;
+        if (extraRot < 0)
+            extraRot += 360;
+        int extraRotInt = (extraRot / 90).RoundedToInt();
+
+        dir = (SoldierAnimator.Direction)(((int)dir + extraRotInt) % (int)SoldierAnimator.Direction.MAX);
+
+        Debug.Log(extraRotInt);
+        animator.PlayWalkAnimation(dir);
+    }
+
+    ////////////////////////////////////////////////////////////////
+    //	DEATH FUNCTION	
+
+    // Character has been hit, should be death so we set his state as dead
+    public void OnHit()
+    {
         isDying = true;
-		DeathPlayable.PlayOn(source);
-	}
+        DeathPlayable.PlayOn(source);
+    }
 
-	//	Apply Death
-	public void OnDeath()
-	{
+    //	Apply Death
+    public void OnDeath()
+    {
         // we're dying ?
         if (isDying)
         {
@@ -126,87 +154,91 @@ public class BaseCharacter : MonoBehaviour
 
             EntitySpawner.Instance.OnSoldierDeath(gameObject);
 
-            gameObject.Destroy();
+            GetComponent<Collider>().enabled = false;
+
+            // animation
+            animator.PlayDeathAnimation(() => gameObject.Destroy());
+            Debug.Log("death anim!");
         }
-	}
+    }
 
-	////////////////////////////////////////////////////////////////
-	//	FACING DIRECTION FUNCTION	
+    ////////////////////////////////////////////////////////////////
+    //	FACING DIRECTION FUNCTION	
 
 
-	//	start the rotation of 90 degree of the character
-	public void RotateCharacter()
-	{
-		switch (CurrentDirectionFacing)
-		{
-			case EDirection.Up:
-				CurrentDirectionFacing = EDirection.Right;
-				transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
-				break;
-			case EDirection.Down:
-				CurrentDirectionFacing = EDirection.Left;
-				transform.rotation = Quaternion.Euler(0.0f, 0.0f, 180.0f);
-				break;
-			case EDirection.Left:
-				CurrentDirectionFacing = EDirection.Up;
-				transform.rotation = Quaternion.Euler(0.0f, 0.0f, 90.0f);
-				break;
-			case EDirection.Right:
-				CurrentDirectionFacing = EDirection.Down;
-				transform.rotation = Quaternion.Euler(0.0f, 0.0f, 270.0f);
-				break;
-			default:
-				break;
-		}
-	}
+    //	start the rotation of 90 degree of the character
+    public void RotateCharacter()
+    {
+        switch (CurrentDirectionFacing)
+        {
+            case EDirection.Up:
+                CurrentDirectionFacing = EDirection.Right;
+                transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
+                break;
+            case EDirection.Down:
+                CurrentDirectionFacing = EDirection.Left;
+                transform.rotation = Quaternion.Euler(0.0f, 0.0f, 180.0f);
+                break;
+            case EDirection.Left:
+                CurrentDirectionFacing = EDirection.Up;
+                transform.rotation = Quaternion.Euler(0.0f, 0.0f, 90.0f);
+                break;
+            case EDirection.Right:
+                CurrentDirectionFacing = EDirection.Down;
+                transform.rotation = Quaternion.Euler(0.0f, 0.0f, 270.0f);
+                break;
+            default:
+                break;
+        }
+    }
 
-	//	Update the rotation based on the Current Direction Facing of the character
-	void UpdateRotationForDirectionFacing()
-	{
-		switch (CurrentDirectionFacing)
-		{
-			case EDirection.Up:
-				transform.rotation = Quaternion.Euler(0.0f, 0.0f, 90.0f);
-				break;
-			case EDirection.Down:
-				transform.rotation = Quaternion.Euler(0.0f, 0.0f, 270.0f);
-				break;
-			case EDirection.Left:
-				transform.rotation = Quaternion.Euler(0.0f, 0.0f, 180.0f);
-				break;
-			case EDirection.Right:
-				transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
-				break;
-			default:
-				break;
-		}
-	}
+    //	Update the rotation based on the Current Direction Facing of the character
+    void UpdateRotationForDirectionFacing()
+    {
+        switch (CurrentDirectionFacing)
+        {
+            case EDirection.Up:
+                transform.rotation = Quaternion.Euler(0.0f, 0.0f, 90.0f);
+                break;
+            case EDirection.Down:
+                transform.rotation = Quaternion.Euler(0.0f, 0.0f, 270.0f);
+                break;
+            case EDirection.Left:
+                transform.rotation = Quaternion.Euler(0.0f, 0.0f, 180.0f);
+                break;
+            case EDirection.Right:
+                transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
+                break;
+            default:
+                break;
+        }
+    }
 
-	//	Update the Current direction facing based on the rotation of the character
-	void UpdateDirectionFacingForRotation()
-	{
-		int zValue = (int)transform.rotation.eulerAngles.z;
+    //	Update the Current direction facing based on the rotation of the character
+    void UpdateDirectionFacingForRotation()
+    {
+        int zValue = (int)transform.rotation.eulerAngles.z;
 
-		if (zValue < 45 || zValue > 315)
-		{
-			CurrentDirectionFacing = EDirection.Right;
-			return;
-		}
-		else if (zValue >= 45 && zValue <= 135)
-		{
-			CurrentDirectionFacing = EDirection.Up;
-			return;
-		}
-		else if (zValue > 135 && zValue < 225)
-		{
-			CurrentDirectionFacing = EDirection.Left;
-			return;
-		}
-		else if (zValue >= 225 && zValue <= 315)
-		{
-			CurrentDirectionFacing = EDirection.Down;
-			return;
-		}
-	}
+        if (zValue < 45 || zValue > 315)
+        {
+            CurrentDirectionFacing = EDirection.Right;
+            return;
+        }
+        else if (zValue >= 45 && zValue <= 135)
+        {
+            CurrentDirectionFacing = EDirection.Up;
+            return;
+        }
+        else if (zValue > 135 && zValue < 225)
+        {
+            CurrentDirectionFacing = EDirection.Left;
+            return;
+        }
+        else if (zValue >= 225 && zValue <= 315)
+        {
+            CurrentDirectionFacing = EDirection.Down;
+            return;
+        }
+    }
 
 }
