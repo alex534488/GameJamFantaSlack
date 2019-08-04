@@ -123,7 +123,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 7397210069367942590, guid: cb08ed87037c3394ba14371654476873,
           type: 3}
-        m_MethodName: GoToMainMenu
+        m_MethodName: Skip
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
