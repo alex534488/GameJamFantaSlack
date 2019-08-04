@@ -126,7 +126,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05743b77a5ff1e44cae8a63fc2bf0414, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DestructSoundPrefab: {fileID: 3753650271687210724, guid: bbc89ed24e967ff4698b617bbe5caaaa,
+  DestructSoundPrefab: {fileID: 2057757681260452334, guid: 7d077c6ace4b81144971cedfab2dd3bd,
     type: 3}
 --- !u!82 &-3221294832299495705
 AudioSource:
