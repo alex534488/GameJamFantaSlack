@@ -99,7 +99,7 @@ public class GameManager : MonoBehaviour
 
         levelCompleted = true;
         
-        GameManager.Instance.ui.kimBubble.Say("Good Job.", false, 1);
+        GameManager.Instance.ui.kimBubble.Say("Nice!", false, 1);
 
         this.DelayedCall(1, delegate ()
         {
@@ -110,7 +110,7 @@ public class GameManager : MonoBehaviour
                 if (levelOver != null)
                     levelOver.Invoke();
 
-                this.DelayedCall(1, delegate () { this.DelayedCall(1, delegate () { GameManager.Instance.ui.kimBubble.Say("Good Luck.", false, 1); }); });
+                this.DelayedCall(1, delegate () { this.DelayedCall(1, delegate () { GameManager.Instance.ui.kimBubble.Say("Looks Easy", false, 1); }); });
             });
         });
     }
@@ -121,7 +121,10 @@ public class GameManager : MonoBehaviour
         {
             // GAME OVER (GAME END)
             PlayerPrefs.SetInt(SaveKeys.MAX_LEVEL_REACHED, 0); // Reset Saves
-            SceneManager.LoadScene(sceneLinks.MainMenu, LoadSceneMode.Single);
+
+            ui.ShowEndCredits(delegate() {
+                SceneManager.LoadScene(sceneLinks.MainMenu, LoadSceneMode.Single);
+            });
         }
         else
         {

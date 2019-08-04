@@ -28,4 +28,10 @@ public class UIManager : MonoBehaviour
                 onComplete();
         });
     }
+
+    public void ShowEndCredits(UnityAction onComplete = null)
+    {
+        if(onComplete != null)
+            onComplete();
+    }
 }
