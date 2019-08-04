@@ -26,34 +26,50 @@ public class KimBubble : MonoBehaviour
 
     public void Say(KimMessageType message, bool isAngry, float duration)
     {
-        List<string> textToSay = new List<string>();
+        if (sayingSomething)
+            return;
 
+        Lottery<string> lottery = new Lottery<string>();
         switch (message)
         {
             case KimMessageType.Failure:
-                textToSay.Add("Failure!");
+                lottery.Add("Arrgg!", 1);
+                lottery.Add("", 1);
+                lottery.Add("Hmmm..", 1);
                 break;
+
             case KimMessageType.Restart:
-                textToSay.Add("Again.");
+                lottery.Add("Again.", 1);
                 break;
+
             case KimMessageType.Move:
-                textToSay.Add("Move!");
+                //lottery.Add("Move!", 1);
+                lottery.Add("", 3);
                 break;
+
             case KimMessageType.Fire:
-                textToSay.Add("Fire!");
+                lottery.Add("Fire!", 1);
+                lottery.Add("Shoot!", 1);
                 break;
+
             case KimMessageType.NewLevel:
-                textToSay.Add("Looks Easy.");
+                lottery.Add("Looks Easy.", 1);
                 break;
+
             case KimMessageType.LevelCompleted:
-                textToSay.Add("Nice!");
+                lottery.Add("Nice!", 3);
+                lottery.Add("Haha!", 3);
+                lottery.Add("GGEZ!", 1);
                 break;
+
             default:
-                textToSay.Add("");
+                lottery.Add("", 1);
                 break;
         }
 
-        if (sayingSomething)
+        string result = lottery.Pick();
+
+        if (result.IsNullOrEmpty())
             return;
 
         sayingSomething = true;
@@ -70,11 +86,12 @@ public class KimBubble : MonoBehaviour
             text.color = Color.black;
         }
 
-        text.text = textToSay[Random.Range(0, textToSay.Count-1)];
+        text.text = result;
 
         image.gameObject.SetActive(true);
 
-        this.DelayedCall(duration, delegate () {
+        this.DelayedCall(duration, delegate ()
+        {
             image.gameObject.SetActive(false);
             sayingSomething = false;
         });

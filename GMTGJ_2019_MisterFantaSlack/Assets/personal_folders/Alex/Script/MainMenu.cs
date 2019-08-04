@@ -4,13 +4,14 @@ using UnityEngine;
 using DG.Tweening;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro;
 
 public class MainMenu : MonoBehaviour
 {
     public CanvasGroup canvas;
     public float fadeInAnimationDuration = 2;
 
-    public Text startGameText;
+    public TextMeshProUGUI startGameText;
 
     public SceneLinks sceneLinks;
 
@@ -28,6 +29,8 @@ public class MainMenu : MonoBehaviour
     {
         if (!interactable)
             return;
+
+        LevelBootstrapper.startingFromMainMenu = true;
 
         interactable = false;
         canvas.DOFade(0, fadeInAnimationDuration).OnComplete(delegate () {

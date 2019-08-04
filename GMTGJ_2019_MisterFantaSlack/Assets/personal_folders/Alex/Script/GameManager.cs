@@ -47,12 +47,15 @@ public class GameManager : MonoBehaviour
 
     private bool wasBombRestart = false;
 
+    private bool wasRestart = false;
+
     void Start()
     {
         canRestart = false;
         returningHome = false;
         levelCompleted = false;
         wasBombRestart = false;
+        wasRestart = false;
 
         currentLevel = PlayerPrefs.GetInt(SaveKeys.MAX_LEVEL_REACHED, -1);
 
@@ -70,6 +73,8 @@ public class GameManager : MonoBehaviour
         if (canRestart)
         {
             canRestart = false;
+
+            wasRestart = true;
 
             levelCompleted = true;
 
@@ -93,7 +98,7 @@ public class GameManager : MonoBehaviour
 
             levelCompleted = true;
 
-            ui.FadeOutWhite(0.5f, delegate ()
+            ui.FadeOutWhite(0.25f, delegate ()
             {
                 SceneManager.UnloadSceneAsync(levelList.levelSceneName[currentLevel]).completed += RestartCompleted;
 
@@ -120,7 +125,7 @@ public class GameManager : MonoBehaviour
 
         levelCompleted = true;
         
-        GameManager.Instance.ui.kimBubble.Say(KimMessageType.LevelCompleted, false, 1);
+        GameManager.Instance.ui.kimBubble.Say(KimMessageType.LevelCompleted, false, 2f);
 
         this.DelayedCall(1, delegate ()
         {
@@ -238,12 +243,14 @@ public class GameManager : MonoBehaviour
 
         if (wasBombRestart)
         {
-            ui.FadeInWhite(0.5f, delegate ()
+            ui.FadeInWhite(3.5f, delegate ()
             {
                 if (gameStarted != null)
                     gameStarted.Invoke();
 
                 canRestart = true;
+
+                KimSeesLevelAgain();
             });
         }
         else
@@ -253,11 +260,17 @@ public class GameManager : MonoBehaviour
                 if (gameStarted != null)
                     gameStarted.Invoke();
 
+                if (wasRestart)
+                {
+                    KimSeesLevelAgain();
+                }
+
                 canRestart = true;
             });
         }
 
         wasBombRestart = false;
+        wasRestart = false;
     }
 
     private void OnNextLevelReady(AsyncOperation obj)
@@ -273,17 +286,15 @@ public class GameManager : MonoBehaviour
     private void RestartCompleted(AsyncOperation obj)
     {
         SceneManager.LoadSceneAsync(levelList.levelSceneName[currentLevel], LoadSceneMode.Additive).completed += LevelLoaded;
-
-        KimSeesLevelAgain();
     }
 
     private void KimSeesNewLevel()
     {
-        this.DelayedCall(0.5f,()=>{ GameManager.Instance.ui.kimBubble.Say(KimMessageType.NewLevel, false, 1); });
+        this.DelayedCall(0.5f,()=>{ GameManager.Instance.ui.kimBubble.Say(KimMessageType.NewLevel, false, 2f); });
     }
 
     private void KimSeesLevelAgain()
     {
-        this.DelayedCall(0.5f,()=>{ GameManager.Instance.ui.kimBubble.Say(KimMessageType.Restart, false, 1); });
+        this.DelayedCall(0.5f,()=>{ GameManager.Instance.ui.kimBubble.Say(KimMessageType.Restart, false, 2f); });
     }
 }

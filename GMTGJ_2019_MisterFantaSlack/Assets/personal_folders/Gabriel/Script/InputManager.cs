@@ -141,7 +141,7 @@ public class InputManager : MonoBehaviour
             return;
 
         KimAnimation.Instance.AnimationAngryKim();
-        GameManager.Instance.ui.kimBubble.Say(KimMessageType.Fire, true, 0.5f);
+        GameManager.Instance.ui.kimBubble.Say(KimMessageType.Fire, true, 1f);
 
         InputDeactivated();
 

@@ -48,6 +48,9 @@ public class BaseCharacter : MonoBehaviour
 
     public void ShootFacingDirection()
     {
+        if (isDying)
+            return;
+
 #if (UNITY_EDITOR)
         Debug.Log("On Shoot with Character : " + gameObject.name);
 #endif
@@ -91,6 +94,9 @@ public class BaseCharacter : MonoBehaviour
 
     public void GoInThatDirection(Vector3 Destination, int NbTile, int movementsInARow, List<Action> onTileReached = null)
     {
+        if (isDying)
+            return;
+
         float Duration = TimeToPassOneTile * NbTile;
         if (onTileReached == null)
         {
@@ -152,7 +158,6 @@ public class BaseCharacter : MonoBehaviour
         // animation
         animator.PlayDeathAnimation(deathJoin.RegisterOperation());
 
-
         deathJoin.MarkEnd();
     }
 
@@ -186,6 +191,8 @@ public class BaseCharacter : MonoBehaviour
     //	start the rotation of 90 degree of the character
     public void RotateCharacter()
     {
+        if (isDying)
+            return;
         switch (CurrentDirectionFacing)
         {
             case EDirection.Up:
