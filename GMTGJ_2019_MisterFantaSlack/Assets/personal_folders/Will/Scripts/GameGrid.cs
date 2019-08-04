@@ -65,14 +65,14 @@ public class GameGrid : MonoBehaviour
       
         gameTile.entityOnTop = EntitySpawner.Instance.SpawnEntity(data.entityOnTop, worldPosition, tile.transform.rotation);
 
-        Tile newTile = ScriptableObject.CreateInstance<Tile>();
-
         if (data.newTileSprite != null)
         {
-            newTile.sprite = data.newTileSprite;
-        }
+            Tile newTile = ScriptableObject.CreateInstance<Tile>();
 
-        tilemap.SetTile(tilePosition, newTile);
+            newTile.sprite = data.newTileSprite;
+
+            tilemap.SetTile(tilePosition, newTile);
+        }
 
         return gameTile;
     }
