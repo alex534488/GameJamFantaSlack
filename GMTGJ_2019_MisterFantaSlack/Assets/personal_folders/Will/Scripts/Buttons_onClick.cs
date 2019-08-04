@@ -20,7 +20,7 @@ public class Buttons_onClick : MonoBehaviour
     public void Skip()
     {
         Debug.Log("Skip to next level.");
-        GameManager.Instance.LevelCompleted();
+        GameManager.Instance.SkipLevel();
     }
 
     public void OrderFire()

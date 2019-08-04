@@ -26,12 +26,12 @@ public class UIManager : MonoBehaviour
 
     public void FadeInWhite(float duration = 1, UnityAction onComplete = null)
     {
-        FadeWhite(0, duration, onComplete);
+        FadeWhite(0, duration, 0f, onComplete);
     }
 
     public void FadeOutWhite(float duration = 1, UnityAction onComplete = null)
     {
-        FadeWhite(1, duration, onComplete);
+        FadeWhite(1, duration, 1.5f, onComplete);
     }
 
     public void Fade(float end, float duration = 1, UnityAction onComplete = null)
@@ -42,9 +42,13 @@ public class UIManager : MonoBehaviour
         });
     }
 
-    public void FadeWhite(float end, float duration = 1, UnityAction onComplete = null)
+    public void FadeWhite(float end, float duration = 1, float pause = 0, UnityAction onComplete = null)
     {
-        whiteFullscreen.DOFade(end, duration).OnComplete(() => {
+        Sequence sq = DOTween.Sequence();
+        sq.Append(whiteFullscreen.DOFade(end, duration));
+
+        sq.AppendInterval(pause);
+        sq.AppendCallback(() => {
             if (onComplete != null)
                 onComplete();
         });

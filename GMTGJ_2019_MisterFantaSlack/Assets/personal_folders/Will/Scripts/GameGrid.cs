@@ -16,16 +16,46 @@ public class GameGrid : MonoBehaviour
     public Vector2 minBounds;
     public Vector2 maxBounds;
 
+    public Tilemap tilemap;
+
     void Awake()
     {
         if (Instance == null)
             Instance = this;
     }
 
+    void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Vector3 position = Input.mousePosition;
+            Vector2 worldPointPos = Camera.main.ScreenToWorldPoint(position);
+            GameTile tile = GameGrid.Instance.GetTileAtposition(worldPointPos);
+            if (tile != null)
+            {
+                Vector2Int gridPos = GameGrid.Instance.GetTileAtposition(worldPointPos).Pos;
+                Vector3Int tilePosToWorld = GameGrid.ToWorldCoordinates(gridPos);
+
+                Debug.Log("worldPos: " + worldPointPos
+                    + ", gridPos: " + gridPos
+                    + ", tileToWorldpos: " + tilePosToWorld
+                    + ", centerOfTile: " + GameGrid.GetCenterCellPosition(tile/*gridPos*/)
+                    + ", hasTile: " + Instance.tilemap.HasTile(tilePosToWorld)
+                    //+ ", GridToWorldToGrid: " + GameGrid.ToGridCoordinates(new Vector2(tilePosToWorld.x, tilePosToWorld.y))
+                    );
+            }
+            else
+            {
+                Debug.Log("No tile there.");
+            }
+        }
+    }
+
     public List<GameTile> GameTiles;
 
     public void BuildGrid(Tilemap tilemap)
     {
+        Instance.tilemap = tilemap;
         tilemap.CompressBounds();
         BoundsInt cellBounds = tilemap.cellBounds;
 
@@ -41,7 +71,7 @@ public class GameGrid : MonoBehaviour
         Debug.Log("Middle = (" + (cellBounds.xMin + Instance.width / 2) + ", " + (cellBounds.yMin + Instance.height / 2) + ")");
 
         Debug.Assert(Instance.width.IsEvenNumber() && Instance.height.IsEvenNumber(), "La grid doit avoir des dimension pair!!!");
-
+        Debug.Assert(minBounds + maxBounds == Vector2.zero, "La tilemap du niveau doit être centrée au grid!!!");
 
         Bounds bounds = new Bounds(new Vector2(cellBounds.xMin, cellBounds.yMin), new Vector2(Instance.width, Instance.height));
 
