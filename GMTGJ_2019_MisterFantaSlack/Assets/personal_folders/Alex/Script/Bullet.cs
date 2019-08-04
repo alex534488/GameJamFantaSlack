@@ -24,6 +24,8 @@ public class Bullet : MonoBehaviour
         this.direction = direction;
         this.bulletStartPosition = bulletStartPosition;
         this.shooter = shooter;
+
+        transform.rotation = Quaternion.Euler(new Vector3(0, 0, direction.ToAngle()));
     }
 
     void Start()
@@ -73,6 +75,13 @@ public class Bullet : MonoBehaviour
         {
             character.OnHit();
 
+            hasHit = true;
+        }
+
+        BulletBlocker bulletBlocker = otherObject.GetComponent<BulletBlocker>();
+
+        if (bulletBlocker != null)
+        {
             hasHit = true;
         }
 
