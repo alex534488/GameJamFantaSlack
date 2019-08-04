@@ -26,13 +26,13 @@ public class GridScript : MonoBehaviour
                 Vector2Int gridPos = GameGrid.Instance.GetTileAtposition(worldPointPos).Pos;
                 Vector3Int tilePosToWorld = GameGrid.ToWorldCoordinates(gridPos);
 
-                Debug.Log("worldPos: " + worldPointPos 
-                    + ", gridPos: " + gridPos 
-                    + ", tileToWorldpos: " + tilePosToWorld
-                    + ", centerOfTile: " + GameGrid.GetCenterCellPosition(gridPos)
-                    + ", hasTile: " + tilemap.HasTile(tilePosToWorld)
-                    //+ ", GridToWorldToGrid: " + GameGrid.ToGridCoordinates(new Vector2(tilePosToWorld.x, tilePosToWorld.y))
-                    );
+                //Debug.Log("worldPos: " + worldPointPos 
+                //    + ", gridPos: " + gridPos 
+                //    + ", tileToWorldpos: " + tilePosToWorld
+                //    + ", centerOfTile: " + GameGrid.GetCenterCellPosition(null)
+                //    + ", hasTile: " + tilemap.HasTile(tilePosToWorld)
+                //    //+ ", GridToWorldToGrid: " + GameGrid.ToGridCoordinates(new Vector2(tilePosToWorld.x, tilePosToWorld.y))
+                //    );
 
                 EDirection direction = EDirection.Left;
                 Debug.Log(direction +" neighboor: " + tile.GetTileRelativeToMe(EDirection.Left).Pos);
