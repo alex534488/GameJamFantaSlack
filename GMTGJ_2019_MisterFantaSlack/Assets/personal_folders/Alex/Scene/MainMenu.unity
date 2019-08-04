@@ -2306,7 +2306,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: 'Kim Jung One Training Camp
+  m_text: 'Dictator Academy
 
 '
   m_isRightToLeft: 0
@@ -2378,10 +2378,10 @@ MonoBehaviour:
   m_margin: {x: -172.89572, y: 0, z: -140.68958, w: 0}
   m_textInfo:
     textComponent: {fileID: 1386416411}
-    characterCount: 27
+    characterCount: 17
     spriteCount: 0
-    spaceCount: 5
-    wordCount: 5
+    spaceCount: 2
+    wordCount: 2
     linkCount: 0
     lineCount: 1
     pageCount: 1
@@ -3914,7 +3914,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2006917125
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3954,7 +3954,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: Prepare Yourself Edition
+  m_text: 'Train Kim Jung One and Its Army '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 56ce624a12eac93458bd6701218e8cb4, type: 2}
   m_sharedMaterial: {fileID: 3967901259445876109, guid: 56ce624a12eac93458bd6701218e8cb4,
@@ -4024,10 +4024,10 @@ MonoBehaviour:
   m_margin: {x: -172.89572, y: 0, z: -140.68958, w: 0}
   m_textInfo:
     textComponent: {fileID: 2006917126}
-    characterCount: 24
+    characterCount: 32
     spriteCount: 0
-    spaceCount: 2
-    wordCount: 3
+    spaceCount: 7
+    wordCount: 7
     linkCount: 0
     lineCount: 1
     pageCount: 1
