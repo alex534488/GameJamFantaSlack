@@ -177,12 +177,12 @@ public class InputManager : MonoBehaviour
                     Debug.Log("InputManager :: MOVE UP");
                 #endif
                 //	for each line
-                for (int i = (GameGrid.Instance.width - 1); i >= 0; i--)
+                for (int j = (GameGrid.Instance.height - 1); j >= 0; j--)
                 {
                     //	for each column
-                    for (int j = 0; j < GameGrid.Instance.height; j++)
+                    for (int i = 0; i < GameGrid.Instance.width; i++)
                     {
-                        Vector2Int MyPosition = new Vector2Int(j, i);
+                        Vector2Int MyPosition = new Vector2Int(i, j);
                         BaseCharacter MySoldier = IsSoldierValid(MyPosition);
 
                         if (MySoldier != null)
@@ -201,12 +201,12 @@ public class InputManager : MonoBehaviour
                 #endif
 
                 //	for each line
-                for (int i = 0; i < GameGrid.Instance.width; i++)
+                for (int j = 0; j < GameGrid.Instance.height; j++)
                 {
                     //	for each column
-                    for (int j = 0; j < GameGrid.Instance.height; j++)
+                    for (int i = 0; i < GameGrid.Instance.width; i++)
                     {
-                        Vector2Int MyPosition = new Vector2Int(j, i);
+                        Vector2Int MyPosition = new Vector2Int(i, j);
 
                         BaseCharacter MySoldier = IsSoldierValid(MyPosition);
                         if(MySoldier != null)
