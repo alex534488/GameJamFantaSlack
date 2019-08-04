@@ -140,6 +140,7 @@ public class InputManager : MonoBehaviour
         if (inputBlocked)
             return;
 
+        KimAnimation.Instance.AnimationAngryKim();
         GameManager.Instance.ui.kimBubble.Say(KimMessageType.Fire, true, 0.5f);
 
         InputDeactivated();

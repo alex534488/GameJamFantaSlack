@@ -13,6 +13,7 @@ public class KimAnimation : MonoBehaviour
 
     public void AnimationAngryKim()
     {
+        Debug.Log("animation play");
         GetComponent<Animator>().Play("Angry");
     }
 }
