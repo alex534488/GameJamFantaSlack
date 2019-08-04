@@ -11,8 +11,6 @@ public class GameGrid : MonoBehaviour
 
     public TileIdentifier tileIdentifier;
 
-    public Sprite baseSprite;
-
     public int width, height;
 
     void Awake()
@@ -69,11 +67,7 @@ public class GameGrid : MonoBehaviour
 
         Tile newTile = ScriptableObject.CreateInstance<Tile>();
 
-        if (data.newTileSprite == null)
-        {
-            newTile.sprite = baseSprite;
-        }
-        else
+        if (data.newTileSprite != null)
         {
             newTile.sprite = data.newTileSprite;
         }

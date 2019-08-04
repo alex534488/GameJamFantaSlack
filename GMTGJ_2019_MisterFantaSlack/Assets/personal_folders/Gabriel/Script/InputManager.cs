@@ -19,6 +19,12 @@ public class InputManager : MonoBehaviour
 			Instance = this;
 	}
 
+    void Start()
+    {
+        GameManager.Instance.gameStarted.AddListener(delegate () { inputBlocked = false; });
+        GameManager.Instance.levelOver.AddListener(delegate () { inputBlocked = true; });
+    }
+
     // EVENTS
 
     public UnityEvent ShootTrigger = new UnityEvent();
@@ -88,6 +94,9 @@ public class InputManager : MonoBehaviour
 
     public void InputReactivated()
     {
+        if (GameManager.Instance.levelCompleted)
+            return;
+
         inputBlocked = false;
 
         // Resolve deaths

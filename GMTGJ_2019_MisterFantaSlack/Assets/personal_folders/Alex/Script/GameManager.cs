@@ -37,10 +37,13 @@ public class GameManager : MonoBehaviour
 
     private bool returningHome = false;
 
+    public bool levelCompleted = false;
+
     void Start()
     {
         canRestart = false;
         returningHome = false;
+        levelCompleted = false;
 
         currentLevel = PlayerPrefs.GetInt(SaveKeys.MAX_LEVEL_REACHED, -1);
 
@@ -58,6 +61,8 @@ public class GameManager : MonoBehaviour
         if (canRestart)
         {
             canRestart = false;
+
+            levelCompleted = true;
 
             if (levelOver != null)
                 levelOver.Invoke();
@@ -84,7 +89,9 @@ public class GameManager : MonoBehaviour
     {
         canRestart = false;
 
-        if(levelOver != null)
+        levelCompleted = true;
+
+        if (levelOver != null)
             levelOver.Invoke();
 
         ui.FadeOut(0.5f, delegate ()

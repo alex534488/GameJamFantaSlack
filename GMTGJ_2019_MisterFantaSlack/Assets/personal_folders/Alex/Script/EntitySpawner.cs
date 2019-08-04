@@ -17,7 +17,7 @@ public class EntitySpawner : MonoBehaviour
 
     public UnityEvent AllBulletsDestroyed = new UnityEvent();
 
-    public float delayToWaitAfterShot = 1;
+    public float delayToWaitAfterShot = 0.5f;
 
     void Start()
     {
@@ -155,13 +155,13 @@ public class EntitySpawner : MonoBehaviour
         bulletsAlive--;
         if (bulletsAlive <= 0)
         {
-            if(AllBulletsDestroyed != null)
-            {
-                AllBulletsDestroyed.Invoke();
-            }
-
             this.DelayedCall(delayToWaitAfterShot, delegate () {
                 CibleManager.Instance.ShootingCompleted();
+
+                if (AllBulletsDestroyed != null)
+                {
+                    AllBulletsDestroyed.Invoke();
+                }
             });
             
         }
