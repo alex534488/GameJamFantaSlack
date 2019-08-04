@@ -110,12 +110,60 @@ MonoBehaviour:
     newTileSprite: {fileID: 21300000, guid: 5a2911d005d39864f96645dafcdf03e1, type: 3}
     entityOnTop: 2
   - sprite:
-    - {fileID: 21300000, guid: 095716f2fb3a510408cc5170e3a2f647, type: 3}
+    - {fileID: 21300000, guid: a628d622756672747a337f9a8e53e9b9, type: 3}
+    - {fileID: 21300000, guid: 8181717cd34af3343a3dfe60b6f39b64, type: 3}
+    - {fileID: 21300000, guid: a6e53d5c6fd00564097aa4e7a54917f4, type: 3}
+    - {fileID: 21300000, guid: 5fbb0bd3229928744904978a40933bf2, type: 3}
+    - {fileID: 21300000, guid: dfcf51219b657ae4a968e366c4ae2981, type: 3}
+    - {fileID: 21300000, guid: 6a04b2f9943bc6444932844dd09a5c0c, type: 3}
+    - {fileID: 21300000, guid: 020e854d83f9cde4ab008eca24aa2fdb, type: 3}
+    - {fileID: 21300000, guid: 1ece37acccf18d042ac23f1982cfca09, type: 3}
+    - {fileID: 21300000, guid: aa23e9b568604b146a7d7829aa59628b, type: 3}
+    - {fileID: 21300000, guid: b9bf580b6e3dc58469daa236782c1619, type: 3}
+    - {fileID: 21300000, guid: 6a3391c1261c71d44a64f82db2613ba8, type: 3}
+    - {fileID: 21300000, guid: 9fa2a9c0dccf585428b636e0bbc0ef15, type: 3}
+    - {fileID: 21300000, guid: af40defe79e0315448709061d598f537, type: 3}
+    - {fileID: 21300000, guid: 94ca04af6149e1b46b3f8db35bed29c4, type: 3}
+    - {fileID: 21300000, guid: 67f96a143f61959418265b9d1bfd7544, type: 3}
+    - {fileID: 21300000, guid: 730dbeac72044a747a7b0bb5b50361e1, type: 3}
+    - {fileID: 21300000, guid: 87757fd197811eb4ba28b117e07f1ba0, type: 3}
+    - {fileID: 21300000, guid: 91bfa4f3588865445927b75ac5ea8043, type: 3}
+    - {fileID: 21300000, guid: afaeeccbcad5f3a4da2f951ffceaa117, type: 3}
+    - {fileID: 21300000, guid: 017aa9da99b560a43971fb6306a541a8, type: 3}
+    - {fileID: 21300000, guid: 8ab41a5bb46ddda47bc92a05dfacd01f, type: 3}
+    - {fileID: 21300000, guid: 2b730efa183645643a194dfc4e0936f7, type: 3}
+    - {fileID: 21300000, guid: 13cc7bb19007b384aab9a6308d6f2356, type: 3}
+    - {fileID: 21300000, guid: f543dd68db5cebc4595b8a559b9ae742, type: 3}
+    - {fileID: 21300000, guid: 2b58eaa7dd508434a889656ec2b4d0c3, type: 3}
+    - {fileID: 21300000, guid: 83a06939396d99d4a87ffeb229d47e20, type: 3}
+    - {fileID: 21300000, guid: 1f1b0e33e23912044a14d8ae5541a616, type: 3}
+    - {fileID: 21300000, guid: 42785c8362d7fff41a0c5cd72aad82c4, type: 3}
+    - {fileID: 21300000, guid: 0167e5f7f8afd624f8099b4d1e7b0138, type: 3}
+    - {fileID: 21300000, guid: 1b4b1f3123681f14691a86eda60e9849, type: 3}
+    - {fileID: 21300000, guid: 6160ba9c85b2af244a7b9a8df78f0a6d, type: 3}
+    - {fileID: 21300000, guid: 65f1e619a57ed22418d3ba35e4ae6c78, type: 3}
+    - {fileID: 21300000, guid: d58e93a02d69c314fbe12cf1b186cc1d, type: 3}
+    - {fileID: 21300000, guid: 9399f00dbcea7c34e8a5d521f05be394, type: 3}
+    - {fileID: 21300000, guid: a2185366e65e9d346865af464a524f4a, type: 3}
+    - {fileID: 21300000, guid: e3aaa79a197a1154082578e822910508, type: 3}
+    - {fileID: 21300000, guid: 79d0fb51cefb79144ad7ca20c125a831, type: 3}
+    - {fileID: 21300000, guid: 31fb8d081a98a4b489726f64ed7b4b50, type: 3}
+    - {fileID: 21300000, guid: 02bdc4811c5d79349a5e169b370a82b2, type: 3}
+    - {fileID: 21300000, guid: 3585c69f05f4f53419253613d46d4b71, type: 3}
+    - {fileID: 21300000, guid: 2b25aa50e3688a04186d1700da4247e7, type: 3}
+    - {fileID: 21300000, guid: c8313ffbd64ddfa4cb4c72a6f4d83bd3, type: 3}
+    - {fileID: 21300000, guid: d1ee2f9b1fe5a714e8f30a3d9adefacb, type: 3}
+    - {fileID: 21300000, guid: c44827e701693524fbed670e3456f59d, type: 3}
+    - {fileID: 21300000, guid: 9fbf7ba1f53bb8b44a846f8b3eb93be3, type: 3}
+    - {fileID: 21300000, guid: ccdc8f10044445d49b5791ff12a88945, type: 3}
+    - {fileID: 21300000, guid: e3423cca565ed2e43ac409e5de8fc02f, type: 3}
+    - {fileID: 21300000, guid: ba0226e5bc2e74348afb15994cffb8da, type: 3}
+    - {fileID: 21300000, guid: d6086ae47085b3b4997d30bd0727c3b4, type: 3}
     accessible: 1
     blocking: 0
     slide: 1
     rotates: 0
-    newTileSprite: {fileID: 21300000, guid: 095716f2fb3a510408cc5170e3a2f647, type: 3}
+    newTileSprite: {fileID: 0}
     entityOnTop: 0
   - sprite:
     - {fileID: 21300000, guid: 0e6057a9b1ec0f041924c39d64025208, type: 3}
