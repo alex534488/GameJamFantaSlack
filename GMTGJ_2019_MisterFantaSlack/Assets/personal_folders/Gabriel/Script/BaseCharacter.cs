@@ -214,7 +214,12 @@ public class BaseCharacter : MonoBehaviour
             default:
                 break;
         }
+
+        // SFX
+        spinSFX.PlayOn(GetComponent<AudioSource>());
     }
+    public AudioAsset spinSFX;
+
 
     //	Update the rotation based on the Current Direction Facing of the character
     void UpdateRotationForDirectionFacing()
