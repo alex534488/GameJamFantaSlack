@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -32,7 +33,7 @@ public class CibleManager : MonoBehaviour
         targetLeft--;
     }
 
-    public void ShootingCompleted()
+    public void ShootingCompleted(Action onComplete)
     {
         if(targetLeft > 0)
         {
@@ -58,6 +59,9 @@ public class CibleManager : MonoBehaviour
                         cible.Respawn();
                     }
                 }
+
+                if (onComplete != null)
+                    onComplete();
             });
         }
         else
