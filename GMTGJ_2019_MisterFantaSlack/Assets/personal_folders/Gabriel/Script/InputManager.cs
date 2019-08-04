@@ -19,6 +19,12 @@ public class InputManager : MonoBehaviour
 			Instance = this;
 	}
 
+    void Start()
+    {
+        GameManager.Instance.gameStarted.AddListener(delegate () { inputBlocked = false; });
+        GameManager.Instance.levelOver.AddListener(delegate () { inputBlocked = true; });
+    }
+
     // EVENTS
 
     public UnityEvent ShootTrigger = new UnityEvent();
@@ -88,14 +94,18 @@ public class InputManager : MonoBehaviour
 
     public void InputReactivated()
     {
+        if (GameManager.Instance.levelCompleted)
+            return;
+
         inputBlocked = false;
 
         // Resolve deaths
-        foreach (GameObject soldier in EntitySpawner.Instance.soldierObjects)
+        List<GameObject> soldiers = EntitySpawner.Instance.soldierObjects;
+        for (int i = 0; i < soldiers.Count; i++)
         {
-            BaseCharacter character = soldier.GetComponent<BaseCharacter>();
+            BaseCharacter character = soldiers[i].GetComponent<BaseCharacter>();
 
-            if(character != null)
+            if (character != null)
             {
                 character.OnDeath();
             }
@@ -289,6 +299,8 @@ public class InputManager : MonoBehaviour
             {
                 List<Action> actionQueueToExecute = new List<Action>();
 
+                actionQueueToExecute.Add(delegate () { GameGrid.Instance.AddMyselfOnTile(MySoldier.gameObject); });
+
                 if (TileVoisin.entityOnTop != null)
                 {
                     BaseCharacter nearCharacter = TileVoisin.entityOnTop.GetComponent<BaseCharacter>();
@@ -309,22 +321,23 @@ public class InputManager : MonoBehaviour
                     }
                 }
 
-                if (TileVoisin.IsSliding)
-                {
-                    actionQueueToExecute.Add(delegate () { StartMove(MyDirection,true); });
-                }
-
                 if (TileVoisin.IsRotating)
                 {
                     actionQueueToExecute.Add(delegate () { MySoldier.RotateCharacter(); });
-                    
                 }
-                
+
+                if (TileVoisin.IsSliding)
+                {
+                    actionQueueToExecute.Add(delegate () {
+                        StartMove(MyDirection,true);
+                    });
+                }
+                else
+                {
+                    actionQueueToExecute.Add(delegate () { InputManager.Instance.PlayerCompletedItsMovement(); });
+                }
+
                 GameGrid.Instance.RemoveMyselfFromTile(MySoldier.gameObject);
-
-                actionQueueToExecute.Add(delegate () { GameGrid.Instance.AddMyselfOnTile(MySoldier.gameObject); });
-
-                actionQueueToExecute.Add(delegate () { InputManager.Instance.PlayerCompletedItsMovement(); });
 
                 Vector3 MyDestination = GameGrid.GetCenterCellPosition(TileVoisin);
                 MySoldier.GoInThatDirection(MyDestination, 1, actionQueueToExecute);

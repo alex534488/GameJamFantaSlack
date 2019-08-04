@@ -36,8 +36,21 @@ public class Bullet : MonoBehaviour
     private void BeginMovement()
     {
         currentTween = transform.DOMove(bulletStartPosition + (direction * destinationExtension), speed);
+    }
 
-        this.DelayedCall(delayUntilDestroyed,delegate { DestructBullet(); });
+    void Update()
+    {
+        //Vector3 currentBulletPos = transform.position;
+
+
+
+        //if(currentBulletPos.x > aasdas || 
+        //    currentBulletPos.x > asdasd || 
+        //    currentBulletPos.y > asdas || 
+        //    currentBulletPos.y < asdasd)
+        //{
+        //    DestructBullet();
+        //}
     }
 
     public void EntityCollision(GameObject otherObject)
