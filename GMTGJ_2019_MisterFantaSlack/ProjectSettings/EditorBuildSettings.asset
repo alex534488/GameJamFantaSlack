@@ -12,18 +12,33 @@ EditorBuildSettings:
     path: Assets/personal_folders/Alex/Scene/GamePersistantScene.unity
     guid: 4306aa0d83b019745878313f5f4173c5
   - enabled: 1
-    path: Assets/personal_folders/Alex/Scene/Levels/Level0.unity
+    path: Assets/personal_folders/Alex/Scene/Levels/Tutoriel1.unity
     guid: 23343e76401c7f0438408aeac5120d9d
   - enabled: 1
-    path: Assets/personal_folders/Alex/Scene/Levels/Level1.unity
+    path: Assets/personal_folders/Alex/Scene/Levels/Tutoriel2.unity
     guid: 93fa77d96a61e224891cdeaa7c35ca91
   - enabled: 1
-    path: Assets/personal_folders/Alex/Scene/Levels/Level2.unity
+    path: Assets/personal_folders/Alex/Scene/Levels/Tutoriel3.unity
     guid: 793aeba5d1c71324b9f5d7dcc9949068
   - enabled: 1
-    path: Assets/personal_folders/Alex/Scene/Levels/Level3.unity
+    path: Assets/personal_folders/Alex/Scene/Levels/OceanView.unity
     guid: 61e57f5da395cc544a7b110144136a11
   - enabled: 1
-    path: Assets/personal_folders/Alex/Scene/Levels/Level4.unity
+    path: Assets/personal_folders/Alex/Scene/Levels/WoodNTrap.unity
     guid: e11b471b378982348ba8892fe5588b7d
+  - enabled: 1
+    path: Assets/personal_folders/Alex/Scene/Levels/IcePlus.unity
+    guid: 5152124df218b0b46a63a8eae61499d3
+  - enabled: 1
+    path: Assets/personal_folders/Alex/Scene/Levels/Patinoire.unity
+    guid: 209e27c53145bf64b9aa80ae070058f5
+  - enabled: 1
+    path: Assets/personal_folders/Alex/Scene/Levels/River.unity
+    guid: 9d768877ae6312d4d8679e25acbc82c7
+  - enabled: 1
+    path: Assets/personal_folders/Alex/Scene/Levels/SoManyPosters.unity
+    guid: 36f1df2fcd6782643ac9369fd4922af1
+  - enabled: 1
+    path: Assets/personal_folders/Alex/Scene/Levels/WoodParadise.unity
+    guid: 04953c8d451320841b157ad23e2ab162
   m_configObjects: {}

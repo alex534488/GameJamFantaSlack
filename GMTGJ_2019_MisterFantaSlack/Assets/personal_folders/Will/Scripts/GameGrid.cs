@@ -71,7 +71,7 @@ public class GameGrid : MonoBehaviour
         //HACK : GRID_CELL_OFFSET est la moitié de la taille d'une tile, c'est pour placer l'objet en son millieu
         Vector2 worldPosition = new Vector3((gameTilePosition.x - Instance.width / 2) + GRID_CELL_OFFSET, (gameTilePosition.y - Instance.height / 2) + GRID_CELL_OFFSET, 1);
       
-        gameTile.entityOnTop = EntitySpawner.Instance.SpawnEntity(data.entityOnTop, worldPosition, tile.transform.rotation);
+        gameTile.entityOnTop = EntitySpawner.Instance.SpawnEntity(data.entityOnTop, worldPosition, tilemap.GetTransformMatrix(tilePosition).rotation);
 
         if (data.newTileSprite != null)
         {

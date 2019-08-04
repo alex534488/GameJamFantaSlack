@@ -5,9 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class LevelBootstrapper : MonoBehaviour
 {
-    [Tooltip("")]
-    public int levelNumber = 0;
     public SceneLinks sceneLinks;
+    public LevelsList levelList;
 
     private static bool hasStarted = false;
 
@@ -16,7 +15,7 @@ public class LevelBootstrapper : MonoBehaviour
         if (!hasStarted)
         {
             hasStarted = true;
-            PlayerPrefs.SetInt(SaveKeys.MAX_LEVEL_REACHED, levelNumber);
+            PlayerPrefs.SetInt(SaveKeys.MAX_LEVEL_REACHED, levelList.GetIndexOfLevel(SceneManager.GetActiveScene().name));
             SceneManager.LoadScene(sceneLinks.PersistantGameScene, LoadSceneMode.Single);
         }
     }
