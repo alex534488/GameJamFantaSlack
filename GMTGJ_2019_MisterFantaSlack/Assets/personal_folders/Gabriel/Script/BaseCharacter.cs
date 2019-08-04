@@ -2,41 +2,35 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using System;
 
 public class BaseCharacter : MonoBehaviour
 {
-	public EDirection CurrentDirectionFacing = EDirection.Up;
-	public bool IsDeath = false;
+    // PUBLIC FIELDS
 
     public GameObject bulletPrefab;
     public GameObject bulletStartPosition;
 
-	private Tween currentTween;
-	public float TimeToPassOneTile = 1.0f;
+    public float TimeToPassOneTile = 1.0f;
+
+    // LOCAL DATA
+
+    private Tween currentTween;
+
+    private EDirection CurrentDirectionFacing = EDirection.Up;
+
+	private bool isDying = false;
+    private bool isDead = false;
+
 
 	// Start is called before the first frame update
 	void Start()
 	{
-		UpdateDirectionFacingForRotation();
+        isDying = false;
+        isDead = false;
+
+        UpdateDirectionFacingForRotation();
 		InputManager.Instance.ShootTrigger.AddListener(ShootFacingDirection);
-	}
-
-	// Update is called once per frame
-	void Update()
-	{
-
-		if(Input.GetKeyDown(KeyCode.T))
-		{
-			RotateCharacter();
-		}
-		else if (Input.GetKeyDown(KeyCode.H))
-		{
-			OnHit();
-		}
-		else if(Input.GetKeyDown(KeyCode.K))
-		{
-			OnDeath();
-		}
 	}
 
 	////////////////////////////////////////////////////////////////
@@ -76,54 +70,53 @@ public class BaseCharacter : MonoBehaviour
 	////////////////////////////////////////////////////////////////
 	//	MOVE FUNCTION
 
-	public void GoInThatDirection(Vector3 Destination, int NbTile)
+	public void GoInThatDirection(Vector3 Destination, int NbTile, List<Action> onTileReached = null)
 	{
 		float Duration = TimeToPassOneTile * NbTile;
-		currentTween = transform.DOMove(Destination, Duration).SetUpdate(true);
-		
+        if(onTileReached == null)
+        {
+            currentTween = transform.DOMove(Destination, Duration).SetUpdate(true).OnComplete(delegate () { InputManager.Instance.PlayerCompletedItsMovement(); });
+        }
+        else
+        {
+            currentTween = transform.DOMove(Destination, Duration).SetUpdate(true).OnComplete(delegate () {
+                foreach (Action action in onTileReached)
+                {
+                    if(action != null)
+                        action();
+                }
+            });
+        }
 	}
-
-
 
 	////////////////////////////////////////////////////////////////
 	//	DEATH FUNCTION	
 
-
-	//	Ce personnage c'est fait tirer dessus, s'il était deja mort, retourne false
-	//	si ce tir la bien tuer, retourne true
-	public bool OnHit()
+	// Character has been hit, should be death so we set his state as dead
+	public void OnHit()
 	{
-		if(IsDeath == false)
-		{
-			IsDeath = true;
-			return true;
-		}
-		return false;
-	}
+        isDying = true;
+    }
 
-	//	si ce personnage c'est fait tirer dessus, cette methode declanche l'anim et 
-	//	tout les truc qui doit gerer la mort pour finir par le detruit
-	//	S'il n'est pas blesser, elle fait rien
+	//	Apply Death
 	public void OnDeath()
 	{
-		if (IsDeath == false)
-			return;
+        // we're dying ?
+        if (isDying)
+        {
+            if (isDead)
+                return;
 
-		#if (UNITY_EDITOR)
-			Debug.Log("The character : " + gameObject.name + " is death");
+            isDead = true;
+
+#if (UNITY_EDITOR)
+            Debug.Log("The character : " + gameObject.name + " is death");
 #endif
 
-		//	clear la tuile ou il se trouve
+            EntitySpawner.Instance.OnSoldierDeath(gameObject);
 
-		//	play the death animation
-
-		//	tout est fini, call action complete au input manager
-
-		InputManager.Instance.CharacterFinish();
-
-		//	destroy
-
-		gameObject.Destroy();
+            gameObject.Destroy();
+        }
 	}
 
 	////////////////////////////////////////////////////////////////

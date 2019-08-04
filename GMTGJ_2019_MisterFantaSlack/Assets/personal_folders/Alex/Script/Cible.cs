@@ -16,6 +16,7 @@ public class Cible : DestructibleObject
 
     public void Respawn()
     {
+        GameGrid.Instance.AddMyselfOnTile(gameObject);
         gameObject.SetActive(true);
     }
 }

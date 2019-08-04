@@ -17,7 +17,7 @@ public class Bullet : MonoBehaviour
 
     private Vector3 bulletStartPosition;
 
-    public GameObject shooter;
+    private GameObject shooter;
 
     public void SetDirectionAndStartPosition(Vector2 direction, Vector3 bulletStartPosition, GameObject shooter)
     {
@@ -52,7 +52,12 @@ public class Bullet : MonoBehaviour
             destructibleObject.DestructObject();
         }
 
-        // DO SOLDIER SHOT HERE
+        BaseCharacter character = otherObject.GetComponent<BaseCharacter>();
+
+        if(character != null)
+        {
+            character.OnHit();
+        }
 
         DestructBullet();
     }

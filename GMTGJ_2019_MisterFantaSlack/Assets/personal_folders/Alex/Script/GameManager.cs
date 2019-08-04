@@ -35,9 +35,12 @@ public class GameManager : MonoBehaviour
 
     private bool canRestart = false;
 
+    private bool returningHome = false;
+
     void Start()
     {
         canRestart = false;
+        returningHome = false;
 
         currentLevel = PlayerPrefs.GetInt(SaveKeys.MAX_LEVEL_REACHED, -1);
 
@@ -68,6 +71,11 @@ public class GameManager : MonoBehaviour
 
     public void ReturnToHome()
     {
+        if (returningHome)
+            return;
+
+        returningHome = true;
+
         // Return to Home Screen
         SceneManager.LoadScene(sceneLinks.MainMenu, LoadSceneMode.Single);
     }
@@ -134,7 +142,6 @@ public class GameManager : MonoBehaviour
         if (beforeGameStart != null)
             beforeGameStart.Invoke();
 
-        // GAME GRID need to adapt runtime HERE
         SetupGrid();
 
         ui.FadeIn(0.5f, delegate ()
@@ -143,12 +150,6 @@ public class GameManager : MonoBehaviour
                 gameStarted.Invoke();
 
             canRestart = true;
-
-            // DEBUG
-            //this.DelayedCall(5, delegate ()
-            //{
-            //    LevelCompleted();
-            //});
         });
     }
 

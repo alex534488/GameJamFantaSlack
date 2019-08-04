@@ -6,6 +6,7 @@ public class DestructibleObject : MonoBehaviour
 {
     public virtual void DestructObject()
     {
+        GameGrid.Instance.RemoveMyselfFromTile(gameObject);
         gameObject.SetActive(false);
     }
 }
