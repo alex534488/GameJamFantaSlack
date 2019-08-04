@@ -22,12 +22,19 @@ public class KimBubble : MonoBehaviour
     public Image image;
     public TextMeshProUGUI text;
 
-    public bool sayingSomething = false;
+	public AudioPlayable FirePlayable;
+	public AudioPlayable WinPlayable;
+	public AudioPlayable OtherPlayable;
+	public AudioSource Source;
+
+	public bool sayingSomething = false;
 
     public void Say(KimMessageType message, bool isAngry, float duration)
     {
         if (sayingSomething)
             return;
+
+
 
         Lottery<string> lottery = new Lottery<string>();
         switch (message)
@@ -36,35 +43,42 @@ public class KimBubble : MonoBehaviour
                 lottery.Add("Arrgg!", 1);
                 lottery.Add("", 1);
                 lottery.Add("Hmmm..", 1);
+				OtherPlayable.PlayOn(Source);
                 break;
 
             case KimMessageType.Restart:
                 lottery.Add("Again.", 1);
-                break;
+				OtherPlayable.PlayOn(Source);
+				break;
 
             case KimMessageType.Move:
                 //lottery.Add("Move!", 1);
                 lottery.Add("", 3);
-                break;
+				OtherPlayable.PlayOn(Source);
+				break;
 
             case KimMessageType.Fire:
                 lottery.Add("Fire!", 1);
                 lottery.Add("Shoot!", 1);
+				FirePlayable.PlayOn(Source);
                 break;
 
             case KimMessageType.NewLevel:
                 lottery.Add("Looks Easy.", 1);
-                break;
+				OtherPlayable.PlayOn(Source);
+				break;
 
             case KimMessageType.LevelCompleted:
                 lottery.Add("Nice!", 3);
                 lottery.Add("Haha!", 3);
                 lottery.Add("GGEZ!", 1);
+				WinPlayable.PlayOn(Source);
                 break;
 
             default:
                 lottery.Add("", 1);
-                break;
+				OtherPlayable.PlayOn(Source);
+				break;
         }
 
         string result = lottery.Pick();

@@ -107,6 +107,7 @@ MonoBehaviour:
   WalkingPlayable: {fileID: 11400000, guid: 83b79f946f93b5b46b443d4442b0c1e9, type: 2}
   source: {fileID: -2537991431064200872}
   animator: {fileID: 6851675332215584460}
+  spinSFX: {fileID: 11400000, guid: a2296ae5d0bbe864fa3d118f2719ab17, type: 2}
 --- !u!136 &-2843071877586594065
 CapsuleCollider:
   m_ObjectHideFlags: 0
