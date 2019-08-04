@@ -17,7 +17,7 @@ MonoBehaviour:
     accessible: 1
     blocking: 0
     slide: 0
-    rotates: 0
+    rotates: 1
     newTileSprite: {fileID: 21300000, guid: 88f0213877446ea4c8212e981594b563, type: 3}
     entityOnTop: 0
   - sprite: {fileID: 21300000, guid: 93d43a84231001843abefbed902bbbe7, type: 3}
