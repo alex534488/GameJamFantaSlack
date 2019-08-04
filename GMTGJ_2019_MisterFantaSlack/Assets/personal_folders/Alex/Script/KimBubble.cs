@@ -35,49 +35,49 @@ public class KimBubble : MonoBehaviour
             return;
 
 
-
+        AudioPlayable soundToPlay = null;
         Lottery<string> lottery = new Lottery<string>();
+
         switch (message)
         {
             case KimMessageType.Failure:
                 lottery.Add("Arrgg!", 1);
                 lottery.Add("", 1);
                 lottery.Add("Hmmm..", 1);
-				OtherPlayable.PlayOn(Source);
+                soundToPlay = OtherPlayable;
                 break;
 
             case KimMessageType.Restart:
                 lottery.Add("Again.", 1);
-				OtherPlayable.PlayOn(Source);
+                soundToPlay = OtherPlayable;
 				break;
 
             case KimMessageType.Move:
                 //lottery.Add("Move!", 1);
                 lottery.Add("", 3);
-				OtherPlayable.PlayOn(Source);
+                soundToPlay = OtherPlayable;
 				break;
 
             case KimMessageType.Fire:
                 lottery.Add("Fire!", 1);
                 lottery.Add("Shoot!", 1);
-				FirePlayable.PlayOn(Source);
+                soundToPlay = FirePlayable;
                 break;
 
             case KimMessageType.NewLevel:
                 lottery.Add("Looks Easy.", 1);
-				OtherPlayable.PlayOn(Source);
+                soundToPlay = OtherPlayable;
 				break;
 
             case KimMessageType.LevelCompleted:
                 lottery.Add("Nice!", 3);
                 lottery.Add("Haha!", 3);
                 lottery.Add("GGEZ!", 1);
-				WinPlayable.PlayOn(Source);
+                soundToPlay = WinPlayable;
                 break;
 
             default:
                 lottery.Add("", 1);
-				OtherPlayable.PlayOn(Source);
 				break;
         }
 
@@ -85,6 +85,8 @@ public class KimBubble : MonoBehaviour
 
         if (result.IsNullOrEmpty())
             return;
+
+        soundToPlay.PlayOn(Source);
 
         sayingSomething = true;
 
