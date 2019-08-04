@@ -181,6 +181,8 @@ public class GameManager : MonoBehaviour
         if (beforeGameStart != null)
             beforeGameStart.Invoke();
 
+        levelCompleted = false;
+
         SetupGrid();
 
         SetupCamera();
