@@ -16,6 +16,8 @@ public class CibleManager : MonoBehaviour
 
     // DATA
 
+    public float focusAnimDuration = 2;
+
     private int amountOfTarget;
     private int targetLeft;
 
@@ -35,14 +37,26 @@ public class CibleManager : MonoBehaviour
         if(targetLeft > 0)
         {
             targetLeft = amountOfTarget;
+
             foreach (GameObject gameObjects in EntitySpawner.Instance.cibleObjects)
             {
                 Cible cible = gameObjects.GetComponent<Cible>();
-                if(cible != null)
+                if (cible != null && cible.gameObject.activeSelf)
                 {
-                    cible.Respawn();
+                    cible.FocusAnim(focusAnimDuration);
                 }
             }
+
+            this.DelayedCall(focusAnimDuration, delegate () {
+                foreach (GameObject gameObjects in EntitySpawner.Instance.cibleObjects)
+                {
+                    Cible cible = gameObjects.GetComponent<Cible>();
+                    if (cible != null)
+                    {
+                        cible.Respawn();
+                    }
+                }
+            });
         }
         else
         {
