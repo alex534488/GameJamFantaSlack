@@ -164,7 +164,7 @@ public class InputManager : MonoBehaviour
         if (inputBlocked)
             return;
 
-        GameManager.Instance.ui.kimBubble.Say("Move!", true, 0.5f);
+        GameManager.Instance.ui.kimBubble.Say(KimMessageType.Move, true, 0.5f);
 
         InputDeactivated();
 
