@@ -13,11 +13,11 @@ public class InputManager : MonoBehaviour
 
     public static InputManager Instance = null;
 
-	void Awake()
-	{
-		if (Instance == null)
-			Instance = this;
-	}
+    void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+    }
 
     void Start()
     {
@@ -112,31 +112,31 @@ public class InputManager : MonoBehaviour
         }
     }
 
-	//		INPUT FUNCTION
+    //		INPUT FUNCTION
 
-	//	Call to open the menu to go in the level selection or other shit like that
-	public void StartPause()
-	{
-		#if (UNITY_EDITOR)
-			Debug.Log("InputManager :: PAUSE");
-		#endif
+    //	Call to open the menu to go in the level selection or other shit like that
+    public void StartPause()
+    {
+        #if (UNITY_EDITOR)
+            Debug.Log("InputManager :: PAUSE");
+        #endif
 
-		GameManager.Instance.ReturnToHome();
-	}
+        GameManager.Instance.ReturnToHome();
+    }
 
-	//	Call to reset the curret level if the player fell stuck in the current state
-	public void StartReset()
-	{
-		#if (UNITY_EDITOR)
-			Debug.Log("InputManager :: RESET THE LEVEL");
-		#endif
+    //	Call to reset the curret level if the player fell stuck in the current state
+    public void StartReset()
+    {
+        #if (UNITY_EDITOR)
+            Debug.Log("InputManager :: RESET THE LEVEL");
+        #endif
 
-		GameManager.Instance.Restart();
-	}
+        GameManager.Instance.Restart();
+    }
 
-	//	Call to everyone to FIRAAAAAAAAAH
-	public void StartFire()
-	{
+    //	Call to everyone to FIRAAAAAAAAAH
+    public void StartFire()
+    {
         if (inputBlocked)
             return;
 
@@ -144,20 +144,20 @@ public class InputManager : MonoBehaviour
 
         #if (UNITY_EDITOR)
         Debug.Log("InputManager :: EVERY ONE, SHOOOOOOOOT");
-		#endif
+        #endif
 
-		if (ShootTrigger != null)
-			ShootTrigger.Invoke();
+        if (ShootTrigger != null)
+            ShootTrigger.Invoke();
 
         // Wait until shooting is done to enable inputs
         EntitySpawner.Instance.AllBulletsDestroyed.AddListener(delegate () { InputReactivated(); });
-	}
+    }
 
-	//	Call each line from the direction specify to move in that direction
-	//	if up, move the top row, the second row under, the third row under, etc
-	//	it must be in that order to don't fuck up
-	public void StartMove(EDirection MyDirection)
-	{
+    //	Call each line from the direction specify to move in that direction
+    //	if up, move the top row, the second row under, the third row under, etc
+    //	it must be in that order to don't fuck up
+    public void StartMove(EDirection MyDirection)
+    {
         if (inputBlocked)
             return;
 
@@ -166,143 +166,143 @@ public class InputManager : MonoBehaviour
         int amountOfSoldierFound = 0;
 
         switch (MyDirection)
-		{
-			case EDirection.Up:
-				#if (UNITY_EDITOR)
-					Debug.Log("InputManager :: MOVE UP");
-				#endif
-				//	for each line
-				for (int i = (GameGrid.Instance.width - 1); i >= 0; i--)
-				{
-					//	for each column
-					for (int j = 0; j < GameGrid.Instance.height; j++)
-					{
-						Vector2Int MyPosition = new Vector2Int(j, i);
-						BaseCharacter MySoldier = IsSoldierValid(MyPosition);
+        {
+            case EDirection.Up:
+                #if (UNITY_EDITOR)
+                    Debug.Log("InputManager :: MOVE UP");
+                #endif
+                //	for each line
+                for (int i = (GameGrid.Instance.width - 1); i >= 0; i--)
+                {
+                    //	for each column
+                    for (int j = 0; j < GameGrid.Instance.height; j++)
+                    {
+                        Vector2Int MyPosition = new Vector2Int(j, i);
+                        BaseCharacter MySoldier = IsSoldierValid(MyPosition);
 
-						if (MySoldier != null)
-						{
+                        if (MySoldier != null)
+                        {
                             amountOfSoldierFound++;
                             MoveSoldierToYourDirection(MyPosition, MySoldier, MyDirection);
-						}
-					}
-				}
-				break;
+                        }
+                    }
+                }
+                break;
 
 
-			case EDirection.Down:
-				#if (UNITY_EDITOR)
-					Debug.Log("InputManager :: MOVE DOWN");
-				#endif
+            case EDirection.Down:
+                #if (UNITY_EDITOR)
+                    Debug.Log("InputManager :: MOVE DOWN");
+                #endif
 
-				//	for each line
-				for (int i = 0; i < GameGrid.Instance.width; i++)
-				{
-					//	for each column
-					for (int j = 0; j < GameGrid.Instance.height; j++)
-					{
-						Vector2Int MyPosition = new Vector2Int(j, i);
+                //	for each line
+                for (int i = 0; i < GameGrid.Instance.width; i++)
+                {
+                    //	for each column
+                    for (int j = 0; j < GameGrid.Instance.height; j++)
+                    {
+                        Vector2Int MyPosition = new Vector2Int(j, i);
 
-						BaseCharacter MySoldier = IsSoldierValid(MyPosition);
-						if(MySoldier != null)
-						{
+                        BaseCharacter MySoldier = IsSoldierValid(MyPosition);
+                        if(MySoldier != null)
+                        {
                             amountOfSoldierFound++;
                             MoveSoldierToYourDirection(MyPosition, MySoldier, MyDirection);
-						}
-					}
-				}
-				break;
+                        }
+                    }
+                }
+                break;
 
 
-			case EDirection.Left:
-				#if (UNITY_EDITOR)
-					Debug.Log("InputManager :: MOVE LEFT");
-				#endif
-				//	for each column
-				for (int i = 0; i < GameGrid.Instance.width; i++)
-				{
-					//	for each line
-					for (int j = 0; j < GameGrid.Instance.height; j++)
-					{
-						Vector2Int MyPosition = new Vector2Int(i, j);
-						BaseCharacter MySoldier = IsSoldierValid(MyPosition);
+            case EDirection.Left:
+                #if (UNITY_EDITOR)
+                    Debug.Log("InputManager :: MOVE LEFT");
+                #endif
+                //	for each column
+                for (int i = 0; i < GameGrid.Instance.width; i++)
+                {
+                    //	for each line
+                    for (int j = 0; j < GameGrid.Instance.height; j++)
+                    {
+                        Vector2Int MyPosition = new Vector2Int(i, j);
+                        BaseCharacter MySoldier = IsSoldierValid(MyPosition);
 
-						if (MySoldier != null)
-						{
+                        if (MySoldier != null)
+                        {
                             amountOfSoldierFound++;
                             MoveSoldierToYourDirection(MyPosition, MySoldier, MyDirection);
-						}
-					}
-				}
-				break;
+                        }
+                    }
+                }
+                break;
 
 
-			case EDirection.Right:
-				#if (UNITY_EDITOR)
-					Debug.Log("InputManager :: MOVE RIGHT");
-				#endif
-				//	for each column
-				for (int i = (GameGrid.Instance.width - 1); i >= 0; i--)
-				{
-					//	for each line
-					for (int j = 0; j < GameGrid.Instance.height; j++)
-					{
-						Vector2Int MyPosition = new Vector2Int(i, j);
-						BaseCharacter MySoldier = IsSoldierValid(MyPosition);
+            case EDirection.Right:
+                #if (UNITY_EDITOR)
+                    Debug.Log("InputManager :: MOVE RIGHT");
+                #endif
+                //	for each column
+                for (int i = (GameGrid.Instance.width - 1); i >= 0; i--)
+                {
+                    //	for each line
+                    for (int j = 0; j < GameGrid.Instance.height; j++)
+                    {
+                        Vector2Int MyPosition = new Vector2Int(i, j);
+                        BaseCharacter MySoldier = IsSoldierValid(MyPosition);
 
-						if (MySoldier != null)
-						{
+                        if (MySoldier != null)
+                        {
                             amountOfSoldierFound++;
-                            MoveSoldierToYourDirection(MyPosition, MySoldier, MyDirection);
-						}
-					}
-				}
-				break;
+                            MoveSoldierToYourDirection(MyPosition, MySoldier, MyDirection, 0);
+                        }
+                    }
+                }
+                break;
 
 
-			default:
-				#if (UNITY_EDITOR)
-					Debug.Log("InputManager::StartMove() Something fuck up ???");
-				#endif
-				return;
-		}
+            default:
+                #if (UNITY_EDITOR)
+                    Debug.Log("InputManager::StartMove() Something fuck up ???");
+                #endif
+                return;
+        }
 
         if(amountOfSoldierFound < EntitySpawner.Instance.soldierObjects.Count)
         {
             Debug.LogError("Error, not all soldiers found in the map");
         }
-	}
+    }
 
-	private BaseCharacter IsSoldierValid(Vector2Int LocationOfActor)
-	{
-		BaseCharacter MySoldier = null;
-		GameTile MyTile = GameGrid.Instance.GetTileAtposition(LocationOfActor);
+    private BaseCharacter IsSoldierValid(Vector2Int LocationOfActor)
+    {
+        BaseCharacter MySoldier = null;
+        GameTile MyTile = GameGrid.Instance.GetTileAtposition(LocationOfActor);
 
-		if (MyTile != null)
-		{
-			GameObject ObjectOnTile = MyTile.entityOnTop;
-			if (ObjectOnTile != null)
-			{
-				MySoldier = ObjectOnTile.GetComponent<BaseCharacter>();
-				if (MySoldier != null)
-				{
-					return MySoldier;
-				}
-			} 
-		}
+        if (MyTile != null)
+        {
+            GameObject ObjectOnTile = MyTile.entityOnTop;
+            if (ObjectOnTile != null)
+            {
+                MySoldier = ObjectOnTile.GetComponent<BaseCharacter>();
+                if (MySoldier != null)
+                {
+                    return MySoldier;
+                }
+            } 
+        }
 
-		return null;
-	}
+        return null;
+    }
 
-	//	Apply Displacement
-	private void MoveSoldierToYourDirection(Vector2Int MyPosition, BaseCharacter MySoldier, EDirection MyDirection)
-	{
-		Debug.Log("MOVE SOLDIER FOUND");
-		GameTile MyTile = GameGrid.Instance.GetTileAtposition(MyPosition);
-		GameTile TileVoisin = GameGrid.Instance.GetTileAtposition(MyPosition).GetTileRelativeToMe(MyDirection);
-		if (TileVoisin != null)
-		{
-			Debug.Log("MOVE TILE VOISIN FOUND");
+    //	Apply Displacement
+    private void MoveSoldierToYourDirection(Vector2Int MyPosition, BaseCharacter MySoldier, EDirection MyDirection, int movementsInARow = 0)
+    {
+        Debug.Log("MOVE SOLDIER FOUND");
+        GameTile MyTile = GameGrid.Instance.GetTileAtposition(MyPosition);
+        GameTile TileVoisin = GameGrid.Instance.GetTileAtposition(MyPosition).GetTileRelativeToMe(MyDirection);
+        if (TileVoisin != null)
+        {
+            Debug.Log("MOVE TILE VOISIN FOUND");
             if (TileVoisin.IsAccessible)
             {
                 List<Action> actionQueueToExecute = new List<Action>();
@@ -340,7 +340,8 @@ public class InputManager : MonoBehaviour
                 {
                     actionQueueToExecute.Add(delegate () {
                         Vector3 soldierPos = MySoldier.transform.position;
-                        MoveSoldierToYourDirection(TileVoisin.Pos, MySoldier,MyDirection);
+                        movementsInARow++;
+                        MoveSoldierToYourDirection(TileVoisin.Pos, MySoldier,MyDirection, movementsInARow);
                     });
                 }
                 else
@@ -351,7 +352,7 @@ public class InputManager : MonoBehaviour
                 GameGrid.Instance.RemoveMyselfFromTile(MySoldier.gameObject);
 
                 Vector3 MyDestination = GameGrid.GetCenterCellPosition(TileVoisin);
-                MySoldier.GoInThatDirection(MyDestination, 1, actionQueueToExecute);
+                MySoldier.GoInThatDirection(MyDestination, 1, movementsInARow: movementsInARow, actionQueueToExecute);
             }
             else
             {
@@ -362,5 +363,5 @@ public class InputManager : MonoBehaviour
         {
             InputManager.Instance.PlayerCompletedItsMovement();
         }
-	}
+    }
 }

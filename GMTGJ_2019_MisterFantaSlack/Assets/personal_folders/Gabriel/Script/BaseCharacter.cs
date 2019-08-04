@@ -83,10 +83,9 @@ public class BaseCharacter : MonoBehaviour
     ////////////////////////////////////////////////////////////////
     //	MOVE FUNCTION
 
-    public void GoInThatDirection(Vector3 Destination, int NbTile, List<Action> onTileReached = null)
+    public void GoInThatDirection(Vector3 Destination, int NbTile, int movementsInARow, List<Action> onTileReached = null)
     {
         float Duration = TimeToPassOneTile * NbTile;
-        WalkingPlayable.PlayOn(source);
         if (onTileReached == null)
         {
             currentTween = transform.DOMove(Destination, Duration).SetUpdate(true).OnComplete(delegate () { InputManager.Instance.PlayerCompletedItsMovement(); });
@@ -103,28 +102,32 @@ public class BaseCharacter : MonoBehaviour
             });
         }
 
-        // animation  (calcule intense pour réorienté les pas dépendament de la rotation du joueur)
-        Vector3 delta = Destination - transform.position;
-        SoldierAnimator.Direction dir = SoldierAnimator.Direction.MAX;
+        if(movementsInARow == 0)
+        {
+            // SFX
+            WalkingPlayable.PlayOn(source);
 
-        if (delta.x > 0.5f)
-            dir = SoldierAnimator.Direction.right;
-        else if (delta.y > 0.5f)
-            dir = SoldierAnimator.Direction.up;
-        else if (delta.y < -0.5f)
-            dir = SoldierAnimator.Direction.down;
-        else
-            dir = SoldierAnimator.Direction.left;
+            // animation  (calcule intense pour réorienté les pas dépendament de la rotation du joueur)
+            Vector3 delta = Destination - transform.position;
+            SoldierAnimator.Direction dir = SoldierAnimator.Direction.MAX;
 
-        float extraRot = transform.rotation.eulerAngles.z.RoundedTo(90) - 90;
-        if (extraRot < 0)
-            extraRot += 360;
-        int extraRotInt = (extraRot / 90).RoundedToInt();
+            if (delta.x > 0.5f)
+                dir = SoldierAnimator.Direction.right;
+            else if (delta.y > 0.5f)
+                dir = SoldierAnimator.Direction.up;
+            else if (delta.y < -0.5f)
+                dir = SoldierAnimator.Direction.down;
+            else
+                dir = SoldierAnimator.Direction.left;
 
-        dir = (SoldierAnimator.Direction)(((int)dir + extraRotInt) % (int)SoldierAnimator.Direction.MAX);
+            float extraRot = transform.rotation.eulerAngles.z.RoundedTo(90) - 90;
+            if (extraRot < 0)
+                extraRot += 360;
+            int extraRotInt = (extraRot / 90).RoundedToInt();
 
-        Debug.Log(extraRotInt);
-        animator.PlayWalkAnimation(dir);
+            dir = (SoldierAnimator.Direction)(((int)dir + extraRotInt) % (int)SoldierAnimator.Direction.MAX);
+            animator.PlayWalkAnimation(dir);
+        }
     }
 
     ////////////////////////////////////////////////////////////////
