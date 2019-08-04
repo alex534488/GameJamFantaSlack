@@ -123,7 +123,21 @@ public class InputManager : MonoBehaviour
 				#if (UNITY_EDITOR)
 					Debug.Log("InputManager :: MOVE UP");
 				#endif
+				//	for each line
+				for (int i = (GameGrid.Instance.width - 1); i >= 0; i--)
+				{
+					//	for each column
+					for (int j = 0; j < GameGrid.Instance.height; j++)
+					{
+						Vector2Int MyPosition = new Vector2Int(j, i);
+						BaseCharacter MySoldier = IsSoldierValid(MyPosition);
 
+						if (MySoldier != null)
+						{
+							MoveSoldierToYourDirection(MyPosition, MySoldier, MyDirection);
+						}
+					}
+				}
 				break;
 
 
@@ -133,37 +147,20 @@ public class InputManager : MonoBehaviour
 				#endif
 
 				//	for each line
-				for (int i = 0; i < 15; i++)
+				for (int i = 0; i < GameGrid.Instance.width; i++)
 				{
 					//	for each column
-					for (int j = 0; j < 15; j++)
+					for (int j = 0; j < GameGrid.Instance.height; j++)
 					{
 						Vector2Int MyPosition = new Vector2Int(j, i);
 
 						BaseCharacter MySoldier = IsSoldierValid(MyPosition);
 						if(MySoldier != null)
 						{
-							Debug.Log("MOVE DOWN SOLDIER FOUND");
-							GameTile TileVoisin = GameGrid.Instance.GetTileAtposition(MyPosition).GetTileRelativeToMe(EDirection.Down);
-							if(TileVoisin != null)
-							{
-								Debug.Log("MOVE DOWN TILE VOISIN FOUND");
-								if (TileVoisin.IsAccessible == true)
-								{
-									if (TileVoisin.IsSliding == false)
-									{
-										Vector3 MyDestination = MySoldier.gameObject.transform.position;//TileVoisin.Pos.ToVector3Int();
-										MyDestination.y -= 1.0f;
-										Debug.Log("MOVE DOWN to " + MyDestination.ToString());
-										MySoldier.GoInThatDirection(MyDestination, 1);
-
-									}
-								}
-							}
+							MoveSoldierToYourDirection(MyPosition, MySoldier, MyDirection);
 						}
 					}
 				}
-
 				break;
 
 
@@ -171,6 +168,21 @@ public class InputManager : MonoBehaviour
 				#if (UNITY_EDITOR)
 					Debug.Log("InputManager :: MOVE LEFT");
 				#endif
+				//	for each column
+				for (int i = 0; i < GameGrid.Instance.width; i++)
+				{
+					//	for each line
+					for (int j = 0; j < GameGrid.Instance.height; j++)
+					{
+						Vector2Int MyPosition = new Vector2Int(i, j);
+						BaseCharacter MySoldier = IsSoldierValid(MyPosition);
+
+						if (MySoldier != null)
+						{
+							MoveSoldierToYourDirection(MyPosition, MySoldier, MyDirection);
+						}
+					}
+				}
 				break;
 
 
@@ -178,6 +190,21 @@ public class InputManager : MonoBehaviour
 				#if (UNITY_EDITOR)
 					Debug.Log("InputManager :: MOVE RIGHT");
 				#endif
+				//	for each column
+				for (int i = (GameGrid.Instance.width - 1); i >= 0; i--)
+				{
+					//	for each line
+					for (int j = 0; j < GameGrid.Instance.height; j++)
+					{
+						Vector2Int MyPosition = new Vector2Int(i, j);
+						BaseCharacter MySoldier = IsSoldierValid(MyPosition);
+
+						if (MySoldier != null)
+						{
+							MoveSoldierToYourDirection(MyPosition, MySoldier, MyDirection);
+						}
+					}
+				}
 				break;
 
 
@@ -198,8 +225,6 @@ public class InputManager : MonoBehaviour
 		BaseCharacter MySoldier = null;
 		GameTile MyTile = GameGrid.Instance.GetTileAtposition(LocationOfActor);
 
-		
-
 		if (MyTile != null)
 		{
 			GameObject ObjectOnTile = MyTile.entityOnTop;
@@ -216,9 +241,32 @@ public class InputManager : MonoBehaviour
 		return null;
 	}
 
-
-	/*void CheckIfMovePossible(Vector2Int LocationOfSoldier)
+	//	la seconde etape du deplacement
+	void MoveSoldierToYourDirection(Vector2Int MyPosition, BaseCharacter MySoldier, EDirection MyDirection)
 	{
+		Debug.Log("MOVE SOLDIER FOUND");
+		GameTile MyTile = GameGrid.Instance.GetTileAtposition(MyPosition);
+		GameTile TileVoisin = GameGrid.Instance.GetTileAtposition(MyPosition).GetTileRelativeToMe(MyDirection);
+		if (TileVoisin != null)
+		{
+			Debug.Log("MOVE TILE VOISIN FOUND");
+			if (TileVoisin.IsAccessible == true)
+			{
+				if (TileVoisin.IsSliding == false)
+				{
+					Vector3 MyDestination = GameGrid.GetCenterCellPosition(TileVoisin);
+					TileVoisin.entityOnTop = MySoldier.gameObject;
+					TileVoisin.IsAccessible = false;
+					MyTile.entityOnTop = null;
+					MyTile.IsAccessible = true;
 
-	}*/
+					MySoldier.GoInThatDirection(MyDestination, 1);
+				}
+				else
+				{
+					//sliding
+				}
+			}
+		}
+	}
 }

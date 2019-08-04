@@ -13,7 +13,7 @@ public class GameGrid : MonoBehaviour
 
     public Sprite baseSprite;
 
-    private int width, height;
+    public int width, height;
 
     void Awake()
     {
