@@ -4,15 +4,27 @@ using UnityEngine;
 
 public class GameTile
 {
-    public Vector2Int Pos { get; set; }
+    public readonly Vector2Int Pos;
     public bool IsAccessible { get; set; }
     public bool IsBlocking { get; set; }
     public bool IsSliding { get; set; }
     public bool IsRotating { get; set; }
 
-    public GameObject entityOnTop;
+    GameObject _entityOnTop;
+    public GameObject entityOnTop
+    {
+        get { return _entityOnTop; }
+        set
+        {
+            if(Pos.x == 2 && Pos.y == 5)
+            {
+                //Debug.Log($"setter entity on top: {value}");
+            }
+            _entityOnTop = value;
+        }
+    }
 
-    public GameTile(Vector2Int position, 
+    public GameTile(Vector2Int position,
         bool isAccessible = false,
         bool isBlocking = false,
         bool IsSliding = false,
@@ -30,7 +42,7 @@ public class GameTile
 
         int xOffset = 0, yOffset = 0;
 
-        switch(direction)
+        switch (direction)
         {
             case EDirection.Up:
                 xOffset = 0;
@@ -58,7 +70,7 @@ public class GameTile
             return tile;
         }
 
-        Debug.LogWarning(direction +" relative of tile (" + Pos.x + ", " + Pos.y + ") isn't a tile");
+        Debug.LogWarning(direction + " relative of tile (" + Pos.x + ", " + Pos.y + ") isn't a tile");
 
         return null;
     }

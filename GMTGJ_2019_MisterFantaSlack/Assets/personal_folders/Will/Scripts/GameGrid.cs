@@ -38,7 +38,10 @@ public class GameGrid : MonoBehaviour
         Instance.GameTiles = new List<GameTile>();
         Debug.Log("min = " + minBounds);
         Debug.Log("max = " + maxBounds);
-        Debug.Log("Middle = (" + (cellBounds.xMin + Instance.width / 2) + ", " + (cellBounds.yMin + Instance.height / 2)  + ")");
+        Debug.Log("Middle = (" + (cellBounds.xMin + Instance.width / 2) + ", " + (cellBounds.yMin + Instance.height / 2) + ")");
+
+        Debug.Assert(Instance.width.IsEvenNumber() && Instance.height.IsEvenNumber(), "La grid doit avoir des dimension pair!!!");
+
 
         Bounds bounds = new Bounds(new Vector2(cellBounds.xMin, cellBounds.yMin), new Vector2(Instance.width, Instance.height));
 
