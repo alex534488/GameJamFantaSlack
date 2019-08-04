@@ -37,10 +37,8 @@ public class UIManager : MonoBehaviour
         {
             finalThanks.DOFade(1, 1).OnComplete(delegate () {
                 this.DelayedCall(5, delegate () {
-                    finalThanks.DOFade(0, 1).OnComplete(delegate () {
-                        if (onComplete != null)
-                            onComplete();
-                    });
+                    if (onComplete != null)
+                        onComplete();
                 });
             });
         }

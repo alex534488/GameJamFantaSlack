@@ -76,8 +76,6 @@ public class GameManager : MonoBehaviour
 
                 if (levelOver != null)
                     levelOver.Invoke();
-
-                this.DelayedCall(1, delegate () { GameManager.Instance.ui.kimBubble.Say(KimMessageType.Restart, false, 1); });
             });
         }
     }
@@ -109,8 +107,6 @@ public class GameManager : MonoBehaviour
 
                 if (levelOver != null)
                     levelOver.Invoke();
-
-                this.DelayedCall(1, delegate () { this.DelayedCall(1, delegate () { GameManager.Instance.ui.kimBubble.Say(KimMessageType.NewLevel, false, 1); }); });
             });
         });
     }
@@ -126,6 +122,7 @@ public class GameManager : MonoBehaviour
             ui.FadeOut(0.5f, delegate ()
             {
                 SceneManager.UnloadSceneAsync(levelList.levelSceneName[currentLevel]).completed += OnNextLevelReady;
+                SceneManager.UnloadSceneAsync(levelList.levelSceneName[currentLevel]).completed += KimSeesNewLevel;
 
                 if (levelOver != null)
                     levelOver.Invoke();
@@ -140,8 +137,8 @@ public class GameManager : MonoBehaviour
             // GAME OVER (GAME END)
             PlayerPrefs.SetInt(SaveKeys.MAX_LEVEL_REACHED, 0); // Reset Saves
 
-            ui.ShowEndCredits(delegate() {
-                SceneManager.LoadScene(sceneLinks.MainMenu, LoadSceneMode.Single);
+            ui.ShowEndCredits(delegate () {
+                SceneManager.LoadSceneAsync(sceneLinks.MainMenu, LoadSceneMode.Single);
             });
         }
         else
@@ -231,13 +228,23 @@ public class GameManager : MonoBehaviour
         currentLevel++;
         PlayerPrefs.SetInt(SaveKeys.MAX_LEVEL_REACHED, currentLevel);
 
-        GameManager.Instance.ui.kimBubble.Say(KimMessageType.NewLevel, false, 1);
-
         LoadNextLevel();
     }
 
     private void RestartCompleted(AsyncOperation obj)
     {
         SceneManager.LoadSceneAsync(levelList.levelSceneName[currentLevel], LoadSceneMode.Additive).completed += LevelLoaded;
+        SceneManager.LoadSceneAsync(levelList.levelSceneName[currentLevel], LoadSceneMode.Additive).completed += KimSeesLevelAgain;
+        
+    }
+
+    private void KimSeesNewLevel(AsyncOperation obj)
+    {
+        GameManager.Instance.ui.kimBubble.Say(KimMessageType.NewLevel, false, 1);
+    }
+
+    private void KimSeesLevelAgain(AsyncOperation obj)
+    {
+        GameManager.Instance.ui.kimBubble.Say(KimMessageType.Restart, false, 1);
     }
 }
