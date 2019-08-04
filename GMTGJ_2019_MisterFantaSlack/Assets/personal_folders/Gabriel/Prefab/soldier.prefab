@@ -104,7 +104,7 @@ MonoBehaviour:
   TimeToPassOneTile: 0.35
   GunShotPlayable: {fileID: 11400000, guid: 0aa381f3e6c8f4a4595c1e97a05dc368, type: 2}
   DeathPlayable: {fileID: 11400000, guid: e80f7f1d8fabc8f43a241400a309c02f, type: 2}
-  WalkingPlayable: {fileID: 11400000, guid: 0e76d2184d99da84193475b84aa3ec1c, type: 2}
+  WalkingPlayable: {fileID: 11400000, guid: 83b79f946f93b5b46b443d4442b0c1e9, type: 2}
   source: {fileID: -2537991431064200872}
   animator: {fileID: 6851675332215584460}
 --- !u!136 &-2843071877586594065
